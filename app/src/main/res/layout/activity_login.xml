@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:fillViewport="true"
-    tools:context=".auth.LogIn">
+    tools:context=".login.LogIn">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -56,23 +56,32 @@
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintBottom_toTopOf="@+id/lbLogPass"
           app:boxBackgroundColor="@color/gold"
-          app:hintTextColor="@color/white"
-          app:boxStrokeColor="@color/white"
+          app:boxStrokeColor="@android:color/white"
           android:textColorHint="@color/white"
+          app:hintTextColor="@color/white"
           app:startIconTint="@color/white"
+          app:endIconTint="@color/white"
           android:hint="@string/user"
           app:hintTextAppearance="@style/TextLabel"
           style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
           app:startIconDrawable="@drawable/ic_person"
+          android:layout_marginTop="15dp"
           android:layout_marginHorizontal="40dp"
-          android:layout_marginVertical="15dp"
+          app:endIconMode="clear_text"
+          app:helperText=""
+          app:helperTextTextColor="@color/red"
+          app:boxStrokeErrorColor="@color/red"
+
           >
 
           <com.google.android.material.textfield.TextInputEditText
               android:id="@+id/etLogUser"
-              android:textCursorDrawable="@drawable/white_cursor"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content"/>
+              android:layout_height="wrap_content"
+              android:textCursorDrawable="@drawable/white_cursor"
+              android:textColor="@color/white"
+              android:maxLength="20"
+              />
 
       </com.google.android.material.textfield.TextInputLayout>
 
@@ -91,17 +100,22 @@
             app:boxStrokeColor="@color/white"
             android:textColorHint="@color/white"
             app:startIconTint="@color/white"
+            app:endIconTint="@color/white"
             android:hint="@string/password"
             app:hintTextAppearance="@style/TextLabel"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:startIconDrawable="@drawable/ic_lock"
+            app:endIconMode="password_toggle"
             >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etLogPass"
-                android:textCursorDrawable="@drawable/white_cursor"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:textCursorDrawable="@drawable/white_cursor"
+                android:textColor="@color/white"
+                android:inputType="textPassword"
+                />
 
         </com.google.android.material.textfield.TextInputLayout>
 
