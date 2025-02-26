@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fillViewport="true"
+    tools:context=".auth.LogIn">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/black"
+         >
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glLogTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".05"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glLogMiddle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".5"/>
+
+
+
+       <ImageView
+           android:id="@+id/ivLogLogo"
+           android:layout_width="match_parent"
+           android:layout_height="0dp"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toBottomOf="@+id/glLogTop"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintBottom_toTopOf="@+id/glLogMiddle"
+           android:background="@color/black"
+           android:src="@drawable/img_gil"
+           />
+
+      <com.google.android.material.textfield.TextInputLayout
+          android:id="@+id/lbLogUser"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/glLogMiddle"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintBottom_toTopOf="@+id/lbLogPass"
+          app:boxBackgroundColor="@color/gold"
+          app:hintTextColor="@color/white"
+          app:boxStrokeColor="@color/white"
+          android:textColorHint="@color/white"
+          app:startIconTint="@color/white"
+          android:hint="@string/user"
+          app:hintTextAppearance="@style/TextLabel"
+          style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+          app:startIconDrawable="@drawable/ic_person"
+          android:layout_marginHorizontal="40dp"
+          android:layout_marginVertical="15dp"
+          >
+
+          <com.google.android.material.textfield.TextInputEditText
+              android:id="@+id/etLogUser"
+              android:textCursorDrawable="@drawable/white_cursor"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"/>
+
+      </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/lbLogPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lbLogUser"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/btLogIn"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginVertical="15dp"
+            app:boxBackgroundColor="@color/gold"
+            app:hintTextColor="@color/white"
+            app:boxStrokeColor="@color/white"
+            android:textColorHint="@color/white"
+            app:startIconTint="@color/white"
+            android:hint="@string/password"
+            app:hintTextAppearance="@style/TextLabel"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:startIconDrawable="@drawable/ic_lock"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etLogPass"
+                android:textCursorDrawable="@drawable/white_cursor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btLogIn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lbLogPass"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginVertical="20dp"
+            android:text="@string/login"
+            android:textSize="15sp"
+            android:backgroundTint="@color/gold"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

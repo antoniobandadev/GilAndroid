@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--- TextInputLayout -->
+    <style name="TextLabel" parent="TextAppearance.Design.Hint">
+        <item name="android:textSize">15sp</item>
+    </style>
+</resources>
