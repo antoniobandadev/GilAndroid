@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fillViewport="true"
+    tools:context=".ui.login.LogInActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/black"
+        >
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glSignTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".15"/>
+
+
+
+        <ImageView
+            android:id="@+id/ivSignLogo"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/glSignTop"
+            android:contentDescription="@null"
+            android:background="@color/black"
+            android:src="@mipmap/img_logo_round"
+            />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/glSignTop"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/sign_up"
+            android:textSize="25sp"
+            android:textColor="@color/secondary"
+            android:gravity="center"
+
+            />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/lbSignName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/lbSignEmail"
+            app:boxBackgroundColor="@color/secondary"
+            app:boxStrokeColor="@android:color/white"
+            android:textColorHint="@color/white"
+            app:hintTextColor="@color/white"
+            app:startIconTint="@color/white"
+            app:endIconTint="@color/white"
+            android:hint="@string/name"
+            app:hintTextAppearance="@style/TextLabel"
+            android:layout_marginHorizontal="40dp"
+            app:startIconDrawable="@drawable/ic_personame"
+            app:endIconMode="clear_text"
+            android:layout_marginTop="10dp"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etSignName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textCursorDrawable="@drawable/white_cursor"
+                android:textColor="@color/white"
+                android:maxLength="20"
+                android:maxLines="1"
+                android:inputType="text"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/lbSignEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lbSignName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/lbSignEmailConf"
+            app:boxBackgroundColor="@color/secondary"
+            app:boxStrokeColor="@android:color/white"
+            android:textColorHint="@color/white"
+            app:hintTextColor="@color/white"
+            app:startIconTint="@color/white"
+            app:endIconTint="@color/white"
+            android:hint="@string/email"
+            app:hintTextAppearance="@style/TextLabel"
+            android:layout_marginTop="15dp"
+            android:layout_marginHorizontal="40dp"
+            app:startIconDrawable="@drawable/ic_mail"
+            app:endIconMode="clear_text"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etSignEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textCursorDrawable="@drawable/white_cursor"
+                android:textColor="@color/white"
+                android:maxLength="20"
+                android:maxLines="1"
+                android:inputType="textEmailAddress"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/lbSignEmailConf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lbSignEmail"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/lbSignKey"
+            app:boxBackgroundColor="@color/secondary"
+            app:boxStrokeColor="@android:color/white"
+            android:textColorHint="@color/white"
+            app:hintTextColor="@color/white"
+            app:startIconTint="@color/white"
+            app:endIconTint="@color/white"
+            android:hint="@string/confirm_email"
+            app:hintTextAppearance="@style/TextLabel"
+            android:layout_marginTop="15dp"
+            android:layout_marginHorizontal="40dp"
+            app:startIconDrawable="@drawable/ic_mail"
+            app:endIconMode="clear_text"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etSignEmailConf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textCursorDrawable="@drawable/white_cursor"
+                android:textColor="@color/white"
+                android:maxLength="20"
+                android:maxLines="1"
+                android:inputType="textEmailAddress"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/lbSignKey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lbSignEmailConf"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/lbSignUser"
+            app:boxBackgroundColor="@color/secondary"
+            app:boxStrokeColor="@android:color/white"
+            android:textColorHint="@color/white"
+            app:hintTextColor="@color/white"
+            app:startIconTint="@color/white"
+            app:endIconTint="@color/white"
+            android:hint="@string/serial_key"
+            app:hintTextAppearance="@style/TextLabel"
+            android:layout_marginTop="15dp"
+            android:layout_marginHorizontal="40dp"
+            app:startIconDrawable="@drawable/ic_key"
+            app:endIconMode="clear_text"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etSignKey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textCursorDrawable="@drawable/white_cursor"
+                android:textColor="@color/white"
+                android:maxLength="20"
+                android:maxLines="1"
+                android:inputType="text"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/lbSignUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lbSignKey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/lbSignPass"
+            app:boxBackgroundColor="@color/secondary"
+            app:boxStrokeColor="@android:color/white"
+            android:textColorHint="@color/white"
+            app:hintTextColor="@color/white"
+            app:startIconTint="@color/white"
+            app:endIconTint="@color/white"
+            android:hint="@string/user"
+            app:hintTextAppearance="@style/TextLabel"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:startIconDrawable="@drawable/ic_person"
+            android:layout_marginTop="15dp"
+            android:layout_marginHorizontal="40dp"
+            app:endIconMode="clear_text"
+
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etSignUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textCursorDrawable="@drawable/white_cursor"
+                android:textColor="@color/white"
+                android:maxLength="20"
+                android:maxLines="1"
+                android:inputType="text"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/lbSignPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lbSignUser"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/lbSignPassConf"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginVertical="15dp"
+            app:boxBackgroundColor="@color/secondary"
+            app:hintTextColor="@color/white"
+            app:boxStrokeColor="@color/white"
+            android:textColorHint="@color/white"
+            app:startIconTint="@color/white"
+            app:endIconTint="@color/white"
+            android:hint="@string/password"
+            app:hintTextAppearance="@style/TextLabel"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:startIconDrawable="@drawable/ic_password"
+            app:endIconMode="password_toggle"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etSignPass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textCursorDrawable="@drawable/white_cursor"
+                android:textColor="@color/white"
+                android:inputType="textPassword"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/lbSignPassConf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lbSignPass"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginVertical="15dp"
+            app:boxBackgroundColor="@color/secondary"
+            app:hintTextColor="@color/white"
+            app:boxStrokeColor="@color/white"
+            android:textColorHint="@color/white"
+            app:startIconTint="@color/white"
+            app:endIconTint="@color/white"
+            android:hint="@string/confirm_password"
+            app:hintTextAppearance="@style/TextLabel"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:startIconDrawable="@drawable/ic_password"
+            app:endIconMode="password_toggle"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etSignPassConf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textCursorDrawable="@drawable/white_cursor"
+                android:textColor="@color/white"
+                android:inputType="textPassword"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <Button
+            android:id="@+id/btSignUp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lbSignPassConf"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginVertical="20dp"
+            android:text="@string/sign_up"
+            android:textSize="15sp"
+            android:backgroundTint="@color/secondary"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

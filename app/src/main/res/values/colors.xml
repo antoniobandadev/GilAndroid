@@ -2,6 +2,11 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="gold">#A37B16</color>
+
+    <color name="primary">#1F1F1F</color>
+    <color name="primaryDark">#181818</color>
+    <color name="secondary">#A37B16</color>
+    <color name="accent">#FFFFFFFF</color>
+
     <color name="red">#FF0000</color>
 </resources>

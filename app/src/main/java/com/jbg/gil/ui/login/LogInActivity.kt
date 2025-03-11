@@ -1,17 +1,14 @@
-package com.jbg.gil.login
+package com.jbg.gil.ui.login
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.jbg.gil.R
 import com.jbg.gil.databinding.ActivityLoginBinding
-import com.jbg.gil.home.HomeActivity
 
-class LogIn : AppCompatActivity() {
+class LogInActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
 
@@ -26,24 +23,30 @@ class LogIn : AppCompatActivity() {
             insets
         }
 
+        supportFragmentManager.beginTransaction()
+            .add(R.id.fmLogActivity, LogInFragment.newInstance())
+            .commit()
+
+
+     /*   editTextListener()
 
         binding.btLogIn.setOnClickListener {
             val startIntentH = Intent(this,HomeActivity::class.java)
-
-            if(binding.etLogUser.text.toString() == "Antonio"){
-                startActivity(startIntentH)
-            }else{
-                //binding.etLogUser.error = "Error"
-                binding.lbLogUser.helperText = "Error"
-                binding.lbLogUser.error = "Error"
-                Toast.makeText(this, getString(R.string.invalid_data), Toast.LENGTH_SHORT).show()
-            }
-
-
-
-
-        }
-
-
+            validLogin(binding.etLogUser.text.toString().trim(), binding.etLogPass.text.toString().trim())
+            //if(binding.etLogUser.text.toString() == "Antonio"){
+            //    startActivity(startIntentH)
+            //}else{
+             //   binding.lbLogUser.error = "Error"
+            //    Toast.makeText(this, getString(R.string.invalid_data), Toast.LENGTH_SHORT).show()
+            //}
+        }*/
     }
+
+
+
+
+
+
+
+
 }

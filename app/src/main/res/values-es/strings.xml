@@ -1,8 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">GIL</string>
+
+    <!--- LogIn-->
     <string name="user">Usuario</string>
     <string name="password">Contraseña</string>
     <string name="login">Iniciar sesión</string>
-    <string name="invalid_data">Datos no válidos</string>
+    <string name="sign_up_now">¿Aún no tienes cuenta? Regístrate ahora.</string>
+    <string name="invalid_username">El campo usuario no puede estar vacío.</string>
+    <string name="invalid_password">El campo contraseña no puede estar vacío.</string>
+    <string name="invalid_data">El usuario o la contraseña son incorrectos. Por favor, verifique e intente nuevamente.</string>
+
+    <!--- Sign Up -->
+    <string name="sign_up">Registrar</string>
+    <string name="name">Nombre</string>
+    <string name="email">Correo electrónico</string>
+    <string name="confirm_email">Confirma correo electrónico</string>
+    <string name="serial_key">Serial key</string>
+    <string name="confirm_password">Confirma contraseña</string>
+
+    <string name="invalid_name">El campo nombre no puede estar vacío.</string>
+    <string name="invalid_email">El campo correo electrónico no puede estar vacío.</string>
+    <string name="invalid_confirmEmail">El campo confirmar correo electrónico no puede estar vacío.</string>
+    <string name="invalid_serialKey">El campo serial key no puede estar vacío.</string>
+    <string name="invalid_confirmPass">El campo confirmar contraseña no puede estar vacío.</string>
+    <string name="not_same_value">Los campos no son iguales.</string>
+
+
+
+
 </resources>

@@ -1,4 +1,4 @@
-package com.jbg.gil.home
+package com.jbg.gil.ui.home
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
