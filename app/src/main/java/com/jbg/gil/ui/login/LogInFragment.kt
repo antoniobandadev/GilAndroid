@@ -1,7 +1,5 @@
 package com.jbg.gil.ui.login
 
-import android.graphics.Color
-import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
