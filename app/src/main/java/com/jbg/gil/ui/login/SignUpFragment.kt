@@ -28,20 +28,23 @@ class SignUpFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         focusAndTextListener()
 
-        if (validateInputLogin(
-                binding.etSignName.text.toString().trim(),
-                binding.etSignEmail.text.toString().trim(),
-                binding.etSignEmailConf.text.toString().trim(),
-                binding.etSignKey.text.toString().trim(),
-                binding.etSignUser.text.toString().trim(),
-                binding.etSignPass.text.toString().trim(),
-                binding.etSignPassConf.text.toString().trim()
-            )
-        ) {
-            Toast.makeText(requireContext(), "Registro exitoso", Toast.LENGTH_SHORT).show()
+
+        binding.btSignUp.setOnClickListener {
+
+            if (validateInputLogin(
+                    binding.etSignName.text.toString().trim(),
+                    binding.etSignEmail.text.toString().trim(),
+                    binding.etSignEmailConf.text.toString().trim(),
+                    binding.etSignKey.text.toString().trim(),
+                    binding.etSignUser.text.toString().trim(),
+                    binding.etSignPass.text.toString().trim(),
+                    binding.etSignPassConf.text.toString().trim()
+                )
+            ) {
+                Toast.makeText(requireContext(), "Registro exitoso", Toast.LENGTH_SHORT).show()
+            }
+
         }
-
-
     }
 
 
@@ -67,6 +70,27 @@ class SignUpFragment : Fragment() {
             isValid = false
         }
 
+        if (email != emailconf){
+            binding.lbSignEmail.error = getString(R.string.not_same_value)
+            binding.lbSignEmailConf.error = getString(R.string.not_same_value)
+            isValid = false
+        }else{
+            binding.lbSignEmail.error = null
+            binding.lbSignEmailConf.error = null
+            binding.lbSignEmail.isErrorEnabled = false
+            binding.lbSignEmailConf.isErrorEnabled = false
+        }
+
+        if(!UIUtils.checkEmail(email)){
+            binding.lbSignEmail.error = getString(R.string.not_valid_email)
+            isValid = false
+        }
+
+        if(!UIUtils.checkEmail(emailconf)){
+            binding.lbSignEmailConf.error = getString(R.string.not_valid_email)
+            isValid = false
+        }
+
         if (email.isEmpty()) {
             binding.lbSignEmail.error = getString(R.string.invalid_email)
             isValid = false
@@ -74,12 +98,6 @@ class SignUpFragment : Fragment() {
 
         if (emailconf.isEmpty()) {
             binding.lbSignEmailConf.error = getString(R.string.invalid_confirmEmail)
-            isValid = false
-        }
-
-        if (email !== emailconf){
-            binding.lbSignEmail.error = getString(R.string.not_same_value)
-            binding.lbSignEmailConf.error = getString(R.string.not_same_value)
             isValid = false
         }
 
@@ -93,6 +111,17 @@ class SignUpFragment : Fragment() {
             isValid = false
         }
 
+        if (pass != passconf){
+            binding.lbSignPass.error = getString(R.string.not_same_value)
+            binding.lbSignPassConf.error = getString(R.string.not_same_value)
+            isValid = false
+        }else{
+            binding.lbSignPass.error = null
+            binding.lbSignPassConf.error = null
+            binding.lbSignPass.isErrorEnabled = false
+            binding.lbSignPassConf.isErrorEnabled = false
+        }
+
         if (pass.isEmpty()) {
             binding.lbSignPass.error = getString(R.string.invalid_password)
             isValid = false
@@ -102,13 +131,6 @@ class SignUpFragment : Fragment() {
             binding.lbSignPassConf.error = getString(R.string.invalid_confirmPass)
             isValid = false
         }
-
-        if (pass !== passconf){
-            binding.lbSignPass.error = getString(R.string.not_same_value)
-            binding.lbSignPassConf.error = getString(R.string.not_same_value)
-            isValid = false
-        }
-
 
         return isValid
     }
@@ -123,6 +145,8 @@ class SignUpFragment : Fragment() {
         UIUtils.setupFocusAndTextListener(binding.etSignPass, binding.lbSignPass)
         UIUtils.setupFocusAndTextListener(binding.etSignPassConf, binding.lbSignPassConf)
     }
+
+
 
 
 }

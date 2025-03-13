@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">GIL</string>
+    <string name="app_name" translatable="false">GIL</string>
+    <string name="app_name_desc" translatable="false">Guest Identity Link</string>
 
     <!--- LogIn-->
     <string name="user">Username</string>
@@ -24,6 +25,8 @@
     <string name="invalid_serialKey">The serial key field cannot be empty.</string>
     <string name="invalid_confirmPass">The confirm password field cannot be empty.</string>
     <string name="not_same_value">The fields are not the same.</string>
+
+    <string name="not_valid_email">The email address is not valid.</string>
 
 
 </resources>

@@ -1,8 +1,10 @@
 package com.jbg.gil.utils
 
+import android.util.Patterns
 import android.widget.EditText
 import androidx.core.widget.addTextChangedListener
 import com.google.android.material.textfield.TextInputLayout
+import java.util.regex.Pattern
 
 object UIUtils {
     //Change status error in forms//-----------------------------------------------------------
@@ -26,5 +28,9 @@ object UIUtils {
     }
     //------------------------------------------------------------------------------------------
 
+    fun checkEmail(email: String): Boolean {
+        val pattern: Pattern = Patterns.EMAIL_ADDRESS
+        return pattern.matcher(email).matches()
+    }
 
 }

@@ -1,5 +1,7 @@
 package com.jbg.gil.ui.login
 
+import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -56,9 +58,9 @@ class LogInFragment : Fragment() {
             )
 
             parentFragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.slide_up, R.anim.slide_down)
+                .setCustomAnimations(R.anim.slide_in_y, R.anim.slide_out_y, R.anim.pop_in_y, R.anim.pop_out_y)
                 .replace(R.id.fmLogActivity, SignUpFragment.newInstance())
-                .addToBackStack("Login")
+                .addToBackStack(null)
                 .commit()
 
 
@@ -78,6 +80,8 @@ class LogInFragment : Fragment() {
 
         if (user.isEmpty()) {
             binding.lbLogUser.error = getString(R.string.invalid_username)
+            //binding.lbLogUser.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
+           // binding.etLogUser.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.redLight))
             isValid = false
         }
 

@@ -19,7 +19,7 @@
             android:name=".ui.login.LogInActivity"
             android:exported="true"
             android:isScrollContainer="true"
-            android:windowSoftInputMode="adjustPan" >
+            android:windowSoftInputMode="stateHidden|adjustPan" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

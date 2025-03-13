@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">GIL</string>
 
     <!--- LogIn-->
     <string name="user">Usuario</string>
@@ -25,8 +24,7 @@
     <string name="invalid_serialKey">El campo serial key no puede estar vacío.</string>
     <string name="invalid_confirmPass">El campo confirmar contraseña no puede estar vacío.</string>
     <string name="not_same_value">Los campos no son iguales.</string>
-
-
+    <string name="not_valid_email">El correo electrónico no es valido.</string>
 
 
 </resources>
