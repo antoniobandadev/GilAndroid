@@ -1,5 +1,6 @@
 package com.jbg.gil.ui.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,8 +8,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.jbg.gil.R
 import com.jbg.gil.databinding.FragmentLoginBinding
+import com.jbg.gil.ui.home.HomeActivity
 import com.jbg.gil.utils.UIUtils
 
 
@@ -35,7 +38,10 @@ class LogInFragment : Fragment() {
                     binding.etLogPass.text.toString().trim()
                 )
             ) {
+               // val startIntentH = Intent(requireContext(), HomeActivity::class.java)
                 Toast.makeText(requireContext(), "Bienvenido", Toast.LENGTH_SHORT).show()
+               // startActivity(startIntentH)
+                findNavController().navigate(R.id.action_logInFragment_to_home_graph)
             }
 
             //val startIntentH = Intent(this, HomeActivity::class.java)
@@ -55,11 +61,14 @@ class LogInFragment : Fragment() {
                 )
             )
 
-            parentFragmentManager.beginTransaction()
+            findNavController().navigate(R.id.action_logInFragment_to_signUpFragment)
+
+
+            /*parentFragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.slide_in_y, R.anim.slide_out_y, R.anim.pop_in_y, R.anim.pop_out_y)
                 .replace(R.id.fmLogActivity, SignUpFragment.newInstance())
                 .addToBackStack(null)
-                .commit()
+                .commit()*/
 
 
         }
@@ -77,7 +86,7 @@ class LogInFragment : Fragment() {
         var isValid = true
 
         if (user.isEmpty()) {
-            binding.lbLogUser.error = getString(R.string.invalid_username)
+            binding.lbLogUser.error = getString(R.string.invalid_email)
             //binding.lbLogUser.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
            // binding.etLogUser.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.redLight))
             isValid = false
@@ -96,35 +105,5 @@ class LogInFragment : Fragment() {
         UIUtils.setupFocusAndTextListener(binding.etLogUser, binding.lbLogUser)
         UIUtils.setupFocusAndTextListener(binding.etLogPass, binding.lbLogPass)
     }
-
-
-    /* private fun editTextListener() {
-         binding.etLogUser.setOnFocusChangeListener { view , hasFocus ->
-             if (hasFocus){
-                 binding.lbLogUser.error = null
-                 binding.lbLogUser.isErrorEnabled = false
-             }
-         }
-
-         binding.etLogPass.setOnFocusChangeListener { view, hasFocus ->
-             if (hasFocus){
-                 binding.lbLogPass.error = null
-                 binding.lbLogPass.isErrorEnabled = false
-             }
-         }
-
-         binding.etLogUser.addTextChangedListener {
-             binding.lbLogUser.error = null
-             binding.lbLogUser.isErrorEnabled = false
-
-         }
-
-         binding.etLogPass.addTextChangedListener {
-             binding.lbLogPass.error = null
-             binding.lbLogPass.isErrorEnabled = false
-         }
-
-     }*/
-
 
 }

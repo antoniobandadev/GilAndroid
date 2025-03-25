@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_graph"
+    app:startDestination="@id/eventsFragment">
+
+    <fragment
+        android:id="@+id/eventsFragment"
+        android:name="com.jbg.gil.ui.events.EventsFragment"
+        android:label="fragment_events"
+        tools:layout="@layout/fragment_events" />
+    <fragment
+        android:id="@+id/connectionsFragment"
+        android:name="com.jbg.gil.ui.connections.ConnectionsFragment"
+        android:label="fragment_connections"
+        tools:layout="@layout/fragment_connections" />
+    <fragment
+        android:id="@+id/newEventFragment"
+        android:name="com.jbg.gil.ui.newevent.NewEventFragment"
+        android:label="fragment_new_event"
+        tools:layout="@layout/fragment_new_event" />
+    <fragment
+        android:id="@+id/scanFragment"
+        android:name="com.jbg.gil.ui.scan.ScanFragment"
+        android:label="fragment_scan"
+        tools:layout="@layout/fragment_scan" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.jbg.gil.ui.settings.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+</navigation>

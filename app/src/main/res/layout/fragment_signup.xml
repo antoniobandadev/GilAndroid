@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".15"/>
+            app:layout_constraintGuide_percent=".20"/>
 
 
 
@@ -37,7 +37,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/glSignTop"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:contentDescription="@null"
             android:background="@color/black"
             android:src="@drawable/img_logo"
@@ -119,7 +119,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/lbSignEmail"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/lbSignKey"
+            app:layout_constraintBottom_toTopOf="@+id/lbSignPass"
             android:hint="@string/confirm_email"
             app:startIconDrawable="@drawable/ic_mail"
             app:endIconMode="clear_text"
@@ -138,61 +138,6 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/CustomTextInputLayout"
-            android:id="@+id/lbSignKey"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lbSignEmailConf"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/lbSignUser"
-            android:hint="@string/serial_key"
-            app:startIconDrawable="@drawable/ic_key"
-            app:endIconMode="clear_text"
-            >
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etSignKey"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textCursorDrawable="@drawable/white_cursor"
-                android:textColor="@color/white"
-                android:maxLength="20"
-                android:maxLines="1"
-                android:inputType="text"
-                />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/CustomTextInputLayout"
-            android:id="@+id/lbSignUser"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lbSignKey"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/lbSignPass"
-            android:hint="@string/user"
-            app:startIconDrawable="@drawable/ic_person"
-            app:endIconMode="clear_text"
-            >
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etSignUser"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textCursorDrawable="@drawable/white_cursor"
-                android:textColor="@color/white"
-                android:maxLength="20"
-                android:maxLines="1"
-                android:inputType="textCapWords"
-                />
-
-        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/CustomTextInputLayout"
@@ -200,7 +145,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lbSignUser"
+            app:layout_constraintTop_toBottomOf="@+id/lbSignEmailConf"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/lbSignPassConf"
             android:hint="@string/password"

@@ -35,8 +35,6 @@ class SignUpFragment : Fragment() {
                     binding.etSignName.text.toString().trim(),
                     binding.etSignEmail.text.toString().trim(),
                     binding.etSignEmailConf.text.toString().trim(),
-                    binding.etSignKey.text.toString().trim(),
-                    binding.etSignUser.text.toString().trim(),
                     binding.etSignPass.text.toString().trim(),
                     binding.etSignPassConf.text.toString().trim()
                 )
@@ -58,14 +56,12 @@ class SignUpFragment : Fragment() {
         name: String,
         email: String,
         emailconf: String,
-        serialKey: String,
-        user: String,
         pass: String,
         passconf: String
     ): Boolean {
         var isValid = true
 
-        if (name.isEmpty()) {
+        if (name.isEmpty() || name.length < 3) {
             binding.lbSignName.error = getString(R.string.invalid_name)
             isValid = false
         }
@@ -101,16 +97,6 @@ class SignUpFragment : Fragment() {
             isValid = false
         }
 
-        if (serialKey.isEmpty()) {
-            binding.lbSignKey.error = getString(R.string.invalid_serialKey)
-            isValid = false
-        }
-
-        if (user.isEmpty()) {
-            binding.lbSignUser.error = getString(R.string.invalid_username)
-            isValid = false
-        }
-
         if (pass != passconf){
             binding.lbSignPass.error = getString(R.string.not_same_value)
             binding.lbSignPassConf.error = getString(R.string.not_same_value)
@@ -122,12 +108,12 @@ class SignUpFragment : Fragment() {
             binding.lbSignPassConf.isErrorEnabled = false
         }
 
-        if (pass.isEmpty()) {
+        if (pass.isEmpty() || pass.length < 8) {
             binding.lbSignPass.error = getString(R.string.invalid_password)
             isValid = false
         }
 
-        if (passconf.isEmpty()) {
+        if (passconf.isEmpty() || pass.length < 8) {
             binding.lbSignPassConf.error = getString(R.string.invalid_confirmPass)
             isValid = false
         }
@@ -140,8 +126,6 @@ class SignUpFragment : Fragment() {
         UIUtils.setupFocusAndTextListener(binding.etSignName, binding.lbSignName)
         UIUtils.setupFocusAndTextListener(binding.etSignEmail, binding.lbSignEmail)
         UIUtils.setupFocusAndTextListener(binding.etSignEmailConf, binding.lbSignEmailConf)
-        UIUtils.setupFocusAndTextListener(binding.etSignKey, binding.lbSignKey)
-        UIUtils.setupFocusAndTextListener(binding.etSignUser, binding.lbSignUser)
         UIUtils.setupFocusAndTextListener(binding.etSignPass, binding.lbSignPass)
         UIUtils.setupFocusAndTextListener(binding.etSignPassConf, binding.lbSignPassConf)
     }

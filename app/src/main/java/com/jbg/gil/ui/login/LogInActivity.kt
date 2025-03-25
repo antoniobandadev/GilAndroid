@@ -23,30 +23,9 @@ class LogInActivity : AppCompatActivity() {
             insets
         }
 
-        supportFragmentManager.beginTransaction()
+        /*supportFragmentManager.beginTransaction()
             .add(R.id.fmLogActivity, LogInFragment.newInstance())
-            .commit()
+            .commit()*/
 
-
-     /*   editTextListener()
-
-        binding.btLogIn.setOnClickListener {
-            val startIntentH = Intent(this,HomeActivity::class.java)
-            validLogin(binding.etLogUser.text.toString().trim(), binding.etLogPass.text.toString().trim())
-            //if(binding.etLogUser.text.toString() == "Antonio"){
-            //    startActivity(startIntentH)
-            //}else{
-             //   binding.lbLogUser.error = "Error"
-            //    Toast.makeText(this, getString(R.string.invalid_data), Toast.LENGTH_SHORT).show()
-            //}
-        }*/
     }
-
-
-
-
-
-
-
-
 }

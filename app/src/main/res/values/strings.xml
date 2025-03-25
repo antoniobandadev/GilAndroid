@@ -6,27 +6,34 @@
     <string name="user">Username</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
-    <string name="sign_up_now">Don’t have an account yet? Sign up now.</string>
-    <string name="invalid_username">The username field cannot be empty.</string>
-    <string name="invalid_password">The password field cannot be empty.</string>
-    <string name="invalid_data">The username or password is incorrect. Please verify and try again.</string>
+    <string name="sign_up_now">Don’t have an account? Sign up today and join us!</string>
+    <string name="invalid_password">Your password must be at least 8 characters long and include a mix of letters and numbers for extra security.</string>
+    <string name="invalid_data">Oops! The username or password doesn’t match. Please double-check your details and try again.</string>
+
 
     <!--- Sign Up -->
     <string name="sign_up">Sign Up</string>
     <string name="name">Name</string>
     <string name="email">Email</string>
     <string name="confirm_email">Confirm email</string>
-    <string name="serial_key">Serial key</string>
     <string name="confirm_password">Confirm password</string>
 
-    <string name="invalid_name">The name field cannot be empty.</string>
-    <string name="invalid_email">The email field cannot be empty.</string>
-    <string name="invalid_confirmEmail">The confirm email field cannot be empty.</string>
-    <string name="invalid_serialKey">The serial key field cannot be empty.</string>
-    <string name="invalid_confirmPass">The confirm password field cannot be empty.</string>
-    <string name="not_same_value">The fields are not the same.</string>
+    <string name="invalid_name">Your name must be at least 3 characters long.</string>
+    <string name="invalid_email">The email field cannot be left empty. Please enter your email address.</string>
+    <string name="invalid_confirmEmail">The confirm email field cannot be left empty. Please confirm your email address.</string>
+    <string name="invalid_confirmPass">The confirm password field cannot be left empty. Please confirm your password.</string>
+    <string name="not_same_value">The fields don’t match. Please check and try again.</string>
+    <string name="not_valid_email">Please enter a valid email address (e.g., user@domain.com).</string>
 
-    <string name="not_valid_email">The email address is not valid.</string>
+
+    <!--- Menu -->
+    <string name="my_events">My Events</string>
+    <string name="my_friends">My Connections</string>
+    <string name="create_event">Create an Event</string>
+    <string name="scan_code">Scan Invitation</string>
+    <string name="settings">App Settings</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>
