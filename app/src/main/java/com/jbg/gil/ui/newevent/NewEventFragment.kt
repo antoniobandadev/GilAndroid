@@ -1,11 +1,10 @@
 package com.jbg.gil.ui.newevent
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.jbg.gil.R
+import androidx.fragment.app.Fragment
 import com.jbg.gil.databinding.FragmentNewEventBinding
 
 class NewEventFragment : Fragment() {

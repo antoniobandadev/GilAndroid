@@ -1,6 +1,5 @@
 package com.jbg.gil.ui.login
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.jbg.gil.R
 import com.jbg.gil.databinding.FragmentLoginBinding
-import com.jbg.gil.ui.home.HomeActivity
 import com.jbg.gil.utils.UIUtils
 
 

@@ -31,6 +31,7 @@
     <string name="create_event">Crear un evento</string>
     <string name="scan_code">Escanear invitación</string>
     <string name="settings">Configuración</string>
+    <string name="hello_blank_fragment">Hola fragment</string>
 
 
 </resources>
