@@ -1,6 +1,8 @@
 package com.jbg.gil.ui.login
 
+import android.graphics.Color
 import android.os.Bundle
+import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -16,7 +18,9 @@ class LogInActivity : AppCompatActivity() {
 
         setTheme(R.style.Theme_Gil)
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        /*enableEdgeToEdge(
+            statusBarStyle = SystemBarStyle.dark(Color.RED)
+        )*/
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

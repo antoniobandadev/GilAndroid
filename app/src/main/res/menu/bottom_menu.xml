@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/eventsFragment"
+        android:icon="@drawable/ic_calendar"
+        android:title="@string/my_events" />
+
+    <item
+        android:id="@+id/connectionsFragment"
+        android:icon="@drawable/ic_friends"
+        android:title="@string/my_contacts" />
+
+    <item
+        android:id="@+id/newEventFragment"
+        android:icon="@drawable/ic_add"
+        android:title="@string/new_event" />
+
+    <item
+        android:id="@+id/scanFragment"
+        android:icon="@drawable/ic_scann"
+        android:title="@string/scan_code" />
+
+    <item
+        android:id="@+id/settingsFragment"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/settings" />
+
+</menu>

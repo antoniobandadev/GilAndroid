@@ -35,6 +35,13 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent=".5"/>
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glLogBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".95"/>
+
 
 
         <ImageView
@@ -104,7 +111,7 @@
                 android:textColor="@color/white"
                 android:maxLength="20"
                 android:maxLines="1"
-                android:inputType="textCapWords"
+                android:inputType="textEmailAddress"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -142,22 +149,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lbLogPass"
+            app:layout_constraintBottom_toTopOf="@+id/tvRegister"
             android:layout_marginHorizontal="40dp"
-            android:layout_marginVertical="20dp"
+            android:layout_marginTop="10dp"
             android:text="@string/login"
             />
 
         <TextView
             android:id="@+id/tvRegister"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btLogIn"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/glLogBottom"
             android:textColor="@color/white"
             android:text="@string/sign_up_now"
             android:layout_marginHorizontal="40dp"
-            android:layout_marginTop="15dp"
             android:textSize="12sp"
             android:gravity="center"
             />

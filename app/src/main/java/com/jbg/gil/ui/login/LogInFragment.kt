@@ -1,5 +1,6 @@
 package com.jbg.gil.ui.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.jbg.gil.R
 import com.jbg.gil.databinding.FragmentLoginBinding
+import com.jbg.gil.ui.home.HomeActivity
 import com.jbg.gil.utils.UIUtils
 
 
@@ -36,10 +38,10 @@ class LogInFragment : Fragment() {
                     binding.etLogPass.text.toString().trim()
                 )
             ) {
-               // val startIntentH = Intent(requireContext(), HomeActivity::class.java)
+                val startIntentH = Intent(requireContext(), HomeActivity::class.java)
                 Toast.makeText(requireContext(), "Bienvenido", Toast.LENGTH_SHORT).show()
-               // startActivity(startIntentH)
-                findNavController().navigate(R.id.action_logInFragment_to_home_graph)
+                startActivity(startIntentH)
+                //findNavController().navigate(R.id.action_logInFragment_to_home_graph)
             }
 
             //val startIntentH = Intent(this, HomeActivity::class.java)
