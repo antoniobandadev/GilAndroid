@@ -46,13 +46,6 @@ class SignUpFragment : Fragment() {
         }
     }
 
-
-    companion object {
-        @JvmStatic
-        fun newInstance() = SignUpFragment()
-    }
-
-
     private fun validateInputLogin(
         name: String,
         email: String,

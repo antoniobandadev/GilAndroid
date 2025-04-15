@@ -77,11 +77,6 @@ class LogInFragment : Fragment() {
 
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance() = LogInFragment()
-    }
-
     private fun validateInputLogin(user: String, password: String): Boolean {
         var isValid = true
 
