@@ -17,14 +17,15 @@ import com.jbg.gil.utils.UIUtils
 
 class LogInFragment : Fragment() {
 
-    private lateinit var binding: FragmentLoginBinding
+    private  var _binding: FragmentLoginBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        binding = FragmentLoginBinding.inflate(inflater, container, false)
+        _binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -76,7 +77,6 @@ class LogInFragment : Fragment() {
 
     }
 
-
     companion object {
         @JvmStatic
         fun newInstance() = LogInFragment()
@@ -100,10 +100,14 @@ class LogInFragment : Fragment() {
         return isValid
     }
 
-
     private fun focusAndTextListener() {
         UIUtils.setupFocusAndTextListener(binding.etLogUser, binding.lbLogUser)
         UIUtils.setupFocusAndTextListener(binding.etLogPass, binding.lbLogPass)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

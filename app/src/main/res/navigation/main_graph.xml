@@ -11,9 +11,11 @@
             android:id="@+id/action_logInFragment_to_signUpFragment"
             app:destination="@id/signUpFragment"
             app:enterAnim="@anim/to_up"
-            app:exitAnim="@anim/to_down"
-            app:popEnterAnim="@anim/from_down"
-            app:popExitAnim="@anim/from_up" />
+            app:exitAnim="@anim/no_anim"
+            app:popEnterAnim="@anim/no_anim"
+            app:popExitAnim="@anim/from_up"
+
+            />
         <action
             android:id="@+id/action_logInFragment_to_home_graph"
             app:destination="@id/home_graph"
@@ -27,4 +29,11 @@
         android:name="com.jbg.gil.ui.login.SignUpFragment"
         android:label="SignUpFragment" />
     <include app:graph="@navigation/home_graph" />
-</navigation>
+    </navigation>
+
+
+<!--app:popExitAnim="@anim/from_up" se cierra hacia abajo de la pantalla-->
+<!--app:popExitAnim="@anim/to_up" sale desde abajo de la pantalla-->
+
+    <!--app:popExitAnim="@anim/from_down" aparece desde arriba de la pantalla-->
+    <!--app:popExitAnim="@anim/to_down" desaparece hacia arriba de la pantalla-->

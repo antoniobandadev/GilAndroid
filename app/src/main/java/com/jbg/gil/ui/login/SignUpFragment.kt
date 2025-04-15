@@ -13,14 +13,15 @@ import com.jbg.gil.utils.UIUtils
 
 class SignUpFragment : Fragment() {
 
-    private lateinit var binding: FragmentSignupBinding
+    private  var _binding: FragmentSignupBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        binding = FragmentSignupBinding.inflate(inflater, container, false)
+        _binding = FragmentSignupBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -128,6 +129,12 @@ class SignUpFragment : Fragment() {
         UIUtils.setupFocusAndTextListener(binding.etSignEmailConf, binding.lbSignEmailConf)
         UIUtils.setupFocusAndTextListener(binding.etSignPass, binding.lbSignPass)
         UIUtils.setupFocusAndTextListener(binding.etSignPassConf, binding.lbSignPassConf)
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
 
