@@ -55,6 +55,10 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.animation.core.android)
 
+    //Retrofit ,Gson e Interceptor
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
 
 
     testImplementation(libs.junit)
