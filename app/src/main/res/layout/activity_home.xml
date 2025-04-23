@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
+    android:background="@color/primary"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeActivity">
@@ -15,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/botHomMenu"
         app:navGraph="@navigation/home_graph"
         />
 
@@ -23,18 +24,18 @@
         style="@style/Widget.Material3.BottomNavigationView"
         android:id="@+id/botHomMenu"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_menu"
-        android:background="@color/secondary"
-        app:labelVisibilityMode="labeled"
+        android:background="@drawable/bottom_nav_background"
+        app:labelVisibilityMode="unlabeled"
         app:itemIconTint="@color/bottom_nav_selector"
         app:itemTextColor="@color/bottom_nav_selector"
         app:itemActiveIndicatorStyle="@null"
-
-
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="5dp"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

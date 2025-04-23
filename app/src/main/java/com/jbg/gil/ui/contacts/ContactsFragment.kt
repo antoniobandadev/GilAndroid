@@ -1,4 +1,4 @@
-package com.jbg.gil.ui.events
+package com.jbg.gil.ui.contacts
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,51 +10,51 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.jbg.gil.R
 import com.jbg.gil.data.ViewPagerAdapter
-import com.jbg.gil.databinding.FragmentEventsBinding
+import com.jbg.gil.databinding.FragmentContactsBinding
 import com.jbg.gil.ui.contacts.fragments.TabContactsFragment
 import com.jbg.gil.ui.contacts.fragments.TabReceivedFragment
 import com.jbg.gil.ui.contacts.fragments.TabSentFragment
-import com.jbg.gil.ui.events.fragments.TabEventsFragment
-import com.jbg.gil.ui.events.fragments.TabInvitesFragment
 
-class EventsFragment : Fragment() {
 
-    private var _binding: FragmentEventsBinding? = null
+class ContactsFragment : Fragment() {
+
+    private var _binding: FragmentContactsBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        _binding = FragmentEventsBinding.inflate(inflater,container, false)
+        _binding = FragmentContactsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        createEventsTabs()
+        createContactsTabs()
     }
 
 
-    private fun createEventsTabs(){
 
-        viewPager = binding.viewPageEvents
-        tabLayout = binding.tabLayEvents
+    private fun createContactsTabs(){
+
+        viewPager = binding.viewPageContacts
+        tabLayout = binding.tabLayContacts
 
         val fragments = listOf(
-            TabEventsFragment(),
-            TabInvitesFragment()
+            TabContactsFragment(),
+            TabReceivedFragment(),
+            TabSentFragment()
         )
 
         val adapter = ViewPagerAdapter(this, fragments)
         viewPager.adapter = adapter
 
-        val tabTitles = listOf(getString(R.string.my_events), getString(R.string.my_invites))
+        val tabTitles = listOf(getString(R.string.my_contacts), getString(R.string.received_request), getString(R.string.sent_request))
 
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = tabTitles[position]
@@ -66,7 +66,5 @@ class EventsFragment : Fragment() {
         super.onDestroy()
         _binding = null
     }
-
-
 
 }

@@ -6,7 +6,7 @@
     <string name="user">Username</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
-    <string name="sign_up_now">Don´t have an account yet? Click here to sign up.</string>
+    <string name="sign_up_now">Don´t have an account yet? \nClick here to sign up.</string>
     <string name="invalid_password">Your password must be at least 8 characters long and include a mix of letters and numbers for extra security.</string>
     <string name="invalid_data">Oops! The username or password doesn’t match. Please double-check your details and try again.</string>
 
@@ -25,17 +25,23 @@
     <string name="not_same_value">The fields don’t match. Please check and try again.</string>
     <string name="not_valid_email">Please enter a valid email address (e.g., user@domain.com).</string>
 
-
     <!--- Menu -->
-    <string name="my_events">Events</string>
-    <string name="my_contacts">Contacts</string>
+    <string name="events">Events</string>
+    <string name="contacts">Contacts</string>
     <string name="new_event">New event</string>
     <string name="scan_code">Scanner</string>
     <string name="settings">Settings</string>
-    <!-- TODO: Remove or change this placeholder text
+
+    <!--- Events -->
+    <string name="my_events">My events</string>
+    <string name="my_invites">My invites</string>
+
+    <!--- Contacts -->
+    <string name="my_contacts">My contacts</string>
+    <string name="received_request">Received</string>
+    <string name="sent_request">Sent</string>
 
 
-    -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 

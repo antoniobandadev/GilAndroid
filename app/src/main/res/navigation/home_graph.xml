@@ -12,9 +12,9 @@
         tools:layout="@layout/fragment_events" />
     <fragment
         android:id="@+id/connectionsFragment"
-        android:name="com.jbg.gil.ui.connections.ConnectionsFragment"
+        android:name="com.jbg.gil.ui.contacts.ContactsFragment"
         android:label="fragment_connections"
-        tools:layout="@layout/fragment_connections" />
+        tools:layout="@layout/fragment_contacts" />
     <fragment
         android:id="@+id/newEventFragment"
         android:name="com.jbg.gil.ui.newevent.NewEventFragment"

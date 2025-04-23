@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/primaryDark"
-    tools:context=".ui.events.EventsFragment">
+    tools:context=".ui.contacts.ContactsFragment">
 
     <TextView
         android:id="@+id/tvTitleContacts"
@@ -19,10 +18,10 @@
         android:textColor="@color/secondary"
         android:background="@color/primaryDark"
         android:gravity="center"
-        android:text="@string/events" />
+        android:text="@string/contacts" />
 
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayEvents"
+        android:id="@+id/tabLayContacts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,11 +34,11 @@
         />
 
     <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPageEvents"
+        android:id="@+id/viewPageContacts"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tabLayEvents"
+        app:layout_constraintTop_toBottomOf="@+id/tabLayContacts"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:background="@color/primary"

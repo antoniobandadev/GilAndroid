@@ -5,7 +5,7 @@
     <string name="user">Usuario</string>
     <string name="password">Contraseña</string>
     <string name="login">Iniciar sesión</string>
-    <string name="sign_up_now">¿Aún no tienes cuenta? Haz clic aquí para registrarte</string>
+    <string name="sign_up_now">¿Aún no tienes cuenta? \nHaz clic aquí para registrarte</string>
     <string name="invalid_password">La contraseña debe tener al menos 8 caracteres e incluir una combinación de letras y números para mayor seguridad.</string>
     <string name="invalid_data">¡Ups! El nombre de usuario o la contraseña no coinciden. Verifica tus datos e inténtalo de nuevo.</string>
 
@@ -24,14 +24,23 @@
     <string name="not_same_value">Los campos no coinciden. Por favor, revisa y vuelve a intentarlo.</string>
     <string name="not_valid_email">Por favor, ingresa una dirección de correo electrónico válida (ejemplo: usuario@dominio.com).</string>
 
-
     <!---Menu -->
-    <string name="my_events">Eventos</string>
-    <string name="my_contacts">Contactos</string>
+    <string name="events">Eventos</string>
+    <string name="contacts">Contactos</string>
     <string name="new_event">Nuevo evento</string>
     <string name="scan_code">Escanear</string>
     <string name="settings">Ajustes</string>
     <string name="hello_blank_fragment">Hola fragment</string>
+
+    <!--- Events -->
+    <string name="my_events">Mis eventos</string>
+    <string name="my_invites">Mis invitaciones</string>
+
+
+    <!--- Contacts -->
+    <string name="my_contacts">Mis contactos</string>
+    <string name="received_request">Recibidas</string>
+    <string name="sent_request">Enviadas</string>
 
 
 </resources>
