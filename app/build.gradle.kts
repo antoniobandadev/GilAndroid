@@ -60,6 +60,16 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
 
+    //ViewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
+    //LiveData
+    implementation("androidx.lifecycle:lifecycle-livedata-core-ktx:2.8.7")
+    //Inst viewModel Fragments
+    implementation("androidx.fragment:fragment-ktx:1.8.6")
+    //Inst ViewModel Activitys
+    implementation("androidx.activity:activity-ktx:1.10.1")
+
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

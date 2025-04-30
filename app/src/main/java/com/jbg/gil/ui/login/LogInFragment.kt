@@ -32,6 +32,7 @@ class LogInFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         focusAndTextListener()
+        UIUtils.setupHideKeyboardOnTouch(view , requireActivity())
 
         binding.btLogIn.setOnClickListener {
             if (validateInputLogin(

@@ -9,8 +9,13 @@
     <color name="secondary">#A37B16</color>
     <color name="accent">#FFFFFFFF</color>
 
-    <color name="red">#FF0000</color>
+    <color name="red">#FF3B30</color>
+    <color name="redDark">#6B0000</color>
     <color name="redLight">#FF7474</color>
+
+    <color name="green">#003C05</color>
+    <color name="greenLight">#80BD82</color>
+
 
     <color name="mtrl_textinput_default_box_stroke_color" tools:ignore="PrivateResource">#A37B16</color>
 </resources>
