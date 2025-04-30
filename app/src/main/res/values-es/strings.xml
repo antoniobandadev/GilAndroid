@@ -6,7 +6,8 @@
     <string name="password">Contraseña</string>
     <string name="login">Iniciar sesión</string>
     <string name="sign_up_now">¿Aún no tienes cuenta? \nHaz clic aquí para registrarte</string>
-    <string name="invalid_password">La contraseña debe tener al menos 8 caracteres e incluir una combinación de letras y números para mayor seguridad.</string>
+    <string name="invalid_logEmail">Por favor, ingresa tu correo electrónico.</string>
+    <string name="invalid_logPass">Por favor, ingresa tu contraseña.</string>
     <string name="invalid_data">¡Ups! El nombre de usuario o la contraseña no coinciden. Verifica tus datos e inténtalo de nuevo.</string>
 
 
@@ -23,6 +24,7 @@
     <string name="invalid_confirmPass">El campo de confirma contraseña no puede quedar vacío. Por favor, confirma tu contraseña.</string>
     <string name="not_same_value">Los campos no coinciden. Por favor, revisa y vuelve a intentarlo.</string>
     <string name="not_valid_email">Por favor, ingresa una dirección de correo electrónico válida (ejemplo: usuario@dominio.com).</string>
+    <string name="invalid_password">La contraseña debe tener al menos 8 caracteres, incluir mayúsculas, minúsculas, números y símbolos.</string>
 
     <!---Menu -->
     <string name="events">Eventos</string>

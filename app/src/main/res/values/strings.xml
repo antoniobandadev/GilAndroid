@@ -7,7 +7,8 @@
     <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="sign_up_now">Don´t have an account yet? \nClick here to sign up.</string>
-    <string name="invalid_password">Your password must be at least 8 characters long and include a mix of letters and numbers for extra security.</string>
+    <string name="invalid_logEmail">Please enter your email address.</string>
+    <string name="invalid_logPass">Please enter your password.</string>
     <string name="invalid_data">Oops! The username or password doesn’t match. Please double-check your details and try again.</string>
 
 
@@ -24,6 +25,7 @@
     <string name="invalid_confirmPass">The confirm password field cannot be empty. Please confirm your password.</string>
     <string name="not_same_value">The fields don’t match. Please check and try again.</string>
     <string name="not_valid_email">Please enter a valid email address (e.g., user@domain.com).</string>
+    <string name="invalid_password">The password must be at least 8 characters long and include uppercase letters, lowercase letters, numbers, and symbols.</string>
 
     <!--- Menu -->
     <string name="events">Events</string>

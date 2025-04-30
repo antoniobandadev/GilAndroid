@@ -44,6 +44,14 @@ object UIUtils {
         return pattern.matcher(email).matches()
     }
     //-----------------------------------------------------------------------------------------
+    fun isPasswordSecure(password: String): Boolean {
+        val passwordPattern = Regex(
+            "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#\$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?]).{8,}$"
+        )
+        return passwordPattern.matches(password)
+    }
+
+    //-----------------------------------------------------------------------------------------
 
     fun userDevice(context: Context): String {
         return Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)

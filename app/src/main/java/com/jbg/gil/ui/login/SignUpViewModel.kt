@@ -1,98 +1,135 @@
 package com.jbg.gil.ui.login
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.jbg.gil.data.GilRepository
+import com.jbg.gil.data.remote.RetrofitHelper
+import com.jbg.gil.data.remote.model.UserDto
+import com.jbg.gil.utils.Constants
+import com.jbg.gil.utils.UIUtils
+import com.jbg.gil.utils.UIUtils.nowDate
+import kotlinx.coroutines.launch
+import retrofit2.Retrofit
 
-class SignUpViewModel : ViewModel(){
+class SignUpViewModel : ViewModel() {
 
-    val nameError = MutableLiveData<String?>()
-    val emailError = MutableLiveData<String?>()
+    private lateinit var repository: GilRepository
+    private lateinit var retrofit: Retrofit
 
-     fun validateInputs(name: String,email: String, emailconf: String): Boolean {
+    val name = MutableLiveData<String?>()
+    val nameError = MutableLiveData<Boolean>()
+    val email = MutableLiveData<String?>()
+    val emailError = MutableLiveData<Boolean>()
+    val emailConf = MutableLiveData<String?>()
+    val emailConfError = MutableLiveData<Boolean>()
+    val emailEqualsError = MutableLiveData<Boolean>()
+    val password = MutableLiveData<String?>()
+    val passwordError = MutableLiveData<Boolean>()
+    val passwordConf = MutableLiveData<String?>()
+    val passwordConfError = MutableLiveData<Boolean>()
+    val passwordEqualsError = MutableLiveData<Boolean>()
+    val signUpSuccess = MutableLiveData<Boolean>()
+
+
+    private fun validateInputs(): Boolean {
+
+        val nameVal = name.value.orEmpty()
+        val emailVal = email.value.orEmpty()
+        val emailConfVal = emailConf.value.orEmpty()
+        val passwordVal = password.value.orEmpty()
+        val passwordConfVal = passwordConf.value.orEmpty()
+
         var valid = true
-        nameError.value = if (name.isBlank()) {
-            valid = false
-            "El nombre no puede estar vacío"
-        } else null
 
-        emailError.value = if (email != emailconf) {
+        if (nameVal.isEmpty() || nameVal.length < 3) {
+            nameError.value = true
             valid = false
-            "value"
-        } else null
+        }
+
+        if (emailVal.isEmpty()) {
+            emailError.value = true
+            valid = false
+        }
+
+        if (emailConfVal.isEmpty()) {
+            emailConfError.value = true
+            valid = false
+        }
+
+        if (!UIUtils.checkEmail(emailVal)) {
+            emailError.value = true
+            valid = false
+        }else if (emailVal != emailConfVal) {
+            emailEqualsError.value = true
+            valid = false
+        }
+
+        if (passwordVal.isEmpty()) {
+            passwordError.value = true
+            valid = false
+        }
+
+        if (passwordConfVal.isEmpty()) {
+            passwordConfError.value = true
+            valid = false
+        }
+
+        if (!UIUtils.isPasswordSecure(passwordVal)) {
+            passwordError.value = true
+            valid = false
+        }else if (passwordVal != passwordConfVal) {
+            passwordEqualsError.value = true
+            valid = false
+        }
 
         return valid
     }
 
-   /* private fun validateInputSignUp(
-        name: String,
-        email: String,
-        emailconf: String,
-        pass: String,
-        passconf: String
-    ): Boolean {
-        var isValid = true
+    fun signUpUser(deviceId: String) {
+        if (validateInputs()) {
 
-        if (name.isEmpty() || name.length < 3) {
-            binding.lbSignName.error = getString(R.string.invalid_name)
-            isValid = false
+            val nameVal = name.value.orEmpty()
+            val emailVal = email.value.orEmpty()
+            val passwordVal = password.value.orEmpty()
+
+            retrofit = RetrofitHelper().getRetrofit()
+            repository = GilRepository(retrofit)
+            val userDateCreated = nowDate()
+
+            viewModelScope.launch {
+                try {
+
+                    val newUser = UserDto(
+                        name = nameVal,
+                        email = emailVal,
+                        password = passwordVal,
+                        deviceId = deviceId,
+                        createdAt = userDateCreated
+                    )
+
+                    val register = repository.postRegUser(newUser)
+                    Log.d(Constants.GIL_TAG, "Respuesta: $register")
+                    Log.d(Constants.GIL_TAG, "Respuesta: $newUser")
+
+                    if (register.code() == 200) {
+                        signUpSuccess.value = true
+                    } else {
+                        Log.d(Constants.GIL_TAG, "Code: ${register.code()}")
+                    }
+
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Log.d(Constants.GIL_TAG, "Error en la conexion")
+                }
+
+            }
         }
-
-        if (email != emailconf) {
-            binding.lbSignEmail.error = getString(R.string.not_same_value)
-            binding.lbSignEmailConf.error = getString(R.string.not_same_value)
-            isValid = false
-        } else {
-            binding.lbSignEmail.error = null
-            binding.lbSignEmailConf.error = null
-            binding.lbSignEmail.isErrorEnabled = false
-            binding.lbSignEmailConf.isErrorEnabled = false
-        }
-
-        if (!UIUtils.checkEmail(email)) {
-            binding.lbSignEmail.error = getString(R.string.not_valid_email)
-            isValid = false
-        }
-
-        if (!UIUtils.checkEmail(emailconf)) {
-            binding.lbSignEmailConf.error = getString(R.string.not_valid_email)
-            isValid = false
-        }
-
-        if (email.isEmpty()) {
-            binding.lbSignEmail.error = getString(R.string.invalid_email)
-            isValid = false
-        }
-
-        if (emailconf.isEmpty()) {
-            binding.lbSignEmailConf.error = getString(R.string.invalid_confirmEmail)
-            isValid = false
-        }
-
-        if (pass != passconf) {
-            binding.lbSignPass.error = getString(R.string.not_same_value)
-            binding.lbSignPassConf.error = getString(R.string.not_same_value)
-            isValid = false
-        } else {
-            binding.lbSignPass.error = null
-            binding.lbSignPassConf.error = null
-            binding.lbSignPass.isErrorEnabled = false
-            binding.lbSignPassConf.isErrorEnabled = false
-        }
-
-        if (pass.isEmpty() || pass.length < 8) {
-            binding.lbSignPass.error = getString(R.string.invalid_password)
-            isValid = false
-        }
-
-        if (passconf.isEmpty() || pass.length < 8) {
-            binding.lbSignPassConf.error = getString(R.string.invalid_confirmPass)
-            isValid = false
-        }
-
-        return isValid
-    }*/
+    }
 
 
-
+    /*private val _name = MutableLiveData<String?>()
+    val name  : LiveData<String?> = _name*/
 
 }
