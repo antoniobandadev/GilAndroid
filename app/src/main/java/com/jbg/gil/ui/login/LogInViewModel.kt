@@ -1,16 +1,12 @@
 package com.jbg.gil.ui.login
 
 import android.app.Application
-import android.content.Context
 import android.util.Log
-import androidx.datastore.dataStore
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jbg.gil.utils.Constants
 import com.jbg.gil.utils.dataStore

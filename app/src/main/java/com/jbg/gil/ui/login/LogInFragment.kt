@@ -2,34 +2,19 @@ package com.jbg.gil.ui.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
-import androidx.datastore.dataStore
-import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.jbg.gil.R
-import com.jbg.gil.data.remote.model.datastore.UserPreferences
 import com.jbg.gil.databinding.FragmentLoginBinding
 import com.jbg.gil.ui.home.HomeActivity
-import com.jbg.gil.utils.Constants
 import com.jbg.gil.utils.Utils
-import com.jbg.gil.utils.Utils.getLogged
 import com.jbg.gil.utils.Utils.showSnackBar
-import com.jbg.gil.utils.dataStore
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 class LogInFragment : Fragment() {

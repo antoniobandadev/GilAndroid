@@ -1,24 +1,17 @@
 package com.jbg.gil.ui.settings
 
-import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.jbg.gil.R
 import com.jbg.gil.databinding.FragmentSettingsBinding
-import com.jbg.gil.ui.home.HomeActivity
 import com.jbg.gil.ui.login.LogInActivity
-import com.jbg.gil.utils.Constants
 import com.jbg.gil.utils.Utils.clearUserPreferences
-import com.jbg.gil.utils.Utils.getLogged
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 class SettingsFragment : Fragment() {

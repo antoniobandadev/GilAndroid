@@ -2,7 +2,6 @@ package com.jbg.gil.utils
 
 import android.app.Activity
 import android.content.Context
-import android.graphics.Color
 import android.graphics.Rect
 import android.provider.Settings
 import android.util.Patterns
@@ -13,11 +12,9 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
-import androidx.datastore.dataStore
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.jbg.gil.R

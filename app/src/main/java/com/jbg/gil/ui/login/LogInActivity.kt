@@ -1,12 +1,10 @@
 package com.jbg.gil.ui.login
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.lifecycleScope
 import com.jbg.gil.databinding.ActivityLoginBinding
 import com.jbg.gil.ui.home.HomeActivity
