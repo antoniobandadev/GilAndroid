@@ -11,8 +11,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.jbg.gil.R
 import com.jbg.gil.databinding.FragmentSignupBinding
-import com.jbg.gil.utils.UIUtils
-import com.jbg.gil.utils.UIUtils.userDevice
+import com.jbg.gil.utils.Utils
+import com.jbg.gil.utils.Utils.showSnackBar
+import com.jbg.gil.utils.Utils.userDevice
 
 
 class SignUpFragment : Fragment() {
@@ -34,10 +35,42 @@ class SignUpFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         focusAndTextListener()
-        UIUtils.setupHideKeyboardOnTouch(view, requireActivity())
+        Utils.setupHideKeyboardOnTouch(view, requireActivity())
 
-        binding.btCloseSign.setOnClickListener{
-            findNavController().navigateUp()
+        binding.apply {
+            etSignName.doAfterTextChanged {
+                viewModel.name.value = it.toString()
+            }
+            etSignEmail.doAfterTextChanged {
+                viewModel.email.value = it.toString()
+            }
+            etSignEmailConf.doAfterTextChanged {
+                viewModel.emailConf.value = it.toString()
+            }
+            etSignPass.doAfterTextChanged {
+                viewModel.password.value = it.toString()
+            }
+            etSignPassConf.doAfterTextChanged {
+                viewModel.passwordConf.value = it.toString()
+            }
+
+            btCloseSign.setOnClickListener{
+                findNavController().navigateUp()
+            }
+
+            btSignUp.setOnClickListener {
+                val deviceId = userDevice(requireContext())
+                viewModel.signUpUser(deviceId)
+
+                /*               val snackbar : Snackbar = Snackbar.make(view,"", Snackbar.LENGTH_LONG)
+                                .setBackgroundTint(requireContext().getColor(R.color.red))
+
+                                snackbar.setText("Registro exitoso!")
+                                snackbar.setBackgroundTint(requireContext().getColor(R.color.green))
+                                findNavController().navigateUp()
+                */
+
+            }
         }
 
         viewModel.apply {
@@ -82,59 +115,27 @@ class SignUpFragment : Fragment() {
                 }
             }
 
-        }
-
-        binding.apply {
-            etSignName.doAfterTextChanged {
-                viewModel.name.value = it.toString()
+            signUpSuccess.observe(viewLifecycleOwner) { success ->
+                if (success) {
+                    binding.root.showSnackBar("Registro Exitoso")
+                    // Navegar, guardar sesión, etc.
+                    findNavController().navigateUp()
+                }
             }
-            etSignEmail.doAfterTextChanged {
-                viewModel.email.value = it.toString()
-            }
-            etSignEmailConf.doAfterTextChanged {
-                viewModel.emailConf.value = it.toString()
-            }
-            etSignPass.doAfterTextChanged {
-                viewModel.password.value = it.toString()
-            }
-            etSignPassConf.doAfterTextChanged {
-                viewModel.passwordConf.value = it.toString()
-            }
-        }
-
-        viewModel.signUpSuccess.observe(viewLifecycleOwner) { success ->
-            if (success) {
-                Toast.makeText(requireContext(), "Registro exitoso", Toast.LENGTH_SHORT).show()
-                // Navegar, guardar sesión, etc.
-                findNavController().navigateUp()
-            }
-        }
-
-        binding.btSignUp.setOnClickListener {
-            val deviceId = userDevice(requireContext())
-            viewModel.signUpUser(deviceId)
-
-            /*               val snackbar : Snackbar = Snackbar.make(view,"", Snackbar.LENGTH_LONG)
-                            .setBackgroundTint(requireContext().getColor(R.color.red))
-
-                            snackbar.setText("Registro exitoso!")
-                            snackbar.setBackgroundTint(requireContext().getColor(R.color.green))
-                            findNavController().navigateUp()
-            */
 
         }
     }
 
     private fun focusAndTextListener() {
-        UIUtils.setupFocusAndTextListener(binding.etSignName, binding.lbSignName)
-        UIUtils.setupFocusAndTextListener(binding.etSignEmail, binding.lbSignEmail)
-        UIUtils.setupFocusAndTextListener(binding.etSignEmail, binding.lbSignEmailConf)
-        UIUtils.setupFocusAndTextListener(binding.etSignEmailConf, binding.lbSignEmail)
-        UIUtils.setupFocusAndTextListener(binding.etSignEmailConf, binding.lbSignEmailConf)
-        UIUtils.setupFocusAndTextListener(binding.etSignPass, binding.lbSignPass)
-        UIUtils.setupFocusAndTextListener(binding.etSignPass, binding.lbSignPassConf)
-        UIUtils.setupFocusAndTextListener(binding.etSignPassConf, binding.lbSignPass)
-        UIUtils.setupFocusAndTextListener(binding.etSignPassConf, binding.lbSignPassConf)
+        Utils.setupFocusAndTextListener(binding.etSignName, binding.lbSignName)
+        Utils.setupFocusAndTextListener(binding.etSignEmail, binding.lbSignEmail)
+        Utils.setupFocusAndTextListener(binding.etSignEmail, binding.lbSignEmailConf)
+        Utils.setupFocusAndTextListener(binding.etSignEmailConf, binding.lbSignEmail)
+        Utils.setupFocusAndTextListener(binding.etSignEmailConf, binding.lbSignEmailConf)
+        Utils.setupFocusAndTextListener(binding.etSignPass, binding.lbSignPass)
+        Utils.setupFocusAndTextListener(binding.etSignPass, binding.lbSignPassConf)
+        Utils.setupFocusAndTextListener(binding.etSignPassConf, binding.lbSignPass)
+        Utils.setupFocusAndTextListener(binding.etSignPassConf, binding.lbSignPassConf)
     }
 
     override fun onDestroy() {

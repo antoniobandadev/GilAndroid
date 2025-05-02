@@ -27,6 +27,8 @@
         <item name="backgroundTint">@color/secondary</item>
         <item name="android:textColor">@color/primary</item>
         <item name="textAllCaps">false</item>
+        <item name="fontFamily">@font/parkinsans</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>

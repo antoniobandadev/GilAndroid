@@ -2,23 +2,42 @@ package com.jbg.gil.ui.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.widget.doAfterTextChanged
+import androidx.datastore.dataStore
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.jbg.gil.R
+import com.jbg.gil.data.remote.model.datastore.UserPreferences
 import com.jbg.gil.databinding.FragmentLoginBinding
 import com.jbg.gil.ui.home.HomeActivity
-import com.jbg.gil.utils.UIUtils
+import com.jbg.gil.utils.Constants
+import com.jbg.gil.utils.Utils
+import com.jbg.gil.utils.Utils.getLogged
+import com.jbg.gil.utils.Utils.showSnackBar
+import com.jbg.gil.utils.dataStore
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class LogInFragment : Fragment() {
 
     private  var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel : LogInViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,73 +51,71 @@ class LogInFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         focusAndTextListener()
-        UIUtils.setupHideKeyboardOnTouch(view , requireActivity())
+        Utils.setupHideKeyboardOnTouch(view , requireActivity())
 
-        binding.btLogIn.setOnClickListener {
-            if (validateInputLogin(
-                    binding.etLogUser.text.toString().trim(),
-                    binding.etLogPass.text.toString().trim()
-                )
-            ) {
-                val startIntentH = Intent(requireContext(), HomeActivity::class.java)
-                Toast.makeText(requireContext(), "Bienvenido", Toast.LENGTH_SHORT).show()
-                startActivity(startIntentH)
-                //findNavController().navigate(R.id.action_logInFragment_to_home_graph)
+        binding.apply {
+            etLogUser.doAfterTextChanged { value ->
+                viewModel.email.value = value.toString()
+            }
+            etLogPass.doAfterTextChanged { value ->
+                viewModel.password.value = value.toString()
             }
 
-            //val startIntentH = Intent(this, HomeActivity::class.java)
-            //if(binding.etLogUser.text.toString() == "Antonio"){
-            //    startActivity(startIntentH)
-            //}else{
-            //   binding.lbLogUser.error = "Error"
-            //    Toast.makeText(this, getString(R.string.invalid_data), Toast.LENGTH_SHORT).show()
-            //}
-        }
-
-        binding.tvRegister.setOnClickListener {
-            binding.tvRegister.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.secondary
+            tvRegister.setOnClickListener {
+                binding.tvRegister.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.secondary
+                    )
                 )
-            )
+                findNavController().navigate(R.id.action_logInFragment_to_signUpFragment)
+            }
+        }
 
-            findNavController().navigate(R.id.action_logInFragment_to_signUpFragment)
+        viewModel.apply {
 
+            emailError.observe(viewLifecycleOwner){ error ->
+                if(error){
+                    binding.lbLogUser.error = getString(R.string.invalid_logEmail)
+                }
+            }
 
-            /*parentFragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.slide_in_y, R.anim.slide_out_y, R.anim.pop_in_y, R.anim.pop_out_y)
-                .replace(R.id.fmLogActivity, SignUpFragment.newInstance())
-                .addToBackStack(null)
-                .commit()*/
-
+            passwordError.observe(viewLifecycleOwner){ error ->
+                if(error) {
+                    binding.lbLogPass.error = getString(R.string.invalid_logPass)
+                }
+            }
 
         }
 
 
-    }
+        binding.btLogIn.setOnClickListener {
+            viewModel.logIn()
 
-    private fun validateInputLogin(user: String, password: String): Boolean {
-        var isValid = true
+            viewModel.apply {
 
-        if (user.isEmpty()) {
-            binding.lbLogUser.error = getString(R.string.invalid_email)
-            //binding.lbLogUser.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
-           // binding.etLogUser.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.redLight))
-            isValid = false
+                invalidCredentials.observe(viewLifecycleOwner){ error ->
+                    if(error){
+                        binding.root.showSnackBar(getString(R.string.invalid_data), backgroundColor = R.color.red, actionText = getString(R.string.close))
+                    }
+                }
+
+                loginSuccess.observe(viewLifecycleOwner){ success ->
+                    if (success){
+                        val startIntentH = Intent(requireContext(), HomeActivity::class.java)
+                        startActivity(startIntentH)
+                    }
+                }
+            }
+
+
         }
 
-        if (password.isEmpty()) {
-            binding.lbLogPass.error = getString(R.string.invalid_password)
-            isValid = false
-        }
-
-        return isValid
     }
 
     private fun focusAndTextListener() {
-        UIUtils.setupFocusAndTextListener(binding.etLogUser, binding.lbLogUser)
-        UIUtils.setupFocusAndTextListener(binding.etLogPass, binding.lbLogPass)
+        Utils.setupFocusAndTextListener(binding.etLogUser, binding.lbLogUser)
+        Utils.setupFocusAndTextListener(binding.etLogPass, binding.lbLogPass)
     }
 
     override fun onDestroyView() {

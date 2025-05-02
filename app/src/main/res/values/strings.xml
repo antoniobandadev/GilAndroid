@@ -2,6 +2,11 @@
     <string name="app_name" translatable="false">GIL</string>
     <string name="app_name_desc" translatable="false">Guest Identity Link</string>
 
+    <!--- General-->
+    <string name="close">Close</string>
+    <string name="ok">OK</string>
+    <string name="no_internet_connection">No internet connection detected. Please check your network and try again.</string>
+
     <!--- LogIn-->
     <string name="user">Username</string>
     <string name="password">Password</string>
@@ -43,8 +48,7 @@
     <string name="received_request">Received</string>
     <string name="sent_request">Sent</string>
 
-
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
+    <!--- Settings -->
+    <string name="logOut">Log Out</string>
 
 </resources>

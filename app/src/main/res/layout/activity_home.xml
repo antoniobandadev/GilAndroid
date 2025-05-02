@@ -34,7 +34,6 @@
         app:itemIconTint="@color/bottom_nav_selector"
         app:itemTextColor="@color/bottom_nav_selector"
         app:itemActiveIndicatorStyle="@null"
-        android:layout_marginHorizontal="10dp"
         android:layout_marginVertical="5dp"
         />
 

@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--- General-->
+    <string name="close">Cerrar</string>
+    <string name="ok">OK</string>
+    <string name="no_internet_connection">No se detectó conexión a internet. Verifica tu red e inténtalo de nuevo.</string>
+
     <!--- LogIn-->
     <string name="user">Usuario</string>
     <string name="password">Contraseña</string>
@@ -32,7 +37,6 @@
     <string name="new_event">Nuevo evento</string>
     <string name="scan_code">Escanear</string>
     <string name="settings">Ajustes</string>
-    <string name="hello_blank_fragment">Hola fragment</string>
 
     <!--- Events -->
     <string name="my_events">Mis eventos</string>
@@ -44,5 +48,7 @@
     <string name="received_request">Recibidas</string>
     <string name="sent_request">Enviadas</string>
 
+    <!--- Settings -->
+    <string name="logOut">Cerrar sesión</string>
 
 </resources>

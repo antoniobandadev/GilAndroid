@@ -66,8 +66,12 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-core-ktx:2.8.7")
     //Inst viewModel Fragments
     implementation("androidx.fragment:fragment-ktx:1.8.6")
-    //Inst ViewModel Activitys
+    //Inst ViewModel Activities
     implementation("androidx.activity:activity-ktx:1.10.1")
+
+    //DataStore persistent simpleData
+    implementation ("androidx.datastore:datastore-preferences:1.0.0")
+
 
 
 

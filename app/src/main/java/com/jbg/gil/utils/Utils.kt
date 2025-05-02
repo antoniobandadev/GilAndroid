@@ -2,6 +2,7 @@ package com.jbg.gil.utils
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Color
 import android.graphics.Rect
 import android.provider.Settings
 import android.util.Patterns
@@ -9,15 +10,27 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.Fragment
+import androidx.datastore.dataStore
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
+import com.jbg.gil.R
+import com.jbg.gil.data.remote.model.datastore.UserPreferences
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 import java.util.regex.Pattern
 
-object UIUtils {
+
+object Utils {
     //Change status error in forms//-----------------------------------------------------------
     fun setupFocusAndTextListener(editText: EditText, textInputLayout: TextInputLayout) {
         // Listener change focus
@@ -83,5 +96,58 @@ object UIUtils {
             false
         }
     }
+    //--------------------------------------------------------------------------------------------
+    fun View.showSnackBar(
+        message: String,
+        duration: Int = Snackbar.LENGTH_LONG,
+        actionText: String? = null,
+        action: (() -> Unit)? = null,
+        backgroundColor: Int = R.color.green,
+        textColor: Int = R.color.accent,
+        actionTextColor: Int = R.color.accent
+    ) {
+        val snackBar = Snackbar.make(this, message, duration)
+        snackBar.setBackgroundTint(ContextCompat.getColor(this.context, backgroundColor))
+        snackBar.setTextColor(ContextCompat.getColor(this.context, textColor))
+        snackBar.setActionTextColor(ContextCompat.getColor(this.context,actionTextColor))
+        snackBar.setTextMaxLines(5)
+        val textView = snackBar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text) as TextView
+        textView.textSize = 11f
+
+        actionText?.let {
+            snackBar.setAction(it) {
+                action?.invoke() // Ejecuta la acción proporcionada
+                snackBar.dismiss() // Cierra el Snackbar al presionar la acción
+            }
+            //snackBar.setActionTextColor(actionTextColor)
+        }
+
+        /*if (actionText != null && action != null) {
+            snackBar.setAction(actionText) { action() }
+        }*/
+        snackBar.show()
+    }
+    //---------------------------------------------------------------------------------------------
+
+    suspend fun getLogged(context: Context): UserPreferences {
+        return context.dataStore.data.map { preferences ->
+            UserPreferences(
+                userName = preferences[stringPreferencesKey("userName")].orEmpty(),
+                userEmail = preferences[stringPreferencesKey("userEmail")].orEmpty(),
+                isLogged = preferences[booleanPreferencesKey("isLogged")] ?: false
+            )
+        }.first()
+    }
+
+    //----------------------------------------------------------------------------------------------
+    suspend fun clearUserPreferences(context: Context) {
+        context.dataStore.edit { preferences ->
+            preferences.remove(stringPreferencesKey("userName"))
+            preferences.remove(stringPreferencesKey("userEmail"))
+            preferences.remove(booleanPreferencesKey("isLogged"))
+        }
+    }
+
+
 
 }

@@ -8,8 +8,8 @@ import com.jbg.gil.data.GilRepository
 import com.jbg.gil.data.remote.RetrofitHelper
 import com.jbg.gil.data.remote.model.UserDto
 import com.jbg.gil.utils.Constants
-import com.jbg.gil.utils.UIUtils
-import com.jbg.gil.utils.UIUtils.nowDate
+import com.jbg.gil.utils.Utils
+import com.jbg.gil.utils.Utils.nowDate
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 
@@ -58,7 +58,7 @@ class SignUpViewModel : ViewModel() {
             valid = false
         }
 
-        if (!UIUtils.checkEmail(emailVal)) {
+        if (!Utils.checkEmail(emailVal)) {
             emailError.value = true
             valid = false
         }else if (emailVal != emailConfVal) {
@@ -76,7 +76,7 @@ class SignUpViewModel : ViewModel() {
             valid = false
         }
 
-        if (!UIUtils.isPasswordSecure(passwordVal)) {
+        if (!Utils.isPasswordSecure(passwordVal)) {
             passwordError.value = true
             valid = false
         }else if (passwordVal != passwordConfVal) {
