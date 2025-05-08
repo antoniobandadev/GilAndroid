@@ -7,27 +7,27 @@
 
     <fragment
         android:id="@+id/eventsFragment"
-        android:name="com.jbg.gil.ui.events.EventsFragment"
+        android:name="com.jbg.gil.features.events.ui.EventsFragment"
         android:label="fragment_events"
         tools:layout="@layout/fragment_events" />
     <fragment
         android:id="@+id/connectionsFragment"
-        android:name="com.jbg.gil.ui.contacts.ContactsFragment"
+        android:name="com.jbg.gil.features.contacts.ui.ContactsFragment"
         android:label="fragment_connections"
         tools:layout="@layout/fragment_contacts" />
     <fragment
         android:id="@+id/newEventFragment"
-        android:name="com.jbg.gil.ui.newevent.NewEventFragment"
+        android:name="com.jbg.gil.features.newevent.ui.NewEventFragment"
         android:label="fragment_new_event"
         tools:layout="@layout/fragment_new_event" />
     <fragment
         android:id="@+id/scanFragment"
-        android:name="com.jbg.gil.ui.scan.ScanFragment"
+        android:name="com.jbg.gil.features.scan.ui.ScanFragment"
         android:label="fragment_scan"
         tools:layout="@layout/fragment_scan" />
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.jbg.gil.ui.settings.SettingsFragment"
+        android:name="com.jbg.gil.features.settings.ui.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
 </navigation>

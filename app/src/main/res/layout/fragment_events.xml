@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/primaryDark"
-    tools:context=".ui.events.EventsFragment">
+    tools:context=".features.events.ui.EventsFragment">
 
     <TextView
         android:id="@+id/tvTitleContacts"

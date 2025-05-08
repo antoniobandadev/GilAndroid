@@ -5,7 +5,7 @@
     app:startDestination="@id/logInFragment">
     <fragment
         android:id="@+id/logInFragment"
-        android:name="com.jbg.gil.ui.login.LogInFragment"
+        android:name="com.jbg.gil.features.login.ui.LogInFragment"
         android:label="LogInFragment" >
         <action
             android:id="@+id/action_logInFragment_to_signUpFragment"
@@ -26,7 +26,7 @@
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.jbg.gil.ui.login.SignUpFragment"
+        android:name="com.jbg.gil.features.login.ui.SignUpFragment"
         android:label="SignUpFragment" />
     <include app:graph="@navigation/home_graph" />
     </navigation>

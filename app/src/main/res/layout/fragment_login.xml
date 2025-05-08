@@ -9,7 +9,7 @@
     android:fillViewport="true"
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true"
-    tools:context=".ui.login.LogInActivity">
+    tools:context=".features.login.ui.LogInActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

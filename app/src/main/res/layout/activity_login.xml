@@ -8,7 +8,7 @@
     android:background="@color/primary"
     android:orientation="vertical"
     android:fillViewport="true"
-    tools:context=".ui.login.LogInActivity">
+    tools:context=".features.login.ui.LogInActivity">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/navLogFragment"
