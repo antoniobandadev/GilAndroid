@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.jbg.gil.R
+import com.jbg.gil.core.network.NetworkStatusViewModel
 import com.jbg.gil.databinding.FragmentSignupBinding
 import com.jbg.gil.core.utils.Utils
 import com.jbg.gil.core.utils.Utils.showSnackBar
@@ -21,6 +22,9 @@ class SignUpFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: SignUpViewModel by viewModels()
+    private val networkViewModel: NetworkStatusViewModel by viewModels()
+
+    private var isConnectedApp : Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,6 +39,9 @@ class SignUpFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         focusAndTextListener()
         Utils.setupHideKeyboardOnTouch(view, requireActivity())
+        networkViewModel.getNetworkStatus().observe(viewLifecycleOwner) { isConnected ->
+            isConnectedApp = isConnected
+        }
 
         binding.apply {
             etSignName.doAfterTextChanged {
@@ -58,17 +65,17 @@ class SignUpFragment : Fragment() {
             }
 
             btSignUp.setOnClickListener {
-                val deviceId = userDevice(requireContext())
-                viewModel.signUpUser(deviceId)
-
-                /*               val snackbar : Snackbar = Snackbar.make(view,"", Snackbar.LENGTH_LONG)
-                                .setBackgroundTint(requireContext().getColor(R.color.red))
-
-                                snackbar.setText("Registro exitoso!")
-                                snackbar.setBackgroundTint(requireContext().getColor(R.color.green))
-                                findNavController().navigateUp()
-                */
-
+                if (isConnectedApp) {
+                    val deviceId = userDevice(requireContext())
+                    viewModel.signUpUser(deviceId)
+                }else{
+                // No connected
+                    binding.root.showSnackBar(
+                        getString(R.string.no_internet_connection),
+                        backgroundColor = R.color.red,
+                        actionText = getString(R.string.close)
+                    )
+                }
             }
         }
 
@@ -116,8 +123,8 @@ class SignUpFragment : Fragment() {
 
             signUpSuccess.observe(viewLifecycleOwner) { success ->
                 if (success) {
-                    binding.root.showSnackBar("Registro Exitoso")
-                    // Navegar, guardar sesión, etc.
+                    binding.root.showSnackBar(getString(R.string.registration_success))
+
                     findNavController().navigateUp()
                 }
             }

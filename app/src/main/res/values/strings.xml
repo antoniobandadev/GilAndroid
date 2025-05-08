@@ -14,7 +14,10 @@
     <string name="sign_up_now">Don´t have an account yet? \nClick here to sign up.</string>
     <string name="invalid_logEmail">Please enter your email address.</string>
     <string name="invalid_logPass">Please enter your password.</string>
+
     <string name="invalid_data">Oops! The username or password doesn’t match. Please double-check your details and try again.</string>
+    <string name="login_success">Login successful. Welcome.</string>
+    <string name="server_error">An unexpected error occurred. Please try again later.</string>
 
 
     <!--- Sign Up -->
@@ -31,6 +34,8 @@
     <string name="not_same_value">The fields don’t match. Please check and try again.</string>
     <string name="not_valid_email">Please enter a valid email address (e.g., user@domain.com).</string>
     <string name="invalid_password">The password must be at least 8 characters long and include uppercase letters, lowercase letters, numbers, and symbols.</string>
+
+    <string name="registration_success">Your registration was completed successfully.</string>
 
     <!--- Menu -->
     <string name="events">Events</string>
@@ -50,5 +55,17 @@
 
     <!--- Settings -->
     <string name="logOut">Log Out</string>
+
+
+    <!--- Pendientes
+    <string name="changes_saved">Changes have been saved successfully.</string>
+    <string name="message_sent">Your message has been sent successfully.</string>
+    <string name="password_updated">Your password has been updated successfully.</string>
+    <string name="account_deleted">The account has been deleted successfully.</string>
+    <string name="file_uploaded">The file was uploaded successfully.</string>
+    <string name="operation_successful">The operation was completed successfully.</string>
+    <string name="info_updated">Your information has been updated.</string>
+    <string name="request_processed">Your request has been processed successfully.</string>
+    -->
 
 </resources>

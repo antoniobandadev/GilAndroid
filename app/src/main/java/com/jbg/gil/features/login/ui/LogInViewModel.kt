@@ -8,12 +8,19 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.jbg.gil.core.model.UserDto
+import com.jbg.gil.core.network.data.GilRepository
+import com.jbg.gil.core.network.remote.RetrofitHelper
 import com.jbg.gil.core.utils.Constants
 import com.jbg.gil.core.utils.dataStore
 import kotlinx.coroutines.launch
+import retrofit2.Retrofit
 
 class LogInViewModel(application: Application) : AndroidViewModel(application) {
 
+
+    private lateinit var repository: GilRepository
+    private lateinit var retrofit: Retrofit
     private val dataStore = application.dataStore
 
     val email = MutableLiveData<String?>()
@@ -22,6 +29,7 @@ class LogInViewModel(application: Application) : AndroidViewModel(application) {
     val passwordError = MutableLiveData<Boolean>()
     val invalidCredentials = MutableLiveData<Boolean>()
     val loginSuccess = MutableLiveData<Boolean>()
+    val serverError = MutableLiveData<Boolean>()
 
     private fun validateInputs(): Boolean {
 
@@ -45,16 +53,47 @@ class LogInViewModel(application: Application) : AndroidViewModel(application) {
 
     fun logIn() {
 
-        val emailVal = email.value.orEmpty()
-        val passwordVal = password.value.orEmpty()
-
         if (validateInputs()) {
-            if (emailVal == "admin" && passwordVal == "123") {
+
+            val emailVal = email.value.orEmpty()
+            val passwordVal = password.value.orEmpty()
+
+            retrofit = RetrofitHelper().getRetrofit()
+            repository = GilRepository(retrofit)
+
+            viewModelScope.launch {
+                try {
+                    val user = UserDto (
+                        email = emailVal,
+                        password = passwordVal
+                    )
+
+                    val login = repository.postLogUser(user)
+
+                    if (login.code() == 200){
+                        loginSuccess.value = true
+                        saveLogged(emailVal)
+
+                    }else if(login.code() == 401){
+                        invalidCredentials.value = true
+                        Log.d(Constants.GIL_TAG, "Respuesta: $login")
+                        Log.d(Constants.GIL_TAG, "Respuesta: $user")
+
+                    }else if(login.code() == 500){
+                        serverError.value = true
+                    }
+
+                }catch (e: Exception){
+                    Log.d(Constants.GIL_TAG, e.toString())
+                }
+            }
+
+            /*if (emailVal == "admin" && passwordVal == "123") {
                 loginSuccess.value = true
                 saveLogged(emailVal)
             } else {
                 invalidCredentials.value = true
-            }
+            }*/
 
         }
     }

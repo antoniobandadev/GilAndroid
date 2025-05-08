@@ -10,4 +10,7 @@ interface GilApi {
     @POST("user") //Complement de la URL del API
     suspend fun registerUser(@Body request: UserDto): Response<UserDto>
 
+    @POST("login")
+    suspend fun loginUser(@Body request: UserDto) : Response<UserDto>
+
 }

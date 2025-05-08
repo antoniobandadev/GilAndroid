@@ -2,14 +2,18 @@ package com.jbg.gil.core.utils
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
 import android.graphics.Rect
 import android.provider.Settings
 import android.util.Patterns
+import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
@@ -148,6 +152,31 @@ object Utils {
         }
     }
 
+    //----------------------------------------------------------------------------------------------
 
+}
 
+object DialogUtils {
+
+    private var loadingDialog: Dialog? = null
+
+    fun showLoadingDialog(context: Context) {
+        if (loadingDialog?.isShowing == true) return // Evita mostrarlo varias veces
+
+        loadingDialog = Dialog(context).apply {
+            setContentView(R.layout.load_dialog)
+            setCanceledOnTouchOutside(false)
+            setCancelable(false)
+            show()
+        }
+    }
+
+    fun dismissLoadingDialog() {
+        loadingDialog?.let {
+            if (it.isShowing) {
+                it.dismiss()
+            }
+            loadingDialog = null
+        }
+    }
 }

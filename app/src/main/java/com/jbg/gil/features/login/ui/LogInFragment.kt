@@ -2,6 +2,8 @@ package com.jbg.gil.features.login.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.jbg.gil.R
 import com.jbg.gil.core.network.NetworkStatusViewModel
+import com.jbg.gil.core.utils.DialogUtils
 import com.jbg.gil.databinding.FragmentLoginBinding
 import com.jbg.gil.features.home.ui.HomeActivity
 import com.jbg.gil.core.utils.Utils
@@ -45,7 +48,7 @@ class LogInFragment : Fragment() {
             isConnectedApp = isConnected
         }
 
-        viewModel.clearFieldErrors()
+        viewModel.clearFieldErrors()//Clear Error
 
         binding.apply {
             etLogUser.doAfterTextChanged { value ->
@@ -63,6 +66,11 @@ class LogInFragment : Fragment() {
                         R.color.secondary
                     )
                 )
+
+               /* Handler(Looper.getMainLooper()).postDelayed({
+                    DialogUtils.dismissLoadingDialog()
+                }, 5000) // Espera 3 segundos (3000 milisegundos)*/
+                //showLoadingDialog()
                 findNavController().navigate(R.id.action_logInFragment_to_signUpFragment)
             }
         }
@@ -81,6 +89,38 @@ class LogInFragment : Fragment() {
                 }
             }
 
+            invalidCredentials.observe(viewLifecycleOwner) { error ->
+                if (error) {
+                    binding.root.showSnackBar(
+                        getString(R.string.invalid_data),
+                        backgroundColor = R.color.red,
+                        actionText = getString(R.string.close)
+                    )
+                    viewModel.invalidCredentials.value = false
+                }
+            }
+
+            serverError.observe(viewLifecycleOwner) { error ->
+                if(error){
+                    binding.root.showSnackBar(
+                        getString(R.string.server_error),
+                        backgroundColor = R.color.yellow,
+                        actionText = getString(R.string.close)
+                    )
+                    viewModel.serverError.value = false
+                }
+
+            }
+
+            loginSuccess.observe(viewLifecycleOwner) { success ->
+                if (success) {
+                    DialogUtils.dismissLoadingDialog()
+                    val startIntentH =
+                        Intent(requireContext(), HomeActivity::class.java)
+                    startActivity(startIntentH)
+                }
+            }
+
         }
 
 
@@ -88,28 +128,8 @@ class LogInFragment : Fragment() {
 
             if (isConnectedApp) {
                 //Connected
+                //DialogUtils.showLoadingDialog(requireActivity())
                 viewModel.logIn()
-
-                viewModel.apply {
-
-                    invalidCredentials.observe(viewLifecycleOwner) { error ->
-                        if (error) {
-                            binding.root.showSnackBar(
-                                getString(R.string.invalid_data),
-                                backgroundColor = R.color.red,
-                                actionText = getString(R.string.close)
-                            )
-                        }
-                    }
-
-                    loginSuccess.observe(viewLifecycleOwner) { success ->
-                        if (success) {
-                            val startIntentH =
-                                Intent(requireContext(), HomeActivity::class.java)
-                            startActivity(startIntentH)
-                        }
-                    }
-                }
 
             } else {
                 // No connected
@@ -125,6 +145,16 @@ class LogInFragment : Fragment() {
         }
 
     }
+    //? = null
+   /* fun showLoadingDialog() {
+        val loadingDialogFragment = LoadingDialogFragment()
+        loadingDialogFragment.show(childFragmentManager, "loadingDialog")
+    }
+
+    fun hideLoadingDialog() {
+        val fragment = childFragmentManager.findFragmentByTag("loadingDialog")
+        (fragment as? LoadingDialogFragment)?.dismiss()
+    }*/
 
     private fun focusAndTextListener() {
         Utils.setupFocusAndTextListener(binding.etLogUser, binding.lbLogUser)

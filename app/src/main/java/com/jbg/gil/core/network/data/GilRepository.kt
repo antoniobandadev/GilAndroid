@@ -11,4 +11,6 @@ class GilRepository(private val retrofit: Retrofit) {
 
     suspend fun postRegUser(regUser: UserDto): Response<UserDto> = gilaApi.registerUser(regUser)
 
+    suspend fun postLogUser(logUser: UserDto): Response<UserDto> = gilaApi.loginUser(logUser)
+
 }

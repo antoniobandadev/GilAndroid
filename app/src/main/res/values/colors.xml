@@ -16,6 +16,8 @@
     <color name="green">#003C05</color>
     <color name="greenLight">#80BD82</color>
 
+    <color name="yellow">#FFC107</color>
+
 
     <color name="mtrl_textinput_default_box_stroke_color" tools:ignore="PrivateResource">#A37B16</color>
 </resources>
