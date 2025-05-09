@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.webkit.WebView
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -48,7 +49,7 @@ object Utils {
         }
     }
 
-     fun clearError(textInputLayout: TextInputLayout) {
+    fun clearError(textInputLayout: TextInputLayout) {
         textInputLayout.error = null
         textInputLayout.isErrorEnabled = false
     }
@@ -58,6 +59,7 @@ object Utils {
         val pattern: Pattern = Patterns.EMAIL_ADDRESS
         return pattern.matcher(email).matches()
     }
+
     //-----------------------------------------------------------------------------------------
     fun isPasswordSecure(password: String): Boolean {
         val passwordPattern = Regex(
@@ -92,7 +94,8 @@ object Utils {
                     focusedView.getGlobalVisibleRect(outRect)
                     if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
                         focusedView.clearFocus()
-                        val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                        val imm =
+                            activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                         imm.hideSoftInputFromWindow(focusedView.windowToken, 0)
                     }
                 }
@@ -100,6 +103,7 @@ object Utils {
             false
         }
     }
+
     //--------------------------------------------------------------------------------------------
     fun View.showSnackBar(
         message: String,
@@ -113,9 +117,10 @@ object Utils {
         val snackBar = Snackbar.make(this, message, duration)
         snackBar.setBackgroundTint(ContextCompat.getColor(this.context, backgroundColor))
         snackBar.setTextColor(ContextCompat.getColor(this.context, textColor))
-        snackBar.setActionTextColor(ContextCompat.getColor(this.context,actionTextColor))
+        snackBar.setActionTextColor(ContextCompat.getColor(this.context, actionTextColor))
         snackBar.setTextMaxLines(5)
-        val textView = snackBar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text) as TextView
+        val textView =
+            snackBar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text) as TextView
         textView.textSize = 11f
 
         actionText?.let {
@@ -153,6 +158,25 @@ object Utils {
     }
 
     //----------------------------------------------------------------------------------------------
+
+    fun showTermsDialog(context: Context) {
+        val dialog = AlertDialog.Builder(context, R.style.CustomDialogTerms)
+        val webView = WebView(context)
+        val locale = Locale.getDefault().language
+        val fileName = when (locale) {
+            "es" -> "terms_es.html"
+            "en" -> "terms_en.html"
+            else -> "terms_en.html"
+        }
+
+        webView.loadUrl("file:///android_asset/$fileName")
+
+        dialog.setTitle(R.string.terms_and_conditions)
+            .setView(webView)
+            .setPositiveButton(R.string.close, null)
+            .setCancelable(false)
+            .show()
+    }
 
 }
 

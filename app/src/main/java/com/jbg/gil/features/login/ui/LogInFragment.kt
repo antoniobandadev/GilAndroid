@@ -2,8 +2,6 @@ package com.jbg.gil.features.login.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -66,11 +64,6 @@ class LogInFragment : Fragment() {
                         R.color.secondary
                     )
                 )
-
-               /* Handler(Looper.getMainLooper()).postDelayed({
-                    DialogUtils.dismissLoadingDialog()
-                }, 5000) // Espera 3 segundos (3000 milisegundos)*/
-                //showLoadingDialog()
                 findNavController().navigate(R.id.action_logInFragment_to_signUpFragment)
             }
         }
@@ -97,6 +90,7 @@ class LogInFragment : Fragment() {
                         actionText = getString(R.string.close)
                     )
                     viewModel.invalidCredentials.value = false
+                    hideLoadView()
                 }
             }
 
@@ -108,6 +102,7 @@ class LogInFragment : Fragment() {
                         actionText = getString(R.string.close)
                     )
                     viewModel.serverError.value = false
+                    hideLoadView()
                 }
 
             }
@@ -115,9 +110,18 @@ class LogInFragment : Fragment() {
             loginSuccess.observe(viewLifecycleOwner) { success ->
                 if (success) {
                     DialogUtils.dismissLoadingDialog()
+                    binding.root.showSnackBar(getString(R.string.login_success))
                     val startIntentH =
                         Intent(requireContext(), HomeActivity::class.java)
                     startActivity(startIntentH)
+                }
+            }
+
+            showLoading.observe(viewLifecycleOwner){ show ->
+                if (show){
+                    DialogUtils.showLoadingDialog(requireActivity())
+                }else{
+                    DialogUtils.dismissLoadingDialog()
                 }
             }
 
@@ -141,20 +145,9 @@ class LogInFragment : Fragment() {
 
             }
 
-
         }
 
     }
-    //? = null
-   /* fun showLoadingDialog() {
-        val loadingDialogFragment = LoadingDialogFragment()
-        loadingDialogFragment.show(childFragmentManager, "loadingDialog")
-    }
-
-    fun hideLoadingDialog() {
-        val fragment = childFragmentManager.findFragmentByTag("loadingDialog")
-        (fragment as? LoadingDialogFragment)?.dismiss()
-    }*/
 
     private fun focusAndTextListener() {
         Utils.setupFocusAndTextListener(binding.etLogUser, binding.lbLogUser)
@@ -164,6 +157,11 @@ class LogInFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun hideLoadView(){
+        viewModel.showLoading.value = false
+        DialogUtils.dismissLoadingDialog()
     }
 
 }

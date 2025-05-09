@@ -7,6 +7,7 @@
     <string name="no_internet_connection">No se detectó conexión a internet. Verifica tu red e inténtalo de nuevo.</string>
 
     <!--- LogIn-->
+    <string name="loading">Cargando...</string>
     <string name="user">Usuario</string>
     <string name="password">Contraseña</string>
     <string name="login">Iniciar sesión</string>
@@ -33,6 +34,10 @@
     <string name="not_same_value">Los campos no coinciden. Por favor, revisa y vuelve a intentarlo.</string>
     <string name="not_valid_email">Por favor, ingresa una dirección de correo electrónico válida (ejemplo: usuario@dominio.com).</string>
     <string name="invalid_password">La contraseña debe tener al menos 8 caracteres, incluir mayúsculas, minúsculas, números y símbolos.</string>
+
+    <!---Terms and Conditions-->
+    <string name="accept_terms">Acepto los Términos y Condiciones</string>
+    <string name="terms_and_conditions">Términos y Condiciones</string>
 
     <string name="registration_success">Su registro se ha completado exitosamente.</string>
 

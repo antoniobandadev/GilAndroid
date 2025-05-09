@@ -199,7 +199,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lbSignPass"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/btSignUp"
+            app:layout_constraintBottom_toTopOf="@+id/txTerms"
             android:hint="@string/confirm_password"
             app:startIconDrawable="@drawable/ic_password"
             app:endIconMode="password_toggle"
@@ -216,6 +216,32 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <TextView
+            android:id="@+id/txTerms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lbSignPassConf"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/cbxTerms"
+            android:textSize="13sp"
+            android:textColor="@color/accent"
+            android:gravity="center"
+            android:text="@string/terms_and_conditions"
+            android:layout_marginTop="13dp"
+            />
+
+        <CheckBox
+            android:id="@+id/cbxTerms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txTerms"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/btSignUp"
+            android:text="@string/accept_terms"
+            android:textColor="@color/accent"
+            android:textSize="11sp" />
 
         <Button
             style="@style/CustomButton"
@@ -224,11 +250,13 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lbSignPassConf"
+            app:layout_constraintTop_toBottomOf="@+id/cbxTerms"
             app:layout_constraintBottom_toTopOf="@+id/glSignBottom"
             android:layout_marginHorizontal="40dp"
             android:layout_marginTop="10dp"
             android:text="@string/sign_up"
+            android:enabled="false"
+            android:alpha=".5"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

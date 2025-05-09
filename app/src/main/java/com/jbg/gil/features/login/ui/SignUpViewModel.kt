@@ -30,7 +30,11 @@ class SignUpViewModel : ViewModel() {
     val passwordConf = MutableLiveData<String?>()
     val passwordConfError = MutableLiveData<Boolean>()
     val passwordEqualsError = MutableLiveData<Boolean>()
+    val checkTerms = MutableLiveData<Boolean>()
     val signUpSuccess = MutableLiveData<Boolean>()
+    val showLoading = MutableLiveData<Boolean>()
+
+
 
 
     private fun validateInputs(): Boolean {
@@ -90,6 +94,8 @@ class SignUpViewModel : ViewModel() {
     fun signUpUser(deviceId: String) {
         if (validateInputs()) {
 
+            setLoading()
+
             val nameVal = name.value.orEmpty()
             val emailVal = email.value.orEmpty()
             val passwordVal = password.value.orEmpty()
@@ -128,8 +134,13 @@ class SignUpViewModel : ViewModel() {
         }
     }
 
+    private fun setLoading() {
+        showLoading.value = true
+    }
 
-    /*private val _name = MutableLiveData<String?>()
-    val name  : LiveData<String?> = _name*/
+    fun onTermsChecked(isChecked: Boolean) {
+        checkTerms.value = isChecked
+    }
+
 
 }

@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.jbg.gil.R
 import com.jbg.gil.core.network.NetworkStatusViewModel
+import com.jbg.gil.core.utils.DialogUtils
 import com.jbg.gil.databinding.FragmentSignupBinding
 import com.jbg.gil.core.utils.Utils
 import com.jbg.gil.core.utils.Utils.showSnackBar
@@ -60,6 +62,10 @@ class SignUpFragment : Fragment() {
                 viewModel.passwordConf.value = it.toString().trim()
             }
 
+            cbxTerms.setOnCheckedChangeListener { _, isChecked ->
+                viewModel.onTermsChecked(isChecked)
+            }
+
             btCloseSign.setOnClickListener{
                 findNavController().navigateUp()
             }
@@ -77,6 +83,13 @@ class SignUpFragment : Fragment() {
                     )
                 }
             }
+
+            txTerms.setOnClickListener {
+                txTerms.setTextColor(ContextCompat.getColor(requireContext(), R.color.secondary))
+                txTerms.setTextColor(ContextCompat.getColor(requireContext(), R.color.accent))
+                Utils.showTermsDialog(requireActivity())
+            }
+
         }
 
         viewModel.apply {
@@ -85,32 +98,38 @@ class SignUpFragment : Fragment() {
                     binding.lbSignName.error =  getString(R.string.invalid_name)
                 }
             }
+
             emailError.observe(viewLifecycleOwner){ error ->
                 if(error){
                     binding.lbSignEmail.error = getString(R.string.not_valid_email)
                 }
             }
+
             emailConfError.observe(viewLifecycleOwner){ error ->
                 if(error){
                     binding.lbSignEmailConf.error = getString(R.string.not_valid_email)
                 }
             }
+
             emailEqualsError.observe(viewLifecycleOwner){ error ->
                 if (error){
                     binding.lbSignEmail.error = getString(R.string.not_same_value)
                     binding.lbSignEmailConf.error = getString(R.string.not_same_value)
                 }
             }
+
             passwordError.observe(viewLifecycleOwner){ error ->
                 if(error){
                     binding.lbSignPass.error = getString(R.string.invalid_password)
                 }
             }
+
             passwordConfError.observe(viewLifecycleOwner){ error ->
                 if(error){
                     binding.lbSignPassConf.error = getString(R.string.invalid_confirmPass)
                 }
             }
+
             passwordEqualsError.observe(viewLifecycleOwner){ error ->
                 if(error){
                  binding.lbSignPass.error = getString(R.string.not_same_value)
@@ -121,10 +140,24 @@ class SignUpFragment : Fragment() {
                 }
             }
 
+
+            checkTerms.observe(viewLifecycleOwner) { accepted ->
+                binding.btSignUp.isEnabled = accepted
+                binding.btSignUp.alpha = if (accepted) 1.0f else 0.5f
+            }
+
+            showLoading.observe(viewLifecycleOwner){ show ->
+                if (show){
+                    DialogUtils.showLoadingDialog(requireActivity())
+                }else{
+                    DialogUtils.dismissLoadingDialog()
+                }
+            }
+
             signUpSuccess.observe(viewLifecycleOwner) { success ->
                 if (success) {
                     binding.root.showSnackBar(getString(R.string.registration_success))
-
+                    DialogUtils.dismissLoadingDialog()
                     findNavController().navigateUp()
                 }
             }
@@ -148,6 +181,4 @@ class SignUpFragment : Fragment() {
         super.onDestroy()
         _binding = null
     }
-
-
 }

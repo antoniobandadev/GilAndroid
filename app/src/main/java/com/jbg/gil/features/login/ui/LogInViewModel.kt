@@ -18,6 +18,7 @@ import retrofit2.Retrofit
 
 class LogInViewModel(application: Application) : AndroidViewModel(application) {
 
+    private val context by lazy { getApplication<Application>().applicationContext }
 
     private lateinit var repository: GilRepository
     private lateinit var retrofit: Retrofit
@@ -29,6 +30,7 @@ class LogInViewModel(application: Application) : AndroidViewModel(application) {
     val passwordError = MutableLiveData<Boolean>()
     val invalidCredentials = MutableLiveData<Boolean>()
     val loginSuccess = MutableLiveData<Boolean>()
+    val showLoading = MutableLiveData<Boolean>()
     val serverError = MutableLiveData<Boolean>()
 
     private fun validateInputs(): Boolean {
@@ -54,6 +56,7 @@ class LogInViewModel(application: Application) : AndroidViewModel(application) {
     fun logIn() {
 
         if (validateInputs()) {
+            setLoading()
 
             val emailVal = email.value.orEmpty()
             val passwordVal = password.value.orEmpty()
@@ -113,6 +116,12 @@ class LogInViewModel(application: Application) : AndroidViewModel(application) {
         emailError.value =  false
         passwordError.value = false
     }
+
+    private fun setLoading() {
+        showLoading.value = true
+    }
+
+
 
 
 }

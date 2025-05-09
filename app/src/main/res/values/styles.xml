@@ -31,4 +31,10 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="CustomDialogTerms" >
+        <item name="android:background">@color/primary</item>
+        <item name="android:textColorPrimary">@color/secondary</item>
+        <item name="android:buttonBarButtonStyle">@style/CustomButton</item>
+    </style>
+
 </resources>
