@@ -12,9 +12,13 @@
         tools:layout="@layout/fragment_events" />
     <fragment
         android:id="@+id/connectionsFragment"
-        android:name="com.jbg.gil.features.contacts.ui.ContactsFragment"
+        android:name="com.jbg.gil.features.contacts.ui.fragments.FriendsFragment"
         android:label="fragment_connections"
-        tools:layout="@layout/fragment_contacts" />
+        tools:layout="@layout/fragment_friends" >
+        <action
+            android:id="@+id/action_connectionsFragment_to_myGuestFragment"
+            app:destination="@id/myGuestFragment" />
+    </fragment>
     <fragment
         android:id="@+id/newEventFragment"
         android:name="com.jbg.gil.features.newevent.ui.NewEventFragment"
@@ -30,4 +34,24 @@
         android:name="com.jbg.gil.features.settings.ui.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/myGuestFragment"
+        android:name="com.jbg.gil.features.contacts.ui.fragments.MyGuestFragment"
+        android:label="MyGuestFragment" >
+        <action
+            android:id="@+id/action_myGuestFragment_to_connectionsFragment"
+            app:destination="@id/connectionsFragment" />
+        <action
+            android:id="@+id/action_myGuestFragment_to_contactsFragment"
+            app:destination="@id/contactsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/contactsFragment"
+        android:name="com.jbg.gil.features.contacts.ui.fragments.ContactsFragment"
+        android:label="fragment_contacts"
+        tools:layout="@layout/fragment_contacts" >
+        <action
+            android:id="@+id/action_contactsFragment_to_myGuestFragment"
+            app:destination="@id/myGuestFragment" />
+    </fragment>
 </navigation>

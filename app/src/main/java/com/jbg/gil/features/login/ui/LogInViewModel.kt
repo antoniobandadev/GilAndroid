@@ -18,7 +18,7 @@ import retrofit2.Retrofit
 
 class LogInViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val context by lazy { getApplication<Application>().applicationContext }
+
 
     private lateinit var repository: GilRepository
     private lateinit var retrofit: Retrofit
@@ -117,7 +117,7 @@ class LogInViewModel(application: Application) : AndroidViewModel(application) {
         passwordError.value = false
     }
 
-    private fun setLoading() {
+    fun setLoading() {
         showLoading.value = true
     }
 

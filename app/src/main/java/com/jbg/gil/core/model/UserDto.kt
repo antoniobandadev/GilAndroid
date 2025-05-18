@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName
 
 data class UserDto (
 
+    @SerializedName("userId")
+    var userId: String? = null,
+
     @SerializedName("userName")
     var name: String? = null,
 

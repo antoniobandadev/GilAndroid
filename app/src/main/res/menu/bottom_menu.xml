@@ -7,7 +7,7 @@
         android:title="@string/my_events" />
 
     <item
-        android:id="@+id/connectionsFragment"
+        android:id="@+id/myGuestFragment"
         android:icon="@drawable/ic_friends"
         android:title="@string/contacts" />
 

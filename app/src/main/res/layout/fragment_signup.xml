@@ -94,7 +94,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/lbSignEmail"
             android:hint="@string/name"
-            app:startIconDrawable="@drawable/ic_personame"
+            app:startIconDrawable="@drawable/ic_person"
             app:endIconMode="clear_text"
             >
 
@@ -176,7 +176,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/lbSignPassConf"
             android:hint="@string/password"
-            app:startIconDrawable="@drawable/ic_password"
+            app:startIconDrawable="@drawable/ic_key"
             app:endIconMode="password_toggle"
             >
 
@@ -201,7 +201,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/txTerms"
             android:hint="@string/confirm_password"
-            app:startIconDrawable="@drawable/ic_password"
+            app:startIconDrawable="@drawable/ic_key"
             app:endIconMode="password_toggle"
             >
 

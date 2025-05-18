@@ -5,9 +5,10 @@
     <string name="close">Cerrar</string>
     <string name="ok">OK</string>
     <string name="no_internet_connection">No se detectó conexión a internet. Verifica tu red e inténtalo de nuevo.</string>
+    <string name="loading">Cargando...</string>
+    <string name="back">Atrás</string>
 
     <!--- LogIn-->
-    <string name="loading">Cargando...</string>
     <string name="user">Usuario</string>
     <string name="password">Contraseña</string>
     <string name="login">Iniciar sesión</string>
@@ -54,12 +55,15 @@
 
 
     <!--- Contacts -->
+    <string name="my_friends">Mis amigos</string>
     <string name="my_contacts">Mis contactos</string>
     <string name="received_request">Recibidas</string>
     <string name="sent_request">Enviadas</string>
 
     <!--- Settings -->
+    <string name="friends">Amigos</string>
     <string name="logOut">Cerrar sesión</string>
+    <string name="my_guests">Mis invitados</string>
 
 
     <!--- Pendientes

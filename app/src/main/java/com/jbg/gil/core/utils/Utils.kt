@@ -191,6 +191,7 @@ object DialogUtils {
             setContentView(R.layout.load_dialog)
             setCanceledOnTouchOutside(false)
             setCancelable(false)
+            window?.setBackgroundDrawableResource(android.R.color.transparent)
             show()
         }
     }

@@ -99,7 +99,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/lbLogPass"
             android:hint="@string/email"
-            app:startIconDrawable="@drawable/ic_person"
+            app:startIconDrawable="@drawable/ic_mail"
             app:endIconMode="clear_text"
             >
 
