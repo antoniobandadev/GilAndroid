@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jbg.gil.core.network.data.GilRepository
-import com.jbg.gil.core.network.remote.RetrofitHelper
-import com.jbg.gil.core.model.UserDto
+import com.jbg.gil.core.repositories.UserRepository
+import com.jbg.gil.core.data.remote.RetrofitHelper
+import com.jbg.gil.core.data.remote.dtos.UserDto
 import com.jbg.gil.core.utils.Constants
 import com.jbg.gil.core.utils.Utils
 import com.jbg.gil.core.utils.Utils.nowDate
@@ -15,7 +15,7 @@ import retrofit2.Retrofit
 
 class SignUpViewModel : ViewModel() {
 
-    private lateinit var repository: GilRepository
+    private lateinit var repository: UserRepository
     private lateinit var retrofit: Retrofit
 
     val name = MutableLiveData<String?>()
@@ -101,7 +101,7 @@ class SignUpViewModel : ViewModel() {
             val passwordVal = password.value.orEmpty()
 
             retrofit = RetrofitHelper().getRetrofit()
-            repository = GilRepository(retrofit)
+            repository = UserRepository(retrofit)
             val userDateCreated = nowDate()
 
             viewModelScope.launch {

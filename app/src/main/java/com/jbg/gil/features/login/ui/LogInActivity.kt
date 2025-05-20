@@ -9,7 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import com.jbg.gil.databinding.ActivityLoginBinding
 import com.jbg.gil.features.home.ui.HomeActivity
 import com.jbg.gil.core.utils.Constants
-import com.jbg.gil.core.utils.Utils.getLogged
+import com.jbg.gil.core.utils.Utils.getUserVals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -28,7 +28,7 @@ class LogInActivity : AppCompatActivity() {
         screenSplash.setKeepOnScreenCondition {true}
 
         lifecycleScope.launch {
-            val userPreferences = getLogged(this@LogInActivity)
+            val userPreferences = getUserVals(this@LogInActivity)
             withContext(Dispatchers.Main){
                 if(userPreferences.isLogged){
                     Log.d(Constants.GIL_TAG, "Esta Loggeado")

@@ -1,4 +1,4 @@
-package com.jbg.gil.core.network.remote
+package com.jbg.gil.core.data.remote
 
 import com.jbg.gil.core.utils.Constants
 import okhttp3.OkHttpClient

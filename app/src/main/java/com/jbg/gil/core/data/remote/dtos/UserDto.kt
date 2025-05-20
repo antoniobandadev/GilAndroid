@@ -1,4 +1,4 @@
-package com.jbg.gil.core.model
+package com.jbg.gil.core.data.remote.dtos
 
 import com.google.gson.annotations.SerializedName
 

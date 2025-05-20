@@ -8,9 +8,9 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.jbg.gil.core.model.UserDto
-import com.jbg.gil.core.network.data.GilRepository
-import com.jbg.gil.core.network.remote.RetrofitHelper
+import com.jbg.gil.core.data.remote.dtos.UserDto
+import com.jbg.gil.core.repositories.UserRepository
+import com.jbg.gil.core.data.remote.RetrofitHelper
 import com.jbg.gil.core.utils.Constants
 import com.jbg.gil.core.utils.dataStore
 import kotlinx.coroutines.launch
@@ -20,7 +20,7 @@ class LogInViewModel(application: Application) : AndroidViewModel(application) {
 
 
 
-    private lateinit var repository: GilRepository
+    private lateinit var repository: UserRepository
     private lateinit var retrofit: Retrofit
     private val dataStore = application.dataStore
 
@@ -62,7 +62,7 @@ class LogInViewModel(application: Application) : AndroidViewModel(application) {
             val passwordVal = password.value.orEmpty()
 
             retrofit = RetrofitHelper().getRetrofit()
-            repository = GilRepository(retrofit)
+            repository = UserRepository(retrofit)
 
             viewModelScope.launch {
                 try {
@@ -74,8 +74,10 @@ class LogInViewModel(application: Application) : AndroidViewModel(application) {
                     val login = repository.postLogUser(user)
 
                     if (login.code() == 200){
+                        Log.d(Constants.GIL_TAG, "Respuesta: ${login.body()}")
+                        val userLog = login.body()
                         loginSuccess.value = true
-                        saveLogged(emailVal)
+                        saveLogged(userLog?.email.toString(), userLog?.userId.toString(), userLog?.name.toString())
 
                     }else if(login.code() == 401){
                         invalidCredentials.value = true
@@ -101,13 +103,14 @@ class LogInViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    private fun saveLogged(emailVal:String) {
+    private fun saveLogged(userEmail:String, userId : String, userName: String ) {
         viewModelScope.launch {
             dataStore.edit { preferences ->
-                preferences[stringPreferencesKey("userName")] = emailVal
-                preferences[stringPreferencesKey("userEmail")] = emailVal
+                preferences[stringPreferencesKey("userName")] = userName
+                preferences[stringPreferencesKey("userEmail")] = userEmail
+                preferences[stringPreferencesKey("userId")] = userId
                 preferences[booleanPreferencesKey("isLogged")] = true
-                Log.d(Constants.GIL_TAG, "Loggeado")
+                Log.d(Constants.GIL_TAG, "Loggeado: ${userId}")
             }
         }
         //context?.

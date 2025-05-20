@@ -8,13 +8,11 @@ import android.content.Context
 import android.graphics.Rect
 import android.provider.Settings
 import android.util.Patterns
-import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.webkit.WebView
 import android.widget.EditText
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
@@ -138,9 +136,10 @@ object Utils {
     }
     //---------------------------------------------------------------------------------------------
 
-    suspend fun getLogged(context: Context): UserPreferences {
+    suspend fun getUserVals(context: Context): UserPreferences {
         return context.dataStore.data.map { preferences ->
             UserPreferences(
+                userId = preferences[stringPreferencesKey("userId")].orEmpty(),
                 userName = preferences[stringPreferencesKey("userName")].orEmpty(),
                 userEmail = preferences[stringPreferencesKey("userEmail")].orEmpty(),
                 isLogged = preferences[booleanPreferencesKey("isLogged")] ?: false
@@ -151,6 +150,7 @@ object Utils {
     //----------------------------------------------------------------------------------------------
     suspend fun clearUserPreferences(context: Context) {
         context.dataStore.edit { preferences ->
+            preferences.remove(stringPreferencesKey("userId"))
             preferences.remove(stringPreferencesKey("userName"))
             preferences.remove(stringPreferencesKey("userEmail"))
             preferences.remove(booleanPreferencesKey("isLogged"))
