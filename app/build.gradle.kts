@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -71,6 +72,12 @@ dependencies {
 
     //DataStore persistent simpleData
     implementation ("androidx.datastore:datastore-preferences:1.0.0")
+
+    //Room
+    implementation ("androidx.room:room-runtime:2.5.0")
+    implementation ("androidx.room:room-ktx:2.5.0")
+    ksp ("androidx.room:room-compiler:2.5.0")
+    //ksp(libs.androidx.room.compiler)
 
 
 
