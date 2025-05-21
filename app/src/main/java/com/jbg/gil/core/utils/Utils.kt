@@ -180,10 +180,6 @@ object Utils {
     }
     //----------------------------------------------------------------------------------------------
 
-    fun updateTintColor(){
-       // val navView =
-    }
-
 }
 
 object DialogUtils {

@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.Log
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
 import com.jbg.gil.core.data.local.db.daos.ContactDao
 import com.jbg.gil.core.data.local.db.entities.ContactEntity
 import com.jbg.gil.core.data.remote.apis.ContactApi
