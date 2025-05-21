@@ -22,44 +22,40 @@ class ContactRepository @Inject constructor(
 
     private val dataStore = context.dataStore
 
-    // Cargar contactos desde base de datos local
-    suspend fun getContactsFromDb(): List<ContactEntity>{
+    suspend fun getContactsFromDb(): List<ContactEntity> {
         return contactDao.getAllContacts()
     }
 
-    // Cargar contactos desde API y guardar localmente
-    private suspend fun loadContactsFromApi(userId : String) {
+    private suspend fun loadContactsFromApi(userId: String) {
         try {
             val contactsFromApi = contactApi.getContacts(userId)
-            if (contactsFromApi.isSuccessful){
+            if (contactsFromApi.isSuccessful) {
                 val contactList = contactsFromApi.body() ?: emptyList()
                 val contacts = contactList.map { contact ->
                     contact.toEntity()
                 }
                 //dao.clearAll()
-                //contactDao.insertContact(contacts)
+                contactDao.insertContact(contacts)
                 dataStore.edit { preferences ->
                     preferences[booleanPreferencesKey("contactTable")] = true
                 }
-                Log.d(Constants.GIL_TAG, "Inser_to: $contacts")
+                Log.d(Constants.GIL_TAG, "API Response: $contacts")
 
-            }else if (contactsFromApi.code() == 401){
-                Log.d(Constants.GIL_TAG, "Sin acceso 401")
-            }else if (contactsFromApi. code() == 404){
+            } else if (contactsFromApi.code() == 401) {
+                Log.d(Constants.GIL_TAG, "Error 401")
+            } else if (contactsFromApi.code() == 404) {
                 dataStore.edit { preferences ->
                     preferences[booleanPreferencesKey("contactTable")] = true
                 }
-                Log.d(Constants.GIL_TAG, "Sin contactos 404")
-            } else if (contactsFromApi. code() == 500){
-                Log.d(Constants.GIL_TAG, "Algo salio mal 500")
+                Log.d(Constants.GIL_TAG, "Error 404")
+            } else if (contactsFromApi.code() == 500) {
+                Log.d(Constants.GIL_TAG, "Error 500")
             }
-        }
-        catch (e:Exception){
-            Log.d("Error:" , e.toString() )
+        } catch (e: Exception) {
+            Log.d("Error:", e.toString())
         }
     }
 
-    // Estrategia combinada: primero local, luego actualizar si es necesario
     suspend fun getContacts(userId: String): List<ContactEntity> {
         val userPreferences = getUserVals(context)
         val local = contactDao.getAllContacts()

@@ -23,6 +23,6 @@ data class ContactEntity(
     val contactName : String,
 
     @ColumnInfo(name = "contactStatus")
-    val contactStatus : Char
+    val contactStatus : String
 
 )

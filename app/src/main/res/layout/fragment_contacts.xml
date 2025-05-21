@@ -49,4 +49,62 @@
         android:gravity="center"
         android:text="@string/contacts" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvContacts"
+        android:visibility="invisible"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitleContacts"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitleContacts"
+        app:shimmer_auto_start="true"
+        >
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/viewContactsLoad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/item_contact_load"/>
+            <include layout="@layout/item_contact_load"/>
+            <include layout="@layout/item_contact_load"/>
+            <include layout="@layout/item_contact_load"/>
+            <include layout="@layout/item_contact_load"/>
+            <include layout="@layout/item_contact_load"/>
+            <include layout="@layout/item_contact_load"/>
+            <include layout="@layout/item_contact_load"/>
+            <include layout="@layout/item_contact_load"/>
+            <include layout="@layout/item_contact_load"/>
+            <include layout="@layout/item_contact_load"/>
+            <include layout="@layout/item_contact_load"/>
+            <include layout="@layout/item_contact_load"/>
+            <include layout="@layout/item_contact_load"/>
+            <include layout="@layout/item_contact_load"/>
+            <include layout="@layout/item_contact_load"/>
+            <include layout="@layout/item_contact_load"/>
+            <include layout="@layout/item_contact_load"/>
+            <include layout="@layout/item_contact_load"/>
+            <include layout="@layout/item_contact_load"/>
+            <include layout="@layout/item_contact_load"/>
+            <include layout="@layout/item_contact_load"/>
+            <include layout="@layout/item_contact_load"/>
+            <include layout="@layout/item_contact_load"/>
+            <include layout="@layout/item_contact_load"/>
+            <include layout="@layout/item_contact_load"/>
+            <include layout="@layout/item_contact_load"/>
+            <include layout="@layout/item_contact_load"/>
+            <include layout="@layout/item_contact_load"/>
+
+         </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

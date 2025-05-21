@@ -84,6 +84,9 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.56.2")
     ksp("com.google.dagger:hilt-android-compiler:2.56.2")
 
+    //Shimmer
+    implementation ("com.facebook.shimmer:shimmer:0.5.0")
+
 
 
 

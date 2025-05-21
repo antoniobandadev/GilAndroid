@@ -24,7 +24,7 @@ class ContactsViewModel @Inject constructor(
             val response = contactRepository.getContacts(userId)
 
             if (response.isEmpty()){
-                //Log.d(Constants.GIL_TAG, "Sin Contactos")
+                //Log.d(Constants.GIL_TAG, "No Contacts")
             }else{
                 _contacts.value = response
                 //Log.d(Constants.GIL_TAG, response.toString())

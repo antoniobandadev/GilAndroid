@@ -11,7 +11,7 @@ import com.jbg.gil.core.utils.Constants
 @Database(
     entities = [ContactEntity::class],
     version = 1,
-    exportSchema = true
+    exportSchema = false
 )
 
 abstract class GilDataBase : RoomDatabase(){

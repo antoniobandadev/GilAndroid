@@ -18,6 +18,8 @@
 
     <color name="yellow">#FFC107</color>
 
+    <color name="grey_load">#FFC8C8C9</color>
+    <color name="greyDark_load">#787878</color>
 
     <color name="mtrl_textinput_default_box_stroke_color" tools:ignore="PrivateResource">#A37B16</color>
 </resources>

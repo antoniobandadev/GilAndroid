@@ -5,5 +5,5 @@ data class ContactDto(
     val userId : String,
     val contactEmail : String,
     val contactName : String,
-    val contactStatus : Char
+    val contactStatus : String
 )
