@@ -1,42 +1,75 @@
 package com.jbg.gil.core.repositories
 
+import android.content.Context
 import android.util.Log
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
 import com.jbg.gil.core.data.local.db.daos.ContactDao
 import com.jbg.gil.core.data.local.db.entities.ContactEntity
 import com.jbg.gil.core.data.remote.apis.ContactApi
 import com.jbg.gil.core.data.remote.dtos.ContactDto
 import com.jbg.gil.core.utils.Constants
+import com.jbg.gil.core.utils.Utils.getUserVals
+import com.jbg.gil.core.utils.dataStore
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
-class ContactRepository (
-    private val api: ContactApi,
-    private val dao: ContactDao
+class ContactRepository @Inject constructor(
+    private val contactApi: ContactApi,
+    private val contactDao: ContactDao,
+    @ApplicationContext private val context: Context,
 ) {
+
+    private val dataStore = context.dataStore
 
     // Cargar contactos desde base de datos local
     suspend fun getContactsFromDb(): List<ContactEntity>{
-        return dao.getAllContacts()
+        return contactDao.getAllContacts()
     }
 
     // Cargar contactos desde API y guardar localmente
     private suspend fun loadContactsFromApi(userId : String) {
-        val contactsFromApi = api.getContacts(userId)
-        val contacts = contactsFromApi.map {contact ->
-            contact.toEntity()
+        try {
+            val contactsFromApi = contactApi.getContacts(userId)
+            if (contactsFromApi.isSuccessful){
+                val contactList = contactsFromApi.body() ?: emptyList()
+                val contacts = contactList.map { contact ->
+                    contact.toEntity()
+                }
+                //dao.clearAll()
+                //contactDao.insertContact(contacts)
+                dataStore.edit { preferences ->
+                    preferences[booleanPreferencesKey("contactTable")] = true
+                }
+                Log.d(Constants.GIL_TAG, "Inser_to: $contacts")
+
+            }else if (contactsFromApi.code() == 401){
+                Log.d(Constants.GIL_TAG, "Sin acceso 401")
+            }else if (contactsFromApi. code() == 404){
+                dataStore.edit { preferences ->
+                    preferences[booleanPreferencesKey("contactTable")] = true
+                }
+                Log.d(Constants.GIL_TAG, "Sin contactos 404")
+            } else if (contactsFromApi. code() == 500){
+                Log.d(Constants.GIL_TAG, "Algo salio mal 500")
+            }
         }
-        //dao.clearAll()
-        dao.insertContact(contacts)
-        Log.d(Constants.GIL_TAG, "Inserto: $contacts")
+        catch (e:Exception){
+            Log.d("Error:" , e.toString() )
+        }
     }
 
     // Estrategia combinada: primero local, luego actualizar si es necesario
     suspend fun getContacts(userId: String): List<ContactEntity> {
-        val local = dao.getAllContacts()
-        if (local.isNotEmpty()) {
+        val userPreferences = getUserVals(context)
+        val local = contactDao.getAllContacts()
+        if (userPreferences.contactTable) {
             Log.d(Constants.GIL_TAG, "Local")
             return local
         } else {
             loadContactsFromApi(userId)
-            return dao.getAllContacts()
+            return contactDao.getAllContacts()
         }
     }
 
@@ -49,9 +82,4 @@ class ContactRepository (
             contactStatus = this.contactStatus
         )
     }
-
-
-
-
-
 }

@@ -142,7 +142,8 @@ object Utils {
                 userId = preferences[stringPreferencesKey("userId")].orEmpty(),
                 userName = preferences[stringPreferencesKey("userName")].orEmpty(),
                 userEmail = preferences[stringPreferencesKey("userEmail")].orEmpty(),
-                isLogged = preferences[booleanPreferencesKey("isLogged")] ?: false
+                isLogged = preferences[booleanPreferencesKey("isLogged")] ?: false,
+                contactTable = preferences[booleanPreferencesKey("contactTable")] ?: false
             )
         }.first()
     }
@@ -176,6 +177,11 @@ object Utils {
             .setPositiveButton(R.string.close, null)
             .setCancelable(false)
             .show()
+    }
+    //----------------------------------------------------------------------------------------------
+
+    fun updateTintColor(){
+       // val navView =
     }
 
 }

@@ -32,6 +32,7 @@ object GilModule {
         addInterceptor(interceptor)
     }.build()
 
+    //Retrofit
     @Provides
     @Singleton
     fun provideRetrofit(): Retrofit {
@@ -42,18 +43,20 @@ object GilModule {
             .build()
     }
 
+    //UserApi
     @Provides
     @Singleton
     fun provideUserApi(retrofit: Retrofit): UserApi {
         return retrofit.create(UserApi::class.java)
     }
-
+    //ContactApi
     @Provides
     @Singleton
     fun provideContactApi(retrofit: Retrofit): ContactApi {
         return retrofit.create(ContactApi::class.java)
     }
 
+    //Room
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): GilDataBase {
@@ -64,6 +67,7 @@ object GilModule {
         ).build()
     }
 
+    //ContactDao
     @Provides
     fun provideContactDao(db: GilDataBase): ContactDao = db.contactDao()
 

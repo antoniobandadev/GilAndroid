@@ -60,5 +60,10 @@ class MyGuestFragment : Fragment() {
         recyclerView.adapter = adapter
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
 
 }

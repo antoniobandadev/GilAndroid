@@ -1,6 +1,7 @@
 package com.jbg.gil.core.data.remote.apis
 
 import com.jbg.gil.core.data.remote.dtos.ContactDto
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -10,7 +11,7 @@ interface ContactApi {
     suspend fun getContacts(
         @Path("userId")
         userId: String
-    ) : List<ContactDto>
+    ) : Response<List<ContactDto>>
 
 
 
