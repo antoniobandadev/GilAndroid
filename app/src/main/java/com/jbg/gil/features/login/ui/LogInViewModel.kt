@@ -1,28 +1,34 @@
 package com.jbg.gil.features.login.ui
 
 import android.app.Application
+import android.content.Context
 import android.util.Log
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jbg.gil.core.data.remote.dtos.UserDto
 import com.jbg.gil.core.repositories.UserRepository
 import com.jbg.gil.core.data.remote.RetrofitHelper
 import com.jbg.gil.core.utils.Constants
 import com.jbg.gil.core.utils.dataStore
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
+import javax.inject.Inject
 
-class LogInViewModel(application: Application) : AndroidViewModel(application) {
+//class LogInViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class LogInViewModel @Inject constructor(
+    @ApplicationContext private val context: Context,
+    private val userRepository: UserRepository
+): ViewModel() {
 
-
-
-    private lateinit var repository: UserRepository
-    private lateinit var retrofit: Retrofit
-    private val dataStore = application.dataStore
+    private val dataStore = context.dataStore
 
     val email = MutableLiveData<String?>()
     val emailError = MutableLiveData<Boolean>()
@@ -61,9 +67,6 @@ class LogInViewModel(application: Application) : AndroidViewModel(application) {
             val emailVal = email.value.orEmpty()
             val passwordVal = password.value.orEmpty()
 
-            retrofit = RetrofitHelper().getRetrofit()
-            repository = UserRepository(retrofit)
-
             viewModelScope.launch {
                 try {
                     val user = UserDto (
@@ -71,7 +74,7 @@ class LogInViewModel(application: Application) : AndroidViewModel(application) {
                         password = passwordVal
                     )
 
-                    val login = repository.postLogUser(user)
+                    val login = userRepository.postLogUser(user)
 
                     if (login.code() == 200){
                         Log.d(Constants.GIL_TAG, "Respuesta: ${login.body()}")

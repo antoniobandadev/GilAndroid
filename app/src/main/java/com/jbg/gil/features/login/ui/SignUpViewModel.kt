@@ -10,13 +10,15 @@ import com.jbg.gil.core.data.remote.dtos.UserDto
 import com.jbg.gil.core.utils.Constants
 import com.jbg.gil.core.utils.Utils
 import com.jbg.gil.core.utils.Utils.nowDate
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
+import javax.inject.Inject
 
-class SignUpViewModel : ViewModel() {
-
-    private lateinit var repository: UserRepository
-    private lateinit var retrofit: Retrofit
+@HiltViewModel
+class SignUpViewModel @Inject constructor(
+    private val userRepository: UserRepository
+) : ViewModel() {
 
     val name = MutableLiveData<String?>()
     val nameError = MutableLiveData<Boolean>()
@@ -33,9 +35,6 @@ class SignUpViewModel : ViewModel() {
     val checkTerms = MutableLiveData<Boolean>()
     val signUpSuccess = MutableLiveData<Boolean>()
     val showLoading = MutableLiveData<Boolean>()
-
-
-
 
     private fun validateInputs(): Boolean {
 
@@ -100,8 +99,6 @@ class SignUpViewModel : ViewModel() {
             val emailVal = email.value.orEmpty()
             val passwordVal = password.value.orEmpty()
 
-            retrofit = RetrofitHelper().getRetrofit()
-            repository = UserRepository(retrofit)
             val userDateCreated = nowDate()
 
             viewModelScope.launch {
@@ -115,7 +112,7 @@ class SignUpViewModel : ViewModel() {
                         createdAt = userDateCreated
                     )
 
-                    val register = repository.postRegUser(newUser)
+                    val register = userRepository.postRegUser(newUser)
                     Log.d(Constants.GIL_TAG, "Respuesta: $register")
                     Log.d(Constants.GIL_TAG, "Respuesta: $newUser")
 

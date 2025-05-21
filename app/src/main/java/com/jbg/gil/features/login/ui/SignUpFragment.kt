@@ -16,8 +16,9 @@ import com.jbg.gil.databinding.FragmentSignupBinding
 import com.jbg.gil.core.utils.Utils
 import com.jbg.gil.core.utils.Utils.showSnackBar
 import com.jbg.gil.core.utils.Utils.userDevice
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class SignUpFragment : Fragment() {
 
     private var _binding: FragmentSignupBinding? = null

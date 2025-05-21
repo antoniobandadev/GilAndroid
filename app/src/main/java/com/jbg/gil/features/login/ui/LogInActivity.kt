@@ -10,10 +10,12 @@ import com.jbg.gil.databinding.ActivityLoginBinding
 import com.jbg.gil.features.home.ui.HomeActivity
 import com.jbg.gil.core.utils.Constants
 import com.jbg.gil.core.utils.Utils.getUserVals
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+@AndroidEntryPoint
 class LogInActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding

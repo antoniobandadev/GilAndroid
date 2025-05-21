@@ -17,8 +17,9 @@ import com.jbg.gil.databinding.FragmentLoginBinding
 import com.jbg.gil.features.home.ui.HomeActivity
 import com.jbg.gil.core.utils.Utils
 import com.jbg.gil.core.utils.Utils.showSnackBar
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class LogInFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null

@@ -4,13 +4,12 @@ import com.jbg.gil.core.data.remote.apis.UserApi
 import com.jbg.gil.core.data.remote.dtos.UserDto
 import retrofit2.Response
 import retrofit2.Retrofit
+import javax.inject.Inject
 
-class UserRepository(private val retrofit: Retrofit) {
+class UserRepository @Inject constructor (private val userApi: UserApi) {
 
-    private val gilaApi = retrofit.create(UserApi::class.java)
+    suspend fun postRegUser(regUser: UserDto): Response<UserDto> = userApi.registerUser(regUser)
 
-    suspend fun postRegUser(regUser: UserDto): Response<UserDto> = gilaApi.registerUser(regUser)
-
-    suspend fun postLogUser(logUser: UserDto): Response<UserDto> = gilaApi.loginUser(logUser)
+    suspend fun postLogUser(logUser: UserDto): Response<UserDto> = userApi.loginUser(logUser)
 
 }
