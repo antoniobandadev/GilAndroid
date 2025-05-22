@@ -12,15 +12,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.jbg.gil.R
+import com.jbg.gil.core.datastore.UserPreferences
 import com.jbg.gil.core.network.NetworkStatusViewModel
 import com.jbg.gil.core.utils.DialogUtils
 import com.jbg.gil.databinding.FragmentLoginBinding
 import com.jbg.gil.features.home.ui.HomeActivity
 import com.jbg.gil.core.utils.Utils
-import com.jbg.gil.core.utils.Utils.getUserVals
 import com.jbg.gil.core.utils.Utils.showSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LogInFragment : Fragment() {
@@ -32,6 +33,9 @@ class LogInFragment : Fragment() {
     private val networkViewModel: NetworkStatusViewModel by viewModels()
 
     private var isConnectedApp : Boolean = false
+
+    @Inject
+    lateinit var userPreferences: UserPreferences
 
 
     override fun onCreateView(
@@ -51,9 +55,8 @@ class LogInFragment : Fragment() {
             isConnectedApp = isConnected
             if (!isConnected){
                 viewLifecycleOwner.lifecycleScope.launch {
-                    val userPreferences = getUserVals(requireContext())
 
-                    if (!userPreferences.isLogged) {
+                    if (!userPreferences.getIsLogged()) {
                         DialogUtils.dismissLoadingDialog()
                         binding.root.showSnackBar(
                             getString(R.string.no_internet_connection),
@@ -133,6 +136,7 @@ class LogInFragment : Fragment() {
                     val startIntentH =
                         Intent(requireContext(), HomeActivity::class.java)
                     startActivity(startIntentH)
+                    requireActivity().finish()
                 }
             }
 

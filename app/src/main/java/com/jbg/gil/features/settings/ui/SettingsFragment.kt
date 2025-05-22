@@ -7,16 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.jbg.gil.core.datastore.UserPreferences
 import com.jbg.gil.databinding.FragmentSettingsBinding
 import com.jbg.gil.features.login.ui.LogInActivity
-import com.jbg.gil.core.utils.Utils.clearUserPreferences
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class SettingsFragment : Fragment() {
 
     private lateinit var binding : FragmentSettingsBinding
+    @Inject
+    lateinit var userPreferences: UserPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,7 +35,7 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.btLogOut.setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO) {
-                clearUserPreferences(requireContext())
+               userPreferences.clearAll()
                 val intent = Intent(requireContext(), LogInActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 //val effect = ActivityOptions.makeCustomAnimation(requireContext(),R.animator.card_flip_in, R.animator.card_flip_out)

@@ -15,7 +15,7 @@ class ContactAdapter (
 ): RecyclerView.Adapter<ContactViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
-       val binding = ItemContactBinding.inflate(LayoutInflater.from(parent.context))
+       val binding = ItemContactBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ContactViewHolder(binding)
     }
 

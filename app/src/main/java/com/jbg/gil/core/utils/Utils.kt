@@ -22,7 +22,6 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.jbg.gil.R
-import com.jbg.gil.core.datastore.UserPreferences
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import java.text.SimpleDateFormat
@@ -136,27 +135,9 @@ object Utils {
     }
     //---------------------------------------------------------------------------------------------
 
-    suspend fun getUserVals(context: Context): UserPreferences {
-        return context.dataStore.data.map { preferences ->
-            UserPreferences(
-                userId = preferences[stringPreferencesKey("userId")].orEmpty(),
-                userName = preferences[stringPreferencesKey("userName")].orEmpty(),
-                userEmail = preferences[stringPreferencesKey("userEmail")].orEmpty(),
-                isLogged = preferences[booleanPreferencesKey("isLogged")] ?: false,
-                contactTable = preferences[booleanPreferencesKey("contactTable")] ?: false
-            )
-        }.first()
-    }
 
     //----------------------------------------------------------------------------------------------
-    suspend fun clearUserPreferences(context: Context) {
-        context.dataStore.edit { preferences ->
-            preferences.remove(stringPreferencesKey("userId"))
-            preferences.remove(stringPreferencesKey("userName"))
-            preferences.remove(stringPreferencesKey("userEmail"))
-            preferences.remove(booleanPreferencesKey("isLogged"))
-        }
-    }
+
 
     //----------------------------------------------------------------------------------------------
 

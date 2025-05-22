@@ -1,34 +1,23 @@
 package com.jbg.gil.features.login.ui
 
-import android.app.Application
-import android.content.Context
 import android.util.Log
-import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jbg.gil.core.data.remote.dtos.UserDto
+import com.jbg.gil.core.datastore.UserPreferences
 import com.jbg.gil.core.repositories.UserRepository
-import com.jbg.gil.core.data.remote.RetrofitHelper
 import com.jbg.gil.core.utils.Constants
-import com.jbg.gil.core.utils.dataStore
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
-import retrofit2.Retrofit
 import javax.inject.Inject
 
 //class LogInViewModel(application: Application) : AndroidViewModel(application) {
 @HiltViewModel
 class LogInViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private var userPreferences: UserPreferences
 ): ViewModel() {
-
-    private val dataStore = context.dataStore
 
     val email = MutableLiveData<String?>()
     val emailError = MutableLiveData<Boolean>()
@@ -107,16 +96,11 @@ class LogInViewModel @Inject constructor(
     }
 
     private fun saveLogged(userEmail:String, userId : String, userName: String ) {
-        viewModelScope.launch {
-            dataStore.edit { preferences ->
-                preferences[stringPreferencesKey("userName")] = userName
-                preferences[stringPreferencesKey("userEmail")] = userEmail
-                preferences[stringPreferencesKey("userId")] = userId
-                preferences[booleanPreferencesKey("isLogged")] = true
-                Log.d(Constants.GIL_TAG, "Loggeado: ${userId}")
-            }
-        }
-        //context?.
+        userPreferences.saveUserId(userId)
+        userPreferences.saveUserName(userName)
+        userPreferences.saveUserEmail(userEmail)
+        userPreferences.saveIsLogged(true)
+        Log.d(Constants.GIL_TAG, "Loggeado: $userId")
     }
     fun clearFieldErrors() {
         emailError.value =  false

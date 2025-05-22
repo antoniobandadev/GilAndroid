@@ -31,6 +31,24 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="CustomButtonAccept" parent="TextAppearance.AppCompat.Button">
+        <item name="android:textSize">15sp</item>
+        <item name="backgroundTint">@color/green</item>
+        <item name="android:textColor">@color/accent</item>
+        <item name="textAllCaps">false</item>
+        <item name="fontFamily">@font/parkinsans</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="CustomButtonCancel" parent="TextAppearance.AppCompat.Button">
+        <item name="android:textSize">15sp</item>
+        <item name="backgroundTint">@color/red</item>
+        <item name="android:textColor">@color/accent</item>
+        <item name="textAllCaps">false</item>
+        <item name="fontFamily">@font/parkinsans</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="CustomDialogTerms" >
         <item name="android:background">@color/primary</item>
         <item name="android:textColorPrimary">@color/secondary</item>

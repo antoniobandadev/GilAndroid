@@ -7,6 +7,7 @@
     <string name="no_internet_connection">No se detectó conexión a internet. Verifica tu red e inténtalo de nuevo.</string>
     <string name="loading">Cargando...</string>
     <string name="back">Atrás</string>
+    <string name="cancel">Cancelar</string>
 
     <!--- LogIn-->
     <string name="user">Usuario</string>
@@ -60,10 +61,14 @@
     <string name="received_request">Recibidas</string>
     <string name="sent_request">Enviadas</string>
 
+    <!--- Contacts -->
+    <string name="contact">Contacto</string>
+
     <!--- Settings -->
     <string name="friends">Amigos</string>
     <string name="logOut">Cerrar sesión</string>
     <string name="my_guests">Mis invitados</string>
+    <string name="save">Guardar</string>
 
 
     <!--- Pendientes

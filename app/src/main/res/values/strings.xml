@@ -8,6 +8,7 @@
     <string name="no_internet_connection">No internet connection detected. Please check your network and try again.</string>
     <string name="loading">Loading...</string>
     <string name="back">Back</string>
+    <string name="cancel">Cancel</string>
 
     <!--- LogIn-->
     <string name="user">Username</string>
@@ -64,8 +65,12 @@
     <string name="my_guests">My guests</string>
     <string name="friends">Friends</string>
 
+    <!--- Contacts -->
+    <string name="contact">Contact</string>
+
     <!--- Settings -->
     <string name="logOut">Log Out</string>
+    <string name="save">Save</string>
 
 
     <!--- Pendientes

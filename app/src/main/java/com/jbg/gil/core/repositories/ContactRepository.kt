@@ -1,26 +1,19 @@
 package com.jbg.gil.core.repositories
 
-import android.content.Context
 import android.util.Log
-import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.core.edit
 import com.jbg.gil.core.data.local.db.daos.ContactDao
 import com.jbg.gil.core.data.local.db.entities.ContactEntity
 import com.jbg.gil.core.data.remote.apis.ContactApi
 import com.jbg.gil.core.data.remote.dtos.ContactDto
+import com.jbg.gil.core.datastore.UserPreferences
 import com.jbg.gil.core.utils.Constants
-import com.jbg.gil.core.utils.Utils.getUserVals
-import com.jbg.gil.core.utils.dataStore
-import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class ContactRepository @Inject constructor(
     private val contactApi: ContactApi,
     private val contactDao: ContactDao,
-    @ApplicationContext private val context: Context,
+    private var userPreferences: UserPreferences
 ) {
-
-    private val dataStore = context.dataStore
 
     suspend fun getContactsFromDb(): List<ContactEntity> {
         return contactDao.getAllContacts()
@@ -36,17 +29,13 @@ class ContactRepository @Inject constructor(
                 }
                 //dao.clearAll()
                 contactDao.insertContact(contacts)
-                dataStore.edit { preferences ->
-                    preferences[booleanPreferencesKey("contactTable")] = true
-                }
+                userPreferences.saveContactTable(true)
                 Log.d(Constants.GIL_TAG, "API Response: $contacts")
 
             } else if (contactsFromApi.code() == 401) {
                 Log.d(Constants.GIL_TAG, "Error 401")
             } else if (contactsFromApi.code() == 404) {
-                dataStore.edit { preferences ->
-                    preferences[booleanPreferencesKey("contactTable")] = true
-                }
+                userPreferences.saveContactTable(true)
                 Log.d(Constants.GIL_TAG, "Error 404")
             } else if (contactsFromApi.code() == 500) {
                 Log.d(Constants.GIL_TAG, "Error 500")
@@ -57,9 +46,8 @@ class ContactRepository @Inject constructor(
     }
 
     suspend fun getContacts(userId: String): List<ContactEntity> {
-        val userPreferences = getUserVals(context)
         val local = contactDao.getAllContacts()
-        if (userPreferences.contactTable) {
+        if (userPreferences.getContactTable()) {
             Log.d(Constants.GIL_TAG, "Local")
             return local
         } else {

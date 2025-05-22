@@ -6,19 +6,22 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
+import com.jbg.gil.core.datastore.UserPreferences
+import com.jbg.gil.core.utils.Constants
 import com.jbg.gil.databinding.ActivityLoginBinding
 import com.jbg.gil.features.home.ui.HomeActivity
-import com.jbg.gil.core.utils.Constants
-import com.jbg.gil.core.utils.Utils.getUserVals
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LogInActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
+    @Inject
+    lateinit var userPreferences: UserPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val screenSplash = installSplashScreen()
@@ -30,9 +33,8 @@ class LogInActivity : AppCompatActivity() {
         screenSplash.setKeepOnScreenCondition {true}
 
         lifecycleScope.launch {
-            val userPreferences = getUserVals(this@LogInActivity)
             withContext(Dispatchers.Main){
-                if(userPreferences.isLogged){
+                if(userPreferences.getIsLogged()){
                     Log.d(Constants.GIL_TAG, "Esta Loggeado")
                     val startIntentH = Intent(this@LogInActivity, HomeActivity::class.java)
                     startActivity(startIntentH)

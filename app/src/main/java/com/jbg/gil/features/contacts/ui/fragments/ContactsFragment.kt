@@ -18,14 +18,18 @@ import com.jbg.gil.R
 import com.jbg.gil.core.datastore.UserPreferences
 import com.jbg.gil.core.network.NetworkStatusViewModel
 import com.jbg.gil.core.utils.Constants
-import com.jbg.gil.core.utils.Utils.getUserVals
 import com.jbg.gil.databinding.FragmentContactsBinding
+import com.jbg.gil.features.contacts.ui.ContactDialog
 import com.jbg.gil.features.contacts.ui.adapters.ContactAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ContactsFragment : Fragment() {
+
+    @Inject
+    lateinit var userPreferences: UserPreferences
 
     private var _binding : FragmentContactsBinding? = null
     private val binding get() = _binding!!
@@ -34,8 +38,6 @@ class ContactsFragment : Fragment() {
 
     private val networkViewModel: NetworkStatusViewModel by viewModels()
     private var isConnectedApp : Boolean = false
-
-    private lateinit var userPreferences: UserPreferences
 
     private lateinit var contactAdapter: ContactAdapter
 
@@ -78,6 +80,15 @@ class ContactsFragment : Fragment() {
             Log.d(Constants.GIL_TAG, contactList.toString())
         }
 
+        binding.btnAddContact.setOnClickListener {
+            ContactDialog(
+                newContact = true,
+                updateUI = {
+                    Log.d(Constants.GIL_TAG, "NuevoContacto")
+                }
+            ).show(parentFragmentManager, "contactDialog")
+        }
+
     }
 
     override fun onStart() {
@@ -103,8 +114,7 @@ class ContactsFragment : Fragment() {
 
                 if (isConnected == true){
                     Log.d(Constants.GIL_TAG, "Connected")
-                    userPreferences = getUserVals(requireContext())
-                    viewModel.loadContacts(userPreferences.userId)
+                    viewModel.loadContacts(userPreferences.getUserId().toString())
                 }else{
                     Log.d(Constants.GIL_TAG, "No Connected")
                     viewModel.loadContactsDB()
