@@ -60,6 +60,20 @@
         app:layout_constraintBottom_toBottomOf="parent"
         />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnAddContact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/ic_add_btn"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:rippleColor="@color/grey_load"
+        android:backgroundTint="@color/secondary"
+        android:elevation="6dp"
+        />
+
     <com.facebook.shimmer.ShimmerFrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

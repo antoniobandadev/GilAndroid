@@ -1,11 +1,13 @@
 package com.jbg.gil.features.contacts.ui.fragments
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -49,6 +51,7 @@ class ContactsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         backAction()
+        colorIconButton()
 
         networkViewModel.getNetworkStatus().observe(viewLifecycleOwner){ isConnected ->
             isConnectedApp = isConnected
@@ -115,6 +118,11 @@ class ContactsFragment : Fragment() {
     private fun showData(){
         binding.viewContactsLoad.visibility = View.GONE
         binding.rvContacts.visibility = View.VISIBLE
+    }
+
+    private fun colorIconButton(){
+        val fab = binding.btnAddContact
+        fab.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.accent))
     }
 
 
