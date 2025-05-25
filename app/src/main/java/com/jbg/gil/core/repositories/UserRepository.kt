@@ -4,7 +4,6 @@ import com.jbg.gil.core.data.remote.apis.UserApi
 import com.jbg.gil.core.data.remote.dtos.BasicResponse
 import com.jbg.gil.core.data.remote.dtos.UserDto
 import retrofit2.Response
-import retrofit2.Retrofit
 import javax.inject.Inject
 
 class UserRepository @Inject constructor (private val userApi: UserApi) {

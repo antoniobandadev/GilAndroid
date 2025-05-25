@@ -2,7 +2,6 @@ package com.jbg.gil.features.contacts.ui.fragments
 
 import android.content.res.ColorStateList
 import android.os.Bundle
-import android.os.Message
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -21,7 +20,6 @@ import com.jbg.gil.core.network.NetworkStatusViewModel
 import com.jbg.gil.core.repositories.ContactRepository
 import com.jbg.gil.core.utils.Constants
 import com.jbg.gil.core.utils.Utils
-import com.jbg.gil.core.utils.Utils.showSnackBar
 import com.jbg.gil.databinding.FragmentContactsBinding
 import com.jbg.gil.features.contacts.data.model.ContactMapper.toDto
 import com.jbg.gil.features.contacts.ui.ContactDialog

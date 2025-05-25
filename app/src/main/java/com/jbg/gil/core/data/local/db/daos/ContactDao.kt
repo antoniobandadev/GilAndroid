@@ -1,13 +1,11 @@
 package com.jbg.gil.core.data.local.db.daos
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.jbg.gil.core.data.local.db.entities.ContactEntity
 import com.jbg.gil.core.utils.Constants
-import retrofit2.http.DELETE
 
 @Dao
 interface ContactDao {

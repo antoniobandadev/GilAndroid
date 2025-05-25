@@ -6,9 +6,7 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.graphics.Rect
-import android.graphics.drawable.ColorDrawable
 import android.provider.Settings
 import android.util.Patterns
 import android.view.MotionEvent
@@ -19,23 +17,15 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
-import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.jbg.gil.R
-import com.jbg.gil.core.data.local.db.entities.ContactEntity
-import com.jbg.gil.core.data.remote.dtos.ContactDto
 import com.jbg.gil.databinding.AlertDialogNegativeBinding
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 import java.util.regex.Pattern
-import androidx.core.graphics.drawable.toDrawable
 
 
 object Utils {
