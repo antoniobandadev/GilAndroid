@@ -41,7 +41,9 @@ class ContactDialog (
         userId = "",
         contactName = "",
         contactEmail = "",
-        contactStatus = ""
+        contactStatus = "",
+        contactType = "C",
+        contactSol = "New"
     )
 
 ) : DialogFragment() {

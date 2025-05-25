@@ -37,4 +37,10 @@ interface ContactApi {
         userId: String
     ) : Response<BasicResponse>
 
+    @GET("friends/getFriends")
+    suspend fun getFriends(
+        @Query("userId")
+        userId: String
+    ) : Response<List<ContactDto>>
+
 }

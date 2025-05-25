@@ -23,6 +23,12 @@ data class ContactEntity(
     var contactName : String,
 
     @ColumnInfo(name = "contactStatus")
-    var contactStatus : String
+    var contactStatus : String,
+
+    @ColumnInfo(name = "contactType")
+    var contactType: String,
+
+    @ColumnInfo(name = "contactSol")
+    var contactSol: String
 
 )

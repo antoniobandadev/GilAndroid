@@ -81,6 +81,11 @@
     <string name="error_update_contact">No se pudo actualizar el contacto, por favor intentalo de nuevo.</string>
     <string name="error_delete_contact">No se pudo eliminar el contacto, por favor intentalo de nuevo.</string>
 
+    <!--- Friends -->
+    <string name="no_friends_found">No se encontraron amigos.</string>
+    <string name="no_sol_rec_found">No se encontraron solicitudes recibidas.</string>
+    <string name="no_sol_send_found">No se encontraron solicitudes enviadas.</string>
+
     <!--- Settings -->
     <string name="friends">Amigos</string>
     <string name="logOut">Cerrar sesión</string>

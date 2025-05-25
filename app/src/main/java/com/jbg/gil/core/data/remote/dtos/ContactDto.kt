@@ -5,7 +5,9 @@ data class ContactDto(
     var userId : String,
     var contactEmail : String,
     var contactName : String,
-    var contactStatus : String
+    var contactStatus : String,
+    var contactType : String,
+    var contactSol: String
 )
 
 data class BasicResponse(

@@ -11,7 +11,9 @@ object ContactMapper {
             userId = this.userId,
             contactEmail = this.contactEmail,
             contactName = this.contactName,
-            contactStatus = this.contactStatus
+            contactStatus = this.contactStatus,
+            contactType = this.contactType,
+            contactSol = this.contactSol
         )
     }
 
@@ -21,7 +23,9 @@ object ContactMapper {
             userId = this.userId,
             contactEmail = this.contactEmail,
             contactName = this.contactName,
-            contactStatus = this.contactStatus
+            contactStatus = this.contactStatus,
+            contactType = this.contactType,
+            contactSol = this.contactSol
         )
     }
 }

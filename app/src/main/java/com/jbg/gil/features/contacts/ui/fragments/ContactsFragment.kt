@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jbg.gil.R
 import com.jbg.gil.core.data.local.db.entities.ContactEntity
 import com.jbg.gil.core.datastore.UserPreferences
@@ -104,12 +105,12 @@ class ContactsFragment : Fragment() {
 
     }
 
-   /* override fun onStart() {
+   override fun onStart() {
         super.onStart()
         val bottomNavView = requireActivity().findViewById<BottomNavigationView>(R.id.botHomMenu)
         bottomNavView.menu.findItem(R.id.myGuestFragment).isChecked = true
         //Log.d(Constants.GIL_TAG, bottomNavView.selectedItemId.toString())
-    }*/
+    }
 
     private fun backAction() {
         binding.imgBtBack.setOnClickListener {

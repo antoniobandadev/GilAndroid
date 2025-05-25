@@ -13,31 +13,30 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ContactsViewModel @Inject constructor(
-    private val contactRepository: ContactRepository
-): ViewModel() {
+class TabContactsViewModel @Inject constructor(
+     private val contactRepository: ContactRepository
+) : ViewModel() {
 
-    private val _contacts = MutableLiveData<List<ContactEntity>>()
-    val contacts: LiveData<List<ContactEntity>> = _contacts
+    private val _friends = MutableLiveData<List<ContactEntity>>()
+    val friends: LiveData<List<ContactEntity>> = _friends
 
-    fun loadContacts(userId : String) {
+    fun loadFriends(userId : String) {
         viewModelScope.launch {
 
-            val response = contactRepository.getContacts(userId)
+            val response = contactRepository.getFriends(userId)
 
             if (response.isEmpty()){
                 Log.d(Constants.GIL_TAG, "No Contacts")
-                _contacts.value = response
+                _friends.value = response
             }else{
-                _contacts.value = response
-                //Log.d(Constants.GIL_TAG, response.toString())
+                _friends.value = response
             }
         }
     }
 
-    suspend fun loadContactsDB(){
-        val response = contactRepository.getContactsFromDb()
-        _contacts.value = response
+    suspend fun loadFriendsDB(){
+        val response = contactRepository.getFriendsFromDb()
+        _friends.value = response
     }
 
 }

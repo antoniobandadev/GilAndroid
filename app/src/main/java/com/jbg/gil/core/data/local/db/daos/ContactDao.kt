@@ -10,8 +10,17 @@ import com.jbg.gil.core.utils.Constants
 @Dao
 interface ContactDao {
 
-    @Query("SELECT * FROM ${Constants.DATABASE_CONTACTS_TABLE} WHERE contactStatus != 'C' ORDER BY contactName ASC ")
+    @Query("SELECT * FROM ${Constants.DATABASE_CONTACTS_TABLE} WHERE contactStatus != 'C' and contactType = 'C' ORDER BY contactName ASC ")
     suspend fun getAllContacts() : List<ContactEntity>
+
+    @Query("SELECT * FROM ${Constants.DATABASE_CONTACTS_TABLE} WHERE contactStatus = 'A' and contactType = 'F' ORDER BY contactName ASC ")
+    suspend fun getAllFriends() : List<ContactEntity>
+
+    @Query("SELECT * FROM ${Constants.DATABASE_CONTACTS_TABLE} WHERE contactStatus = 'A' and contactType = 'F' and contactSol = 'Received' ORDER BY contactName ASC ")
+    suspend fun getAllSolReceived() : List<ContactEntity>
+
+    @Query("SELECT * FROM ${Constants.DATABASE_CONTACTS_TABLE} WHERE contactStatus = 'A' and contactType = 'F' and contactSol = 'Send' ORDER BY contactName ASC ")
+    suspend fun getAllSolSend() : List<ContactEntity>
 
     @Insert
     suspend fun insertContact(contact: List<ContactEntity>)
