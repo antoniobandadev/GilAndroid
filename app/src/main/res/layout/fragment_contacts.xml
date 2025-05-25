@@ -7,6 +7,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".features.contacts.ui.fragments.ContactsFragment">
 
+    <TextView
+        android:id="@+id/tvContactsFound"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/no_contacts_found"
+        android:textSize="20sp"
+        android:visibility="invisible"
+        android:gravity="center"
+        />
+
     <ImageView
         android:id="@+id/imgBtBack"
         android:layout_width="20dp"
@@ -49,13 +63,41 @@
         android:gravity="center"
         android:text="@string/contacts" />
 
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/CustomSearchInputLayout"
+        android:id="@+id/lbContactSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitleContacts"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:hint="@string/search"
+        app:startIconDrawable="@drawable/ic_search"
+        app:endIconMode="clear_text"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etContactSearch"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textCursorDrawable="@drawable/white_cursor"
+            android:textColor="@color/white"
+            android:maxLength="50"
+            android:maxLines="1"
+            android:inputType="textCapSentences"
+            android:imeOptions="actionDone"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvContacts"
         android:visibility="invisible"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitleContacts"
+        app:layout_constraintTop_toBottomOf="@+id/lbContactSearch"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         />
@@ -64,6 +106,7 @@
         android:id="@+id/btnAddContact"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:src="@drawable/ic_add_btn"
@@ -72,12 +115,13 @@
         app:rippleColor="@color/grey_load"
         android:backgroundTint="@color/secondary"
         android:elevation="6dp"
+        app:tint="@color/accent"
         />
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitleContacts"
+        app:layout_constraintTop_toBottomOf="@+id/lbContactSearch"
         app:shimmer_auto_start="true"
         >
 

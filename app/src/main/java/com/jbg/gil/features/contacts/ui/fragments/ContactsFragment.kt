@@ -2,23 +2,28 @@ package com.jbg.gil.features.contacts.ui.fragments
 
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.os.Message
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jbg.gil.R
+import com.jbg.gil.core.data.local.db.entities.ContactEntity
 import com.jbg.gil.core.datastore.UserPreferences
 import com.jbg.gil.core.network.NetworkStatusViewModel
+import com.jbg.gil.core.repositories.ContactRepository
 import com.jbg.gil.core.utils.Constants
+import com.jbg.gil.core.utils.Utils
+import com.jbg.gil.core.utils.Utils.showSnackBar
 import com.jbg.gil.databinding.FragmentContactsBinding
+import com.jbg.gil.features.contacts.data.model.ContactMapper.toDto
 import com.jbg.gil.features.contacts.ui.ContactDialog
 import com.jbg.gil.features.contacts.ui.adapters.ContactAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,13 +36,18 @@ class ContactsFragment : Fragment() {
     @Inject
     lateinit var userPreferences: UserPreferences
 
-    private var _binding : FragmentContactsBinding? = null
+    @Inject
+    lateinit var contactRepository: ContactRepository
+
+    private var contacts: List<ContactEntity> = mutableListOf()
+
+    private var _binding: FragmentContactsBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: ContactsViewModel by viewModels()
 
     private val networkViewModel: NetworkStatusViewModel by viewModels()
-    private var isConnectedApp : Boolean = false
+    private var isConnectedApp: Boolean = false
 
     private lateinit var contactAdapter: ContactAdapter
 
@@ -52,21 +62,25 @@ class ContactsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Utils.setupHideKeyboardOnTouch(view, requireActivity())
         backAction()
         colorIconButton()
+        searchContact()
 
-        networkViewModel.getNetworkStatus().observe(viewLifecycleOwner){ isConnected ->
+        networkViewModel.getNetworkStatus().observe(viewLifecycleOwner) { isConnected ->
             isConnectedApp = isConnected
             //Log.d(Constants.GIL_TAG, "Conectado: $isConnected")
             selectContacts()
         }
 
         contactAdapter = ContactAdapter(emptyList()) { selectedContact ->
-            Toast.makeText(
-                context,
-                "Contact: ${selectedContact.contactName}",
-                Toast.LENGTH_SHORT
-            ).show()
+            ContactDialog(
+                newContact = false,
+                updateUI = {
+                    updateUI()
+                },
+                contact = selectedContact.toDto()
+            ).show(parentFragmentManager, "contactDialog")
         }
 
         binding.rvContacts.apply {
@@ -75,7 +89,8 @@ class ContactsFragment : Fragment() {
         }
 
         viewModel.contacts.observe(viewLifecycleOwner) { contactList ->
-            contactAdapter.updateData(contactList)
+            //contactAdapter.updateData(contactList)
+            updateUI()
             showData()
             Log.d(Constants.GIL_TAG, contactList.toString())
         }
@@ -84,21 +99,21 @@ class ContactsFragment : Fragment() {
             ContactDialog(
                 newContact = true,
                 updateUI = {
-                    Log.d(Constants.GIL_TAG, "NuevoContacto")
+                    updateUI()
                 }
             ).show(parentFragmentManager, "contactDialog")
         }
 
     }
 
-    override fun onStart() {
+   /* override fun onStart() {
         super.onStart()
         val bottomNavView = requireActivity().findViewById<BottomNavigationView>(R.id.botHomMenu)
         bottomNavView.menu.findItem(R.id.myGuestFragment).isChecked = true
         //Log.d(Constants.GIL_TAG, bottomNavView.selectedItemId.toString())
-    }
+    }*/
 
-    private fun backAction(){
+    private fun backAction() {
         binding.imgBtBack.setOnClickListener {
             findNavController().navigate(R.id.action_contactsFragment_to_myGuestFragment)
         }
@@ -107,15 +122,15 @@ class ContactsFragment : Fragment() {
         }
     }
 
-    private fun selectContacts(){
+    private fun selectContacts() {
         viewLifecycleOwner.lifecycleScope.launch {
             try {
                 val isConnected = networkViewModel.getNetworkStatus().value
 
-                if (isConnected == true){
+                if (isConnected == true) {
                     Log.d(Constants.GIL_TAG, "Connected")
                     viewModel.loadContacts(userPreferences.getUserId().toString())
-                }else{
+                } else {
                     Log.d(Constants.GIL_TAG, "No Connected")
                     viewModel.loadContactsDB()
                 }
@@ -125,16 +140,49 @@ class ContactsFragment : Fragment() {
             }
         }
     }
-    private fun showData(){
+
+
+    private fun showData() {
         binding.viewContactsLoad.visibility = View.GONE
         binding.rvContacts.visibility = View.VISIBLE
     }
 
-    private fun colorIconButton(){
+    private fun colorIconButton() {
         val fab = binding.btnAddContact
-        fab.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(),R.color.accent))
+        fab.imageTintList =
+            ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.accent))
     }
 
+    private fun updateUI() {
+        lifecycleScope.launch {
+            contacts = contactRepository.getContactsFromDb()
+            if (contacts.isEmpty()){
+                binding.tvContactsFound.text = getString(R.string.no_contacts_found)
+                binding.tvContactsFound.visibility = View.VISIBLE
+            }else{
+                binding.tvContactsFound.visibility = View.INVISIBLE
+            }
+            contactAdapter.updateData(contacts)
+
+
+        }
+    }
+
+    private fun searchContact() {
+        binding.etContactSearch.addTextChangedListener { searchContact ->
+            val contactsFilter =
+                contacts.filter { contact ->
+                    contact.contactName.lowercase().contains(searchContact.toString().lowercase())
+                }
+            if (contactsFilter.isEmpty()){
+                binding.tvContactsFound.text = getString(R.string.no_results_for,searchContact.toString())
+                binding.tvContactsFound.visibility = View.VISIBLE
+            }else{
+                binding.tvContactsFound.visibility = View.INVISIBLE
+            }
+            contactAdapter.updateData(contactsFilter)
+        }
+    }
 
     override fun onDestroy() {
         super.onDestroy()

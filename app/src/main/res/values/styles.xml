@@ -49,10 +49,37 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="CustomButtonGrey" parent="TextAppearance.AppCompat.Button">
+        <item name="android:textSize">15sp</item>
+        <item name="backgroundTint">@color/grey_load</item>
+        <item name="android:textColor">@color/accent</item>
+        <item name="textAllCaps">false</item>
+        <item name="fontFamily">@font/parkinsans</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="CustomDialogTerms" >
         <item name="android:background">@color/primary</item>
         <item name="android:textColorPrimary">@color/secondary</item>
         <item name="android:buttonBarButtonStyle">@style/CustomButton</item>
+    </style>
+
+    <!--- TextInputLayout hint-->
+    <style name="CustomSearchInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/secondary</item>
+        <item name="boxStrokeWidth">2dp</item>
+        <item name="boxBackgroundColor">@color/black</item>
+        <item name="boxBackgroundMode">outline</item>
+        <item name="hintEnabled">true</item>
+        <item name="android:textColorHint">@color/secondary</item>
+        <item name="hintTextColor">@color/secondary</item>
+        <item name="startIconTint">@color/accent</item>
+        <item name="endIconTint">@color/accent</item>
+        <item name="hintTextAppearance">@style/TextLabel</item>
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:layout_marginEnd">10dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="cursorColor">@color/accent</item>
     </style>
 
 </resources>

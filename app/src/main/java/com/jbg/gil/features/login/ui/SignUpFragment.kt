@@ -15,6 +15,7 @@ import com.jbg.gil.core.utils.DialogUtils
 import com.jbg.gil.databinding.FragmentSignupBinding
 import com.jbg.gil.core.utils.Utils
 import com.jbg.gil.core.utils.Utils.showSnackBar
+import com.jbg.gil.core.utils.Utils.showSnackBarError
 import com.jbg.gil.core.utils.Utils.userDevice
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -77,11 +78,7 @@ class SignUpFragment : Fragment() {
                     viewModel.signUpUser(deviceId)
                 }else{
                 // No connected
-                    binding.root.showSnackBar(
-                        getString(R.string.no_internet_connection),
-                        backgroundColor = R.color.red,
-                        actionText = getString(R.string.close)
-                    )
+                    binding.root.showSnackBarError(getString(R.string.no_internet_connection))
                 }
             }
 
@@ -162,6 +159,21 @@ class SignUpFragment : Fragment() {
                     findNavController().navigateUp()
                 }
             }
+
+            userExists.observe(viewLifecycleOwner){ exists ->
+                if (exists){
+                    binding.root.showSnackBarError(getString(R.string.user_exists))
+                    DialogUtils.dismissLoadingDialog()
+                }
+            }
+
+            serverError.observe(viewLifecycleOwner){ error ->
+                if (error){
+                    binding.root.showSnackBarError(getString(R.string.server_error))
+                    DialogUtils.dismissLoadingDialog()
+                }
+            }
+
 
         }
     }

@@ -10,19 +10,19 @@ data class ContactEntity(
 
     @PrimaryKey
     @ColumnInfo(name = "contactId")
-    val contactId : String,
+    var contactId : String,
     //contactId = UUID.randomUUID().toString()
 
     @ColumnInfo(name = "userId")
-    val userId : String,
+    var userId : String,
 
     @ColumnInfo(name = "contactEmail")
-    val contactEmail : String,
+    var contactEmail : String,
 
     @ColumnInfo(name = "contactName")
-    val contactName : String,
+    var contactName : String,
 
     @ColumnInfo(name = "contactStatus")
-    val contactStatus : String
+    var contactStatus : String
 
 )

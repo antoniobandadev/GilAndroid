@@ -5,7 +5,10 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.graphics.Rect
+import android.graphics.drawable.ColorDrawable
 import android.provider.Settings
 import android.util.Patterns
 import android.view.MotionEvent
@@ -19,15 +22,20 @@ import androidx.core.widget.addTextChangedListener
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.jbg.gil.R
+import com.jbg.gil.core.data.local.db.entities.ContactEntity
+import com.jbg.gil.core.data.remote.dtos.ContactDto
+import com.jbg.gil.databinding.AlertDialogNegativeBinding
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 import java.util.regex.Pattern
+import androidx.core.graphics.drawable.toDrawable
 
 
 object Utils {
@@ -134,10 +142,38 @@ object Utils {
         snackBar.show()
     }
     //---------------------------------------------------------------------------------------------
+    fun View.showSnackBarError(
+        message: String,
+        duration: Int = Snackbar.LENGTH_LONG,
+        actionText: String? = ContextCompat.getString(this.context, R.string.close),
+        action: (() -> Unit)? = null,
+        backgroundColor: Int = R.color.red,
+        textColor: Int = R.color.accent,
+        actionTextColor: Int = R.color.accent
+    ) {
+        val snackBar = Snackbar.make(this, message, duration)
+        snackBar.setBackgroundTint(ContextCompat.getColor(this.context, backgroundColor))
+        snackBar.setTextColor(ContextCompat.getColor(this.context, textColor))
+        snackBar.setActionTextColor(ContextCompat.getColor(this.context, actionTextColor))
+        snackBar.setTextMaxLines(5)
+        val textView =
+            snackBar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text) as TextView
+        textView.textSize = 11f
 
+        actionText?.let {
+            snackBar.setAction(it) {
+                action?.invoke() // Ejecuta la acción proporcionada
+                snackBar.dismiss() // Cierra el Snackbar al presionar la acción
+            }
+            //snackBar.setActionTextColor(actionTextColor)
+        }
 
+        /*if (actionText != null && action != null) {
+            snackBar.setAction(actionText) { action() }
+        }*/
+        snackBar.show()
+    }
     //----------------------------------------------------------------------------------------------
-
 
     //----------------------------------------------------------------------------------------------
 
@@ -161,6 +197,52 @@ object Utils {
     }
     //----------------------------------------------------------------------------------------------
 
+    fun Fragment.getActivityRootView(): View? {
+        return activity?.findViewById(android.R.id.content)
+    }
+
+    //----------------------------------------------------------------------------------------------
+
+    fun showConfirmAlertDialog(
+        context: Context,
+        title: String,
+        message: String,
+        confirmText: String = "",
+        cancelText: String = "",
+        confirmColor: Int = ContextCompat.getColor(context, R.color.green),
+        cancelColor: Int = ContextCompat.getColor(context, R.color.greyDark_load),
+        onConfirm: () -> Unit
+    ) {
+        val binding = AlertDialogNegativeBinding.inflate(android.view.LayoutInflater.from(context))
+
+        binding.adTitle.text = title
+        binding.adMessage.text = message
+        binding.btnConfirm.text = confirmText
+        binding.btnCancel.text = cancelText
+
+        binding.btnConfirm.backgroundTintList = ColorStateList.valueOf(confirmColor)
+        binding.btnCancel.backgroundTintList = ColorStateList.valueOf(cancelColor)
+
+        val dialog = AlertDialog.Builder(context)
+            .setView(binding.root)
+            .setCancelable(false)
+            .create()
+
+        binding.btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        binding.btnConfirm.setOnClickListener {
+
+            onConfirm()
+            dialog.dismiss()
+        }
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.show()
+    }
+
+
 }
 
 object DialogUtils {
@@ -177,6 +259,10 @@ object DialogUtils {
             window?.setBackgroundDrawableResource(android.R.color.transparent)
             show()
         }
+    }
+
+    fun isLoadingDialogVisible(): Boolean {
+        return loadingDialog?.isShowing == true
     }
 
     fun dismissLoadingDialog() {

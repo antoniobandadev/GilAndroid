@@ -18,7 +18,9 @@ import com.jbg.gil.core.utils.DialogUtils
 import com.jbg.gil.databinding.FragmentLoginBinding
 import com.jbg.gil.features.home.ui.HomeActivity
 import com.jbg.gil.core.utils.Utils
+import com.jbg.gil.core.utils.Utils.getActivityRootView
 import com.jbg.gil.core.utils.Utils.showSnackBar
+import com.jbg.gil.core.utils.Utils.showSnackBarError
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -57,12 +59,12 @@ class LogInFragment : Fragment() {
                 viewLifecycleOwner.lifecycleScope.launch {
 
                     if (!userPreferences.getIsLogged()) {
-                        DialogUtils.dismissLoadingDialog()
-                        binding.root.showSnackBar(
-                            getString(R.string.no_internet_connection),
-                            backgroundColor = R.color.red,
-                            actionText = getString(R.string.close)
-                        )
+
+                        if (DialogUtils.isLoadingDialogVisible()){
+                            DialogUtils.dismissLoadingDialog()
+                            binding.root.showSnackBarError(getString(R.string.no_internet_connection))
+                        }
+
                     }
                 }
             }
@@ -106,11 +108,7 @@ class LogInFragment : Fragment() {
 
             invalidCredentials.observe(viewLifecycleOwner) { error ->
                 if (error) {
-                    binding.root.showSnackBar(
-                        getString(R.string.invalid_data),
-                        backgroundColor = R.color.red,
-                        actionText = getString(R.string.close)
-                    )
+                    binding.root.showSnackBarError(getString(R.string.invalid_data))
                     viewModel.invalidCredentials.value = false
                     hideLoadView()
                 }
@@ -131,8 +129,8 @@ class LogInFragment : Fragment() {
 
             loginSuccess.observe(viewLifecycleOwner) { success ->
                 if (success) {
+                    getActivityRootView()?.showSnackBar(getString(R.string.login_success))
                     DialogUtils.dismissLoadingDialog()
-                    binding.root.showSnackBar(getString(R.string.login_success))
                     val startIntentH =
                         Intent(requireContext(), HomeActivity::class.java)
                     startActivity(startIntentH)
@@ -160,11 +158,7 @@ class LogInFragment : Fragment() {
 
             } else {
                 // No connected
-                binding.root.showSnackBar(
-                    getString(R.string.no_internet_connection),
-                    backgroundColor = R.color.red,
-                    actionText = getString(R.string.close)
-                )
+                binding.root.showSnackBarError(getString(R.string.no_internet_connection))
 
             }
 

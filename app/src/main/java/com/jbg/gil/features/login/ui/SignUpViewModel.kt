@@ -34,6 +34,8 @@ class SignUpViewModel @Inject constructor(
     val passwordEqualsError = MutableLiveData<Boolean>()
     val checkTerms = MutableLiveData<Boolean>()
     val signUpSuccess = MutableLiveData<Boolean>()
+    val userExists = MutableLiveData<Boolean>()
+    val serverError = MutableLiveData<Boolean>()
     val showLoading = MutableLiveData<Boolean>()
 
     private fun validateInputs(): Boolean {
@@ -112,15 +114,26 @@ class SignUpViewModel @Inject constructor(
                         createdAt = userDateCreated
                     )
 
-                    val register = userRepository.postRegUser(newUser)
-                    Log.d(Constants.GIL_TAG, "Respuesta: $register")
-                    Log.d(Constants.GIL_TAG, "Respuesta: $newUser")
+                    val existsUser = userRepository.postExistUser(newUser)
 
-                    if (register.code() == 200) {
-                        signUpSuccess.value = true
-                    } else {
-                        Log.d(Constants.GIL_TAG, "Code: ${register.code()}")
+                    if(existsUser.code() == 200){
+                        userExists.value = true
+                    }else if (existsUser.code() == 404){
+                        val register = userRepository.postRegUser(newUser)
+                        Log.d(Constants.GIL_TAG, "Respuesta: $register")
+                        Log.d(Constants.GIL_TAG, "Respuesta: $newUser")
+
+                        if (register.code() == 200) {
+                            signUpSuccess.value = true
+                        } else {
+                            Log.d(Constants.GIL_TAG, "Code: ${register.code()}")
+                        }
+                    }else{
+                        serverError.value = true
                     }
+
+
+
 
                 } catch (e: Exception) {
                     e.printStackTrace()

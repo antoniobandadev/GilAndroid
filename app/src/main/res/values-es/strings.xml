@@ -8,6 +8,12 @@
     <string name="loading">Cargando...</string>
     <string name="back">Atrás</string>
     <string name="cancel">Cancelar</string>
+    <string name="search">Buscar</string>
+    <string name="add">Agregar</string>
+    <string name="delete">Eliminar</string>
+    <string name="update">Actualizar</string>
+    <string name="yes">Si</string>
+    <string name="no">No</string>
 
     <!--- LogIn-->
     <string name="user">Usuario</string>
@@ -36,6 +42,7 @@
     <string name="not_same_value">Los campos no coinciden. Por favor, revisa y vuelve a intentarlo.</string>
     <string name="not_valid_email">Por favor, ingresa una dirección de correo electrónico válida (ejemplo: usuario@dominio.com).</string>
     <string name="invalid_password">La contraseña debe tener al menos 8 caracteres, incluir mayúsculas, minúsculas, números y símbolos.</string>
+    <string name="user_exists">Ya existe una cuenta con este correo electrónico. Por favor, verifica la información e inténtalo de nuevo.</string>
 
     <!---Terms and Conditions-->
     <string name="accept_terms">Acepto los Términos y Condiciones</string>
@@ -63,6 +70,16 @@
 
     <!--- Contacts -->
     <string name="contact">Contacto</string>
+    <string name="contact_save_successful">Contacto guardado exitosamente.</string>
+    <string name="contact_update_successful">Contacto actualizado exitosamente.</string>
+    <string name="contact_delete_successful">Contacto eliminado exitosamente.</string>
+    <string name="no_contacts_found">No se encontraron contactos.</string>
+    <string name="no_results_for">No hay resultados para "%1$s".</string>
+    <string name="delete_contact">Eliminar contacto</string>
+    <string name="confirm_delete_contact">¿Estás seguro de que deseas eliminar este contacto?</string>
+    <string name="error_new_contact">No se pudo dar de alta el contacto, por favor intentalo de nuevo.</string>
+    <string name="error_update_contact">No se pudo actualizar el contacto, por favor intentalo de nuevo.</string>
+    <string name="error_delete_contact">No se pudo eliminar el contacto, por favor intentalo de nuevo.</string>
 
     <!--- Settings -->
     <string name="friends">Amigos</string>

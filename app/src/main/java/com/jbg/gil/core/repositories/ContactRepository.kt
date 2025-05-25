@@ -4,9 +4,9 @@ import android.util.Log
 import com.jbg.gil.core.data.local.db.daos.ContactDao
 import com.jbg.gil.core.data.local.db.entities.ContactEntity
 import com.jbg.gil.core.data.remote.apis.ContactApi
-import com.jbg.gil.core.data.remote.dtos.ContactDto
 import com.jbg.gil.core.datastore.UserPreferences
 import com.jbg.gil.core.utils.Constants
+import com.jbg.gil.features.contacts.data.model.ContactMapper.toEntity
 import javax.inject.Inject
 
 class ContactRepository @Inject constructor(
@@ -56,13 +56,33 @@ class ContactRepository @Inject constructor(
         }
     }
 
-    private fun ContactDto.toEntity(): ContactEntity {
-        return ContactEntity(
-            contactId = this.contactId,
-            userId = this.userId,
-            contactEmail = this.contactEmail,
-            contactName = this.contactName,
-            contactStatus = this.contactStatus
-        )
+    suspend fun insertContact(contact : ContactEntity){
+        try {
+            contactDao.insertOneContact(contact)
+
+        }catch (e: Exception){
+            Log.d("Error save contact:" , e.toString())
+
+        }
     }
+
+    suspend fun updateContact(contact: ContactEntity){
+        try {
+            contactDao.updateContact(contact)
+        }catch(e: Exception){
+            Log.d("Error update contact", e.toString())
+        }
+
+    }
+
+    suspend fun deleteContact(contactId: String){
+
+        Log.d(Constants.GIL_TAG,"Eliminao")
+        try {
+            contactDao.deleteContact(contactId)
+        }catch (e: Exception){
+            Log.d(Constants.GIL_TAG, e.toString())
+        }
+    }
+
 }

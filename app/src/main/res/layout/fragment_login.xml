@@ -109,7 +109,7 @@
                 android:layout_height="wrap_content"
                 android:textCursorDrawable="@drawable/white_cursor"
                 android:textColor="@color/white"
-                android:maxLength="20"
+                android:maxLength="50"
                 android:maxLines="1"
                 android:inputType="textEmailAddress"
                 />
