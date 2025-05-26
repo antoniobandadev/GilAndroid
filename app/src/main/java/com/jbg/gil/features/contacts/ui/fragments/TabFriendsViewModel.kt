@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class TabContactsViewModel @Inject constructor(
+class TabFriendsViewModel @Inject constructor(
      private val contactRepository: ContactRepository
 ) : ViewModel() {
 
@@ -23,7 +23,7 @@ class TabContactsViewModel @Inject constructor(
     fun loadFriends(userId : String) {
         viewModelScope.launch {
 
-            val response = contactRepository.getFriends(userId)
+            val response = contactRepository.loadFriendsFromApi(userId)
 
             if (response.isEmpty()){
                 Log.d(Constants.GIL_TAG, "No Contacts")
@@ -34,9 +34,9 @@ class TabContactsViewModel @Inject constructor(
         }
     }
 
-    suspend fun loadFriendsDB(){
+  /*  suspend fun loadFriendsDB(){
         val response = contactRepository.getFriendsFromDb()
         _friends.value = response
-    }
+    }*/
 
 }

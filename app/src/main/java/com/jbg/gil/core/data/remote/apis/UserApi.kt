@@ -8,14 +8,13 @@ import retrofit2.http.POST
 
 interface UserApi {
 
-    @POST("user") //Complement de la URL del API
+    @POST("users/newUser") //Complement de la URL del API
     suspend fun registerUser(@Body request: UserDto): Response<UserDto>
 
-
-    @POST("user/exists")
+    @POST("users/exists")
     suspend fun existsUser(@Body request: UserDto) : Response<BasicResponse>
 
-    @POST("login")
+    @POST("users/login")
     suspend fun loginUser(@Body request: UserDto) : Response<UserDto>
 
 }

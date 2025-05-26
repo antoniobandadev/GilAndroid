@@ -16,12 +16,6 @@ interface ContactDao {
     @Query("SELECT * FROM ${Constants.DATABASE_CONTACTS_TABLE} WHERE contactStatus = 'A' and contactType = 'F' ORDER BY contactName ASC ")
     suspend fun getAllFriends() : List<ContactEntity>
 
-    @Query("SELECT * FROM ${Constants.DATABASE_CONTACTS_TABLE} WHERE contactStatus = 'A' and contactType = 'F' and contactSol = 'Received' ORDER BY contactName ASC ")
-    suspend fun getAllSolReceived() : List<ContactEntity>
-
-    @Query("SELECT * FROM ${Constants.DATABASE_CONTACTS_TABLE} WHERE contactStatus = 'A' and contactType = 'F' and contactSol = 'Send' ORDER BY contactName ASC ")
-    suspend fun getAllSolSend() : List<ContactEntity>
-
     @Insert
     suspend fun insertContact(contact: List<ContactEntity>)
 
@@ -33,5 +27,8 @@ interface ContactDao {
 
     @Query("DELETE FROM ${Constants.DATABASE_CONTACTS_TABLE} WHERE contactId = :contactId")
     suspend fun deleteContact(contactId: String)
+
+    @Query("DELETE FROM ${Constants.DATABASE_CONTACTS_TABLE} WHERE contactType = 'F'")
+    suspend fun clearAllFriends()
 
 }

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.jbg.gil.core.datastore.UserPreferences
+import com.jbg.gil.core.utils.Constants
 import com.jbg.gil.databinding.FragmentSettingsBinding
 import com.jbg.gil.features.login.ui.LogInActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,7 +36,8 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.btLogOut.setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO) {
-               userPreferences.clearAll()
+                userPreferences.clearAll()
+                requireContext().deleteDatabase(Constants.DATABASE_NAME)
                 val intent = Intent(requireContext(), LogInActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 //val effect = ActivityOptions.makeCustomAnimation(requireContext(),R.animator.card_flip_in, R.animator.card_flip_out)

@@ -76,7 +76,7 @@ class LogInViewModel @Inject constructor(
                         Log.d(Constants.GIL_TAG, "Respuesta: $login")
                         Log.d(Constants.GIL_TAG, "Respuesta: $user")
 
-                    }else if(login.code() == 500){
+                    }else{
                         serverError.value = true
                     }
 

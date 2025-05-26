@@ -2,11 +2,13 @@ package com.jbg.gil.features.contacts.ui.fragments
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -16,16 +18,18 @@ import com.jbg.gil.core.datastore.UserPreferences
 import com.jbg.gil.core.network.NetworkStatusViewModel
 import com.jbg.gil.core.repositories.ContactRepository
 import com.jbg.gil.core.utils.Constants
+import com.jbg.gil.core.utils.Utils
+import com.jbg.gil.core.utils.Utils.getActivityRootView
+import com.jbg.gil.core.utils.Utils.showSnackBarError
 import com.jbg.gil.databinding.FragmentTabContactsBinding
-import com.jbg.gil.features.contacts.data.model.ContactMapper.toDto
-import com.jbg.gil.features.contacts.ui.ContactDialog
 import com.jbg.gil.features.contacts.ui.adapters.ContactAdapter
+import com.jbg.gil.features.contacts.ui.dialogs.FriendDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class TabContactsFragment : Fragment() {
+class TabFriendsFragment : Fragment() {
 
     @Inject
     lateinit var userPreferences: UserPreferences
@@ -38,10 +42,9 @@ class TabContactsFragment : Fragment() {
     private var _binding : FragmentTabContactsBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: TabContactsViewModel by viewModels()
+    private val viewModel: TabFriendsViewModel by viewModels()
 
     private val networkViewModel: NetworkStatusViewModel by viewModels()
-    private var isConnectedApp: Boolean = false
 
     private lateinit var contactAdapter: ContactAdapter
 
@@ -56,11 +59,18 @@ class TabContactsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Utils.setupHideKeyboardOnTouch(view, requireActivity())
+        searchFriends()
+        //selectFriends()
 
         networkViewModel.getNetworkStatus().observe(viewLifecycleOwner) { isConnected ->
-            isConnectedApp = isConnected
-            //Log.d(Constants.GIL_TAG, "Conectado: $isConnected")
-            selectFriends()
+            //Log.d(Constants.GIL_TAG, "Conectado Friends: $isConnected")
+            if (isConnected && lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)){
+                selectFriends()
+                Log.d(Constants.GIL_TAG, "Conectado Friends: $isConnected")
+            }else{
+                showLoadConnection()
+            }
         }
 
         contactAdapter = ContactAdapter(emptyList()) { selectedContact ->
@@ -73,18 +83,26 @@ class TabContactsFragment : Fragment() {
             ).show(parentFragmentManager, "friendDialog")*/
         }
 
+        binding.btnAddFriend.setOnClickListener {
+            FriendDialog().show(parentFragmentManager, "friendDialog")
+        }
+
         binding.rvFriends.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = contactAdapter
         }
 
         viewModel.friends.observe(viewLifecycleOwner) { contactList ->
-            //contactAdapter.updateData(contactList)
             updateUI()
             showData()
             Log.d(Constants.GIL_TAG, contactList.toString())
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        selectFriends()
     }
 
     override fun onStart() {
@@ -104,7 +122,7 @@ class TabContactsFragment : Fragment() {
                     viewModel.loadFriends(userPreferences.getUserId().toString())
                 } else {
                     Log.d(Constants.GIL_TAG, "No Connected")
-                    viewModel.loadFriendsDB()
+                    showLoadConnection()
                 }
 
             } catch (e: Exception) {
@@ -115,7 +133,7 @@ class TabContactsFragment : Fragment() {
 
     private fun updateUI() {
         lifecycleScope.launch {
-            friends = contactRepository.getFriendsFromDb()
+            friends = contactRepository.loadFriendsFromApi(userPreferences.getUserId().toString())
             if (friends.isEmpty()){
                 binding.tvFriendsFound.text = getString(R.string.no_friends_found)
                 binding.tvFriendsFound.visibility = View.VISIBLE
@@ -127,9 +145,32 @@ class TabContactsFragment : Fragment() {
         }
     }
 
+    private fun searchFriends() {
+        binding.etFriendSearch.addTextChangedListener { searchFriend ->
+            val friendsFilter =
+                friends.filter { contact ->
+                    contact.contactName.lowercase().contains(searchFriend.toString().lowercase())
+                }
+            if (friendsFilter.isEmpty()){
+                binding.tvFriendsFound.text = getString(R.string.no_results_for,searchFriend.toString())
+                binding.tvFriendsFound.visibility = View.VISIBLE
+            }else{
+                binding.tvFriendsFound.visibility = View.INVISIBLE
+            }
+            contactAdapter.updateData(friendsFilter)
+        }
+    }
+
     private fun showData() {
         binding.viewFriendsLoad.visibility = View.GONE
         binding.rvFriends.visibility = View.VISIBLE
+    }
+    private fun showLoadConnection() {
+        binding.viewFriendsLoad.visibility = View.VISIBLE
+        binding.rvFriends.visibility = View.GONE
+        binding.tvFriendsFound.visibility = View.INVISIBLE
+        if (!Utils.isConnectedNow(requireContext()))
+            getActivityRootView()?.rootView?.showSnackBarError(getString(R.string.no_internet_connection))
     }
 
     override fun onDestroy() {

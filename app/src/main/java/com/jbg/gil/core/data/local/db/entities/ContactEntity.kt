@@ -16,19 +16,16 @@ data class ContactEntity(
     @ColumnInfo(name = "userId")
     var userId : String,
 
-    @ColumnInfo(name = "contactEmail")
-    var contactEmail : String,
-
     @ColumnInfo(name = "contactName")
     var contactName : String,
+
+    @ColumnInfo(name = "contactEmail")
+    var contactEmail : String,
 
     @ColumnInfo(name = "contactStatus")
     var contactStatus : String,
 
     @ColumnInfo(name = "contactType")
-    var contactType: String,
-
-    @ColumnInfo(name = "contactSol")
-    var contactSol: String
+    var contactType: String
 
 )

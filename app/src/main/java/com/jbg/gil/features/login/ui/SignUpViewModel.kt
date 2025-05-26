@@ -98,7 +98,6 @@ class SignUpViewModel @Inject constructor(
             val nameVal = name.value.orEmpty()
             val emailVal = email.value.orEmpty()
             val passwordVal = password.value.orEmpty()
-
             val userDateCreated = nowDate()
 
             viewModelScope.launch {
@@ -129,9 +128,6 @@ class SignUpViewModel @Inject constructor(
                     }else{
                         serverError.value = true
                     }
-
-
-
 
                 } catch (e: Exception) {
                     e.printStackTrace()

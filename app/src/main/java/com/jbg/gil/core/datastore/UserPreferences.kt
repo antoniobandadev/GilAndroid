@@ -27,9 +27,6 @@ class UserPreferences @Inject constructor(
     fun saveContactTable(contactTable: Boolean) {
         prefs.edit { putBoolean("contactTable", contactTable) }
     }
-    fun saveFriendTable(friendTable: Boolean) {
-        prefs.edit { putBoolean("friendTable", friendTable) }
-    }
 
     fun getUserName(): String? {
         return prefs.getString("userName", null)
@@ -49,10 +46,6 @@ class UserPreferences @Inject constructor(
 
     fun getContactTable(): Boolean {
         return prefs.getBoolean("contactTable", false)
-    }
-
-    fun getFriendTable(): Boolean {
-        return prefs.getBoolean("friendTable", false)
     }
 
     fun clearAll() {

@@ -23,7 +23,7 @@ import com.jbg.gil.core.utils.Constants
 import com.jbg.gil.core.utils.Utils
 import com.jbg.gil.databinding.FragmentContactsBinding
 import com.jbg.gil.features.contacts.data.model.ContactMapper.toDto
-import com.jbg.gil.features.contacts.ui.ContactDialog
+import com.jbg.gil.features.contacts.ui.dialogs.ContactDialog
 import com.jbg.gil.features.contacts.ui.adapters.ContactAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -46,7 +46,6 @@ class ContactsFragment : Fragment() {
     private val viewModel: ContactsViewModel by viewModels()
 
     private val networkViewModel: NetworkStatusViewModel by viewModels()
-    private var isConnectedApp: Boolean = false
 
     private lateinit var contactAdapter: ContactAdapter
 
@@ -65,10 +64,10 @@ class ContactsFragment : Fragment() {
         backAction()
         colorIconButton()
         searchContact()
+        //selectContacts()
 
         networkViewModel.getNetworkStatus().observe(viewLifecycleOwner) { isConnected ->
-            isConnectedApp = isConnected
-            //Log.d(Constants.GIL_TAG, "Conectado: $isConnected")
+            Log.d(Constants.GIL_TAG, "Conectado: $isConnected")
             selectContacts()
         }
 
@@ -124,7 +123,8 @@ class ContactsFragment : Fragment() {
     private fun selectContacts() {
         viewLifecycleOwner.lifecycleScope.launch {
             try {
-                val isConnected = networkViewModel.getNetworkStatus().value
+                viewModel.loadContacts(userPreferences.getUserId().toString())
+               /* val isConnected = networkViewModel.getNetworkStatus().value
 
                 if (isConnected == true) {
                     Log.d(Constants.GIL_TAG, "Connected")
@@ -132,7 +132,7 @@ class ContactsFragment : Fragment() {
                 } else {
                     Log.d(Constants.GIL_TAG, "No Connected")
                     viewModel.loadContactsDB()
-                }
+                }*/
 
             } catch (e: Exception) {
                 Log.e("Contacts", "Error loading contacts", e)
@@ -162,7 +162,6 @@ class ContactsFragment : Fragment() {
                 binding.tvContactsFound.visibility = View.INVISIBLE
             }
             contactAdapter.updateData(contacts)
-
 
         }
     }

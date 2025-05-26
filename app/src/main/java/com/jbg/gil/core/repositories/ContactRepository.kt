@@ -15,6 +15,8 @@ class ContactRepository @Inject constructor(
     private var userPreferences: UserPreferences
 ) {
 
+    //___________________________Contacts----------------------------------------------------
+
     suspend fun getContactsFromDb(): List<ContactEntity> {
         return contactDao.getAllContacts()
     }
@@ -27,7 +29,7 @@ class ContactRepository @Inject constructor(
                 val contacts = contactList.map { contact ->
                     contact.toEntity()
                 }
-                //dao.clearAll()
+
                 contactDao.insertContact(contacts)
                 userPreferences.saveContactTable(true)
                 Log.d(Constants.GIL_TAG, "API Response: $contacts")
@@ -47,7 +49,7 @@ class ContactRepository @Inject constructor(
 
     suspend fun getContacts(userId: String): List<ContactEntity> {
         val local = contactDao.getAllContacts()
-        if (userPreferences.getContactTable()) {
+        if (userPreferences.getContactTable() && local.isNotEmpty()) {
             Log.d(Constants.GIL_TAG, "Contacts Local")
             return local
         } else {
@@ -87,34 +89,25 @@ class ContactRepository @Inject constructor(
 
     //_________________________________________Friends____________________________________________
 
-    suspend fun getFriends(userId: String) : List<ContactEntity>{
-        val local = contactDao.getAllFriends()
-        if(userPreferences.getFriendTable()){
-            Log.d(Constants.GIL_TAG, "Friends Local")
-            return local
-        }else{
-            loadFriendsFromApi(userId)
-            return contactDao.getAllFriends()
-        }
-    }
-
-    private suspend fun loadFriendsFromApi(userId: String) {
+     suspend fun loadFriendsFromApi(userId: String) : List<ContactEntity>{
         try {
-            val friendsFromApi = contactApi.getFriends(userId)
+            val friendStatus = "A"
+            val friendsFromApi = contactApi.getFriends(userId, friendStatus)
             if (friendsFromApi.isSuccessful) {
                 val contactList = friendsFromApi.body() ?: emptyList()
-                val contacts = contactList.map { contact ->
+                val contacts = contactList
+                    .filter { friend -> friend.contactStatus == "A"}
+                    .map { contact ->
                     contact.toEntity()
                 }
-                //dao.clearAll()
-                contactDao.insertContact(contacts)
-                userPreferences.saveFriendTable(true)
+                //contactDao.clearAllFriends()
+                //contactDao.insertContact(contacts)
                 Log.d(Constants.GIL_TAG, "API Response: $contacts")
+                return contacts
 
             } else if (friendsFromApi.code() == 401) {
                 Log.d(Constants.GIL_TAG, "Error 401")
             } else if (friendsFromApi.code() == 404) {
-                userPreferences.saveFriendTable(true)
                 Log.d(Constants.GIL_TAG, "Error 404")
             } else if (friendsFromApi.code() == 500) {
                 Log.d(Constants.GIL_TAG, "Error 500")
@@ -122,34 +115,35 @@ class ContactRepository @Inject constructor(
         } catch (e: Exception) {
             Log.d(Constants.GIL_TAG, e.toString())
         }
+         return emptyList()
     }
 
-    suspend fun getFriendsFromDb(): List<ContactEntity> {
+    /*suspend fun getFriendsFromDb(): List<ContactEntity> {
         return contactDao.getAllFriends()
-    }
+    }*/
 
     //_________________________________________Received ____________________________________________
 
      suspend fun loadSolRecFromApi(userId: String) : List<ContactEntity> {
         try {
-            val solRecFromApi = contactApi.getFriends(userId)
+            val friendStatus = "R"
+            val solRecFromApi = contactApi.getFriends(userId, friendStatus)
             if (solRecFromApi.isSuccessful) {
                 val solRecList = solRecFromApi.body() ?: emptyList()
 
 
                 val solRecs = solRecList
-                    .filter { sol -> sol.contactStatus == "P" && sol.contactSol == "Received" }
+                    .filter { sol -> sol.contactStatus == "P" }
                     .map { solReceived ->
                         solReceived.toEntity()
                 }
-                //dao.clearAll()
+                //contactDao.clearAllFriends()
                 Log.d(Constants.GIL_TAG, "API Response: $solRecs")
                 return solRecs
 
             } else if (solRecFromApi.code() == 401) {
                 Log.d(Constants.GIL_TAG, "Error 401")
             } else if (solRecFromApi.code() == 404) {
-                userPreferences.saveFriendTable(true)
                 Log.d(Constants.GIL_TAG, "Error 404")
             } else if (solRecFromApi.code() == 500) {
                 Log.d(Constants.GIL_TAG, "Error 500")
@@ -160,28 +154,28 @@ class ContactRepository @Inject constructor(
         return emptyList()
     }
 
-    //_________________________________________Received ____________________________________________
+    //_________________________________________Sent ____________________________________________
 
     suspend fun loadSolSendFromApi(userId: String) : List<ContactEntity> {
         try {
-            val solSendFromApi = contactApi.getFriends(userId)
+            val friendStatus = "S"
+            val solSendFromApi = contactApi.getFriends(userId, friendStatus)
             if (solSendFromApi.isSuccessful) {
                 val solRecList = solSendFromApi.body() ?: emptyList()
 
 
                 val solSend = solRecList
-                    .filter { sol -> sol.contactStatus == "P" && sol.contactSol == "Send" }
+                    .filter { sol -> sol.contactStatus == "P" }
                     .map { solSend ->
                         solSend.toEntity()
                     }
-                //dao.clearAll()
+                //contactDao.clearAllFriends()
                 Log.d(Constants.GIL_TAG, "API Response: $solSend")
                 return solSend
 
             } else if (solSendFromApi.code() == 401) {
                 Log.d(Constants.GIL_TAG, "Error 401")
             } else if (solSendFromApi.code() == 404) {
-                userPreferences.saveFriendTable(true)
                 Log.d(Constants.GIL_TAG, "Error 404")
             } else if (solSendFromApi.code() == 500) {
                 Log.d(Constants.GIL_TAG, "Error 500")

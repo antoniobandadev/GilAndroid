@@ -12,8 +12,7 @@ object ContactMapper {
             contactEmail = this.contactEmail,
             contactName = this.contactName,
             contactStatus = this.contactStatus,
-            contactType = this.contactType,
-            contactSol = this.contactSol
+            contactType = this.contactType
         )
     }
 
@@ -24,8 +23,7 @@ object ContactMapper {
             contactEmail = this.contactEmail,
             contactName = this.contactName,
             contactStatus = this.contactStatus,
-            contactType = this.contactType,
-            contactSol = this.contactSol
+            contactType = this.contactType
         )
     }
 }

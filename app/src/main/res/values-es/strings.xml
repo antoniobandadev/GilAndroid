@@ -14,6 +14,8 @@
     <string name="update">Actualizar</string>
     <string name="yes">Si</string>
     <string name="no">No</string>
+    <string name="reject">Rechazar</string>
+    <string name="accept">Aceptar</string>
 
     <!--- LogIn-->
     <string name="user">Usuario</string>
@@ -70,6 +72,7 @@
 
     <!--- Contacts -->
     <string name="contact">Contacto</string>
+    <string name="add_contact">Agregar contacto</string>
     <string name="contact_save_successful">Contacto guardado exitosamente.</string>
     <string name="contact_update_successful">Contacto actualizado exitosamente.</string>
     <string name="contact_delete_successful">Contacto eliminado exitosamente.</string>
@@ -82,9 +85,23 @@
     <string name="error_delete_contact">No se pudo eliminar el contacto, por favor intentalo de nuevo.</string>
 
     <!--- Friends -->
+    <string name="add_friend">Agregar amigo</string>
     <string name="no_friends_found">No se encontraron amigos.</string>
     <string name="no_sol_rec_found">No se encontraron solicitudes recibidas.</string>
     <string name="no_sol_send_found">No se encontraron solicitudes enviadas.</string>
+    <string name="sol_friend_send">La solicitud se envió correctamente.</string>
+    <string name="sol_no_friend_found">No encontramos a tu amigo con esa dirección de correo. Por favor, verifica que esté correcta e inténtalo nuevamente.</string>
+    <string name="sol_friend_pending">Ya enviaste una solicitud de amistad a este usuario. Está pendiente de respuesta.</string>
+    <string name="reject_friend">Rechazar amigo</string>
+    <string name="confirm_reject_friend">¿Estás seguro de que quieres rechazar esta solicitud de amistad?</string>
+    <string name="friend_request_rejected_success">La solicitud de amistad se rechazó exitosamente.</string>
+    <string name="friend_request_accepted_success">La solicitud de amistad se aceptó exitosamente.</string>
+    <string name="cancel_request">Cancelar solicitud</string>
+    <string name="confirm_cancel_request">¿Estás seguro de que quieres cancelar esta solicitud de amistad?</string>
+    <string name="friend_request_cancelled_success">La solicitud de amistad fue cancelada correctamente.</string>
+
+
+
 
     <!--- Settings -->
     <string name="friends">Amigos</string>

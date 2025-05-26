@@ -7,6 +7,8 @@ import android.app.Dialog
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Rect
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.provider.Settings
 import android.util.Patterns
 import android.view.MotionEvent
@@ -164,6 +166,12 @@ object Utils {
         snackBar.show()
     }
     //----------------------------------------------------------------------------------------------
+    fun isConnectedNow(context: Context): Boolean {
+        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = cm.activeNetwork ?: return false
+        val capabilities = cm.getNetworkCapabilities(network) ?: return false
+        return capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+    }
 
     //----------------------------------------------------------------------------------------------
 

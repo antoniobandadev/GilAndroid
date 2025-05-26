@@ -1,4 +1,4 @@
-package com.jbg.gil.features.contacts.ui
+package com.jbg.gil.features.contacts.ui.dialogs
 
 import android.app.AlertDialog
 import android.app.Dialog
@@ -42,8 +42,7 @@ class ContactDialog (
         contactName = "",
         contactEmail = "",
         contactStatus = "",
-        contactType = "C",
-        contactSol = "New"
+        contactType = "C"
     )
 
 ) : DialogFragment() {

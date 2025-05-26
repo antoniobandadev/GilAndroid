@@ -23,6 +23,7 @@ class TabReceivedViewModel @Inject constructor(
 
     fun loadSolRec(userId : String) {
         viewModelScope.launch {
+            Log.d(Constants.GIL_TAG, "Recibidas")
 
             val response = contactRepository.loadSolRecFromApi(userId)
             _solRec.value = response

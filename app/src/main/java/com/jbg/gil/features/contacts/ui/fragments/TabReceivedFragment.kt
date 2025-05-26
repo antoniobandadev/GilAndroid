@@ -2,11 +2,13 @@ package com.jbg.gil.features.contacts.ui.fragments
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -16,11 +18,13 @@ import com.jbg.gil.core.datastore.UserPreferences
 import com.jbg.gil.core.network.NetworkStatusViewModel
 import com.jbg.gil.core.repositories.ContactRepository
 import com.jbg.gil.core.utils.Constants
+import com.jbg.gil.core.utils.Utils
 import com.jbg.gil.core.utils.Utils.getActivityRootView
 import com.jbg.gil.core.utils.Utils.showSnackBarError
-import com.jbg.gil.databinding.FragmentTabContactsBinding
 import com.jbg.gil.databinding.FragmentTabReceivedBinding
+import com.jbg.gil.features.contacts.data.model.ContactMapper.toDto
 import com.jbg.gil.features.contacts.ui.adapters.ContactAdapter
+import com.jbg.gil.features.contacts.ui.dialogs.SolDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -42,7 +46,6 @@ class TabReceivedFragment : Fragment() {
     private val viewModel: TabReceivedViewModel by viewModels()
 
     private val networkViewModel: NetworkStatusViewModel by viewModels()
-    private var isConnectedApp: Boolean = false
 
     private lateinit var contactAdapter: ContactAdapter
 
@@ -57,26 +60,28 @@ class TabReceivedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Utils.setupHideKeyboardOnTouch(view, requireActivity())
+        searchSol()
+        //selectReceivedSol()
 
         networkViewModel.getNetworkStatus().observe(viewLifecycleOwner) { isConnected ->
-            isConnectedApp = isConnected
-            //Log.d(Constants.GIL_TAG, "Conectado: $isConnected")
-            if (isConnected){
-                selectReceivedSol()
-            }else{
-                getActivityRootView()?.showSnackBarError(getString(R.string.no_internet_connection))
-            }
 
+            if (isConnected && lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)){
+                selectReceivedSol()
+                Log.d(Constants.GIL_TAG, "Conectado Recived: $isConnected")
+            }else{
+                showLoadConnection()
+            }
         }
 
         contactAdapter = ContactAdapter(emptyList()) { selectedContact ->
-            /* ContactDialog(
-                 newContact = false,
+             SolDialog(
+                 received = true,
                  updateUI = {
                      updateUI()
                  },
-                 contact = selectedContact.toDto()
-             ).show(parentFragmentManager, "friendDialog")*/
+                 friendSol = selectedContact.toDto()
+             ).show(parentFragmentManager, "friendDialog")
         }
 
         binding.rvSolRec.apply {
@@ -94,24 +99,30 @@ class TabReceivedFragment : Fragment() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        selectReceivedSol()
+    }
+
     override fun onStart() {
         super.onStart()
         val bottomNavView = requireActivity().findViewById<BottomNavigationView>(R.id.botHomMenu)
         bottomNavView.menu.findItem(R.id.myGuestFragment).isChecked = true
+        selectReceivedSol()
         //Log.d(Constants.GIL_TAG, bottomNavView.selectedItemId.toString())
     }
 
     private fun selectReceivedSol() {
         viewLifecycleOwner.lifecycleScope.launch {
             try {
+
                 val isConnected = networkViewModel.getNetworkStatus().value
 
                 if (isConnected == true) {
                     Log.d(Constants.GIL_TAG, "Connected")
                     viewModel.loadSolRec(userPreferences.getUserId().toString())
                 } else {
-                    Log.d(Constants.GIL_TAG, "No Connected")
-
+                    showLoadConnection()
                 }
 
             } catch (e: Exception) {
@@ -122,18 +133,43 @@ class TabReceivedFragment : Fragment() {
 
     private fun updateUI() {
         lifecycleScope.launch {
+            solReceivedList = contactRepository.loadSolRecFromApi(userPreferences.getUserId().toString())
             if (solReceivedList.isEmpty()){
                 binding.tvSolRecFound.text = getString(R.string.no_sol_rec_found)
                 binding.tvSolRecFound.visibility = View.VISIBLE
             }else{
                 binding.tvSolRecFound.visibility = View.INVISIBLE
             }
+            contactAdapter.updateData(solReceivedList)
+        }
+    }
+
+    private fun searchSol() {
+        binding.etSolRecearch.addTextChangedListener { searchContact ->
+            val solFilter =
+                solReceivedList.filter { sol ->
+                    sol.contactName.lowercase().contains(searchContact.toString().lowercase())
+                }
+            if (solFilter.isEmpty()){
+                binding.tvSolRecFound.text = getString(R.string.no_results_for,searchContact.toString())
+                binding.tvSolRecFound.visibility = View.VISIBLE
+            }else{
+                binding.tvSolRecFound.visibility = View.INVISIBLE
+            }
+            contactAdapter.updateData(solFilter)
         }
     }
 
     private fun showData() {
         binding.viewSolRecLoad.visibility = View.GONE
         binding.rvSolRec.visibility = View.VISIBLE
+    }
+    private fun showLoadConnection() {
+        binding.viewSolRecLoad.visibility = View.VISIBLE
+        binding.rvSolRec.visibility = View.GONE
+        binding.tvSolRecFound.visibility = View.INVISIBLE
+        if (!Utils.isConnectedNow(requireContext()))
+            getActivityRootView()?.rootView?.showSnackBarError(getString(R.string.no_internet_connection))
     }
 
     override fun onDestroy() {

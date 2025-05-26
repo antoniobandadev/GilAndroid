@@ -45,7 +45,7 @@ class FriendsFragment : Fragment() {
         tabLayout = binding.tabLayContacts
 
         val fragments = listOf(
-            TabContactsFragment(),
+            TabFriendsFragment(),
             TabReceivedFragment(),
             TabSentFragment()
         )
