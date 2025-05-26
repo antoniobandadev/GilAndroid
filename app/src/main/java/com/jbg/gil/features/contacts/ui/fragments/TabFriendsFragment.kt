@@ -25,7 +25,6 @@ import com.jbg.gil.databinding.FragmentTabContactsBinding
 import com.jbg.gil.features.contacts.data.model.ContactMapper.toDto
 import com.jbg.gil.features.contacts.ui.adapters.ContactAdapter
 import com.jbg.gil.features.contacts.ui.dialogs.FriendDialog
-import com.jbg.gil.features.contacts.ui.dialogs.SolDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
