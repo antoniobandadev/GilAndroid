@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".5"/>
+            app:layout_constraintGuide_percent=".45"/>
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/glLogBottom"
@@ -149,10 +149,25 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lbLogPass"
-            app:layout_constraintBottom_toTopOf="@+id/tvRegister"
+            app:layout_constraintBottom_toTopOf="@+id/tvForgotPass"
             android:layout_marginHorizontal="40dp"
             android:layout_marginTop="10dp"
             android:text="@string/login"
+            />
+
+        <TextView
+            android:id="@+id/tvForgotPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btLogIn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/tvRegister"
+            android:textColor="@color/white"
+            android:text="@string/forgot_password"
+            android:layout_marginHorizontal="40dp"
+            android:textSize="13sp"
+            android:gravity="center"
             />
 
         <TextView
@@ -160,15 +175,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btLogIn"
+            app:layout_constraintTop_toBottomOf="@+id/tvForgotPass"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/glLogBottom"
             android:textColor="@color/white"
             android:text="@string/sign_up_now"
             android:layout_marginHorizontal="40dp"
-            android:textSize="11sp"
+            android:textSize="13sp"
             android:gravity="center"
             />
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

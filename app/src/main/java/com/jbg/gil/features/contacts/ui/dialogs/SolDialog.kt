@@ -76,8 +76,8 @@ class SolDialog (
             binding.apply {
                 btDiaFriendDelete.visibility = View.VISIBLE
                 lbFriendName.visibility = View.VISIBLE
-                lbFriendEmail.isEnabled = false
-                lbFriendName.isEnabled = false
+                etFriendName.isEnabled = false
+                etFriendEmail.isEnabled = false
                 etFriendName.setText(friendSol.contactName)
                 etFriendEmail.setText(friendSol.contactEmail)
                 btDiaFriendDelete.text = getString(R.string.reject)
@@ -89,8 +89,8 @@ class SolDialog (
                 btDiaFriendAdd.visibility = View.GONE
                 btDiaFriendDelete.visibility = View.VISIBLE
                 lbFriendName.visibility = View.VISIBLE
-                lbFriendEmail.isEnabled = false
-                lbFriendName.isEnabled = false
+                etFriendName.isEnabled = false
+                etFriendEmail.isEnabled = false
                 etFriendName.setText(friendSol.contactName)
                 etFriendEmail.setText(friendSol.contactEmail)
                 btDiaFriendDelete.text = getString(R.string.cancel_request)

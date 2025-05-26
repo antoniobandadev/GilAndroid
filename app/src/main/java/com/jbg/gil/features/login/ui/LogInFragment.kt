@@ -90,6 +90,17 @@ class LogInFragment : Fragment() {
                 )
                 findNavController().navigate(R.id.action_logInFragment_to_signUpFragment)
             }
+
+            tvForgotPass.setOnClickListener {
+
+                binding.tvForgotPass.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.secondary
+                    )
+                )
+                findNavController().navigate(R.id.action_logInFragment_to_forgotPasswordFragment)
+            }
         }
 
         viewModel.apply {

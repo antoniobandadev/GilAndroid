@@ -22,8 +22,10 @@ import com.jbg.gil.core.utils.Utils
 import com.jbg.gil.core.utils.Utils.getActivityRootView
 import com.jbg.gil.core.utils.Utils.showSnackBarError
 import com.jbg.gil.databinding.FragmentTabContactsBinding
+import com.jbg.gil.features.contacts.data.model.ContactMapper.toDto
 import com.jbg.gil.features.contacts.ui.adapters.ContactAdapter
 import com.jbg.gil.features.contacts.ui.dialogs.FriendDialog
+import com.jbg.gil.features.contacts.ui.dialogs.SolDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -74,17 +76,23 @@ class TabFriendsFragment : Fragment() {
         }
 
         contactAdapter = ContactAdapter(emptyList()) { selectedContact ->
-           /* ContactDialog(
-                newContact = false,
+            FriendDialog(
+                new = false,
                 updateUI = {
                     updateUI()
                 },
-                contact = selectedContact.toDto()
-            ).show(parentFragmentManager, "friendDialog")*/
+                myFriend = selectedContact.toDto()
+            ).show(parentFragmentManager, "friendDialog")
+
         }
 
         binding.btnAddFriend.setOnClickListener {
-            FriendDialog().show(parentFragmentManager, "friendDialog")
+            FriendDialog(
+                new = true,
+                updateUI = {
+                    updateUI()
+                }
+            ).show(parentFragmentManager, "friendDialog")
         }
 
         binding.rvFriends.apply {

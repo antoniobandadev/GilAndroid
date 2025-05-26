@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graph"
     app:startDestination="@id/logInFragment">
     <fragment
@@ -23,13 +24,25 @@
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/from_right" />
+        <action
+            android:id="@+id/action_logInFragment_to_forgotPasswordFragment"
+            app:destination="@id/forgotPasswordFragment"
+            app:enterAnim="@anim/to_up"
+            app:exitAnim="@anim/no_anim"
+            app:popEnterAnim="@anim/no_anim"
+            app:popExitAnim="@anim/from_up" />
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
         android:name="com.jbg.gil.features.login.ui.SignUpFragment"
         android:label="SignUpFragment" />
     <include app:graph="@navigation/home_graph" />
-    </navigation>
+    <fragment
+        android:id="@+id/forgotPasswordFragment"
+        android:name="com.jbg.gil.features.login.ui.ForgotPasswordFragment"
+        android:label="fragment_forgot_password"
+        tools:layout="@layout/fragment_forgot_password" />
+</navigation>
 
 
 <!--app:popExitAnim="@anim/from_up" se cierra hacia abajo de la pantalla-->

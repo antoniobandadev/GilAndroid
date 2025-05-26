@@ -6,6 +6,7 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.DialogFragment
@@ -14,6 +15,8 @@ import androidx.lifecycle.lifecycleScope
 import com.jbg.gil.R
 import com.jbg.gil.core.data.remote.apis.ContactApi
 import com.jbg.gil.core.data.remote.dtos.AddFriendDto
+import com.jbg.gil.core.data.remote.dtos.ContactDto
+import com.jbg.gil.core.data.remote.dtos.RespFriendDto
 import com.jbg.gil.core.datastore.UserPreferences
 import com.jbg.gil.core.network.NetworkStatusViewModel
 import com.jbg.gil.core.repositories.ContactRepository
@@ -26,10 +29,22 @@ import com.jbg.gil.core.utils.Utils.showSnackBarError
 import com.jbg.gil.databinding.SolFriendDialogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.io.IOException
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class FriendDialog (): DialogFragment() {
+class FriendDialog (
+    private val new : Boolean,
+    private val updateUI: () -> Unit,
+    private val myFriend : ContactDto = ContactDto(
+        contactId = "",
+        userId = "",
+        contactName = "",
+        contactEmail = "",
+        contactStatus = "",
+        contactType = ""
+    )
+): DialogFragment() {
 
     @Inject
     lateinit var contactRepository: ContactRepository
@@ -68,6 +83,20 @@ class FriendDialog (): DialogFragment() {
             dialog.dismiss()
         }
 
+        if (!new){
+            binding.apply {
+                btDiaFriendAdd.visibility = View.GONE
+                btDiaFriendDelete.visibility = View.VISIBLE
+                lbFriendName.visibility = View.VISIBLE
+
+                etFriendName.setText(myFriend.contactName)
+                etFriendEmail.setText(myFriend.contactEmail)
+                etFriendName.isEnabled = false
+                etFriendEmail.isEnabled = false
+                tvTitle.text = getString(R.string.delete_friend)
+            }
+        }
+
 
         //Add
         binding.btDiaFriendAdd.setOnClickListener {
@@ -76,6 +105,24 @@ class FriendDialog (): DialogFragment() {
                 addFriend()
             }
         }
+
+        binding.btDiaFriendDelete.setOnClickListener {
+            Utils.showConfirmAlertDialog(
+                context = requireContext(),
+                title = getString(R.string.delete_friend),
+                message = getString(R.string.confirm_delete_friend),
+                confirmText = getString(R.string.yes),
+                cancelText = getString(R.string.no),
+                confirmColor = ContextCompat.getColor(requireContext(), R.color.red),
+                onConfirm = {
+                    lifecycleScope.launch {
+                        deleteFriend()
+                    }
+                }
+            )
+        }
+
+
 
         return dialog
     }
@@ -152,6 +199,51 @@ class FriendDialog (): DialogFragment() {
         }
 
     }
+
+    private fun deleteFriend(){
+
+        val respSolFriend = RespFriendDto(
+            userId = myFriend.userId,
+            friendId = myFriend.contactId,
+            friendStatus = "C"
+        )
+        DialogUtils.showLoadingDialog(requireContext())
+        val isConnected = networkStatusViewModel.getNetworkStatus().value
+
+        if (isConnected == true) {
+            try {
+                lifecycleScope.launch {
+                    val rejectFriend = apiContactApi.responseSol(respSolFriend)
+
+                    if (rejectFriend.code() == 200){
+                        getActivityRootView()?.showSnackBar(getString(R.string.delete_friend_success))
+                        DialogUtils.dismissLoadingDialog()
+                        dialog?.dismiss()
+                        updateUI()
+                    }else {
+                        getActivityRootView()?.showSnackBarError(getString(R.string.server_error))
+                        DialogUtils.dismissLoadingDialog()
+                        dialog?.dismiss()
+                        updateUI()
+                    }
+
+                }
+            }catch (e: IOException){
+                e.printStackTrace()
+                Log.d(Constants.GIL_TAG, "Error al actualizar la solicitud")
+
+            } catch (e: Exception) {
+                Log.d(Constants.GIL_TAG, "Error Api Contact: $e")
+            }
+
+        } else {
+            DialogUtils.dismissLoadingDialog()
+            dialog?.dismiss()
+            getActivityRootView()?.showSnackBarError(getString(R.string.no_internet_connection))
+        }
+
+    }
+
 
     private fun focusAndTextListener() {
         binding.apply {

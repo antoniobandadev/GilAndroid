@@ -38,6 +38,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
             />
 
         <TextView
+            android:id="@+id/tvTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
@@ -61,7 +62,6 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
             app:startIconDrawable="@drawable/ic_person"
             app:endIconMode="clear_text"
             android:visibility="gone"
-            android:enabled="false"
             >
 
             <com.google.android.material.textfield.TextInputEditText

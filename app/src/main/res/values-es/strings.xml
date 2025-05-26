@@ -16,6 +16,8 @@
     <string name="no">No</string>
     <string name="reject">Rechazar</string>
     <string name="accept">Aceptar</string>
+    <string name="_continue">Continuar</string>
+    <string name="change">Cambiar</string>
 
     <!--- LogIn-->
     <string name="user">Usuario</string>
@@ -29,6 +31,18 @@
     <string name="login_success">Sesión iniciada correctamente. Bienvenido(a).</string>
     <string name="server_error">Ha ocurrido un error inesperado. Intente nuevamente más tarde.</string>
 
+    <string name="forgot_password">¿Olvidaste tu contraseña?</string>
+    <string name="change_password">Actualizar contraseña</string>
+    <string name="forgot_code">Codigo</string>
+    <string name="new_password">Nueva contraseña</string>
+    <string name="confirm_new_password">Confirma nueva contraseña</string>
+    <string name="no_email_found">No se encontró ningún usuario con esta cuenta de correo. Verifica tu correo e inténtalo de nuevo </string>
+    <string name="send_code">Código enviado.</string>
+    <string name="verification_code_sent">Te enviamos un código de verificación por correo electrónico.</string>
+    <string name="incorrect_code">El código no es correcto. Verifícalo de nuevo.</string>
+    <string name="password_changed_successfully">La contraseña se cambió exitosamente.</string>
+    <string name="invalid_code_val">El campo del codigo no puede quedar vacío.</string>
+
 
     <!--- Sign Up -->
     <string name="sign_up">Registrar</string>
@@ -36,6 +50,8 @@
     <string name="email">Correo electrónico</string>
     <string name="confirm_email">Confirma correo electrónico</string>
     <string name="confirm_password">Confirma contraseña</string>
+    <string name="password_updated_success">La contraseña fue actualizada correctamente.</string>
+
 
     <string name="invalid_name">El nombre debe tener al menos 3 caracteres.</string>
     <string name="invalid_email">El campo de correo electrónico no puede quedar vacío. Por favor, ingresa tu dirección de correo.</string>
@@ -99,6 +115,9 @@
     <string name="cancel_request">Cancelar solicitud</string>
     <string name="confirm_cancel_request">¿Estás seguro de que quieres cancelar esta solicitud de amistad?</string>
     <string name="friend_request_cancelled_success">La solicitud de amistad fue cancelada correctamente.</string>
+    <string name="delete_friend">Eliminar amigo</string>
+    <string name="confirm_delete_friend">¿Estás seguro de que quieres eliminar a este amigo?</string>
+    <string name="delete_friend_success">Amigo eliminado exitósamente.</string>
 
 
 

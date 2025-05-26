@@ -23,3 +23,14 @@ data class UserDto (
     var createdAt : String? = null
 
 )
+
+data class SolPassDto(
+    var userEmail: String,
+    var userLanguage: String
+)
+
+data class PassUserDto(
+    var userPassId : String,
+    var userId: String,
+    var userPassCode: String
+)
