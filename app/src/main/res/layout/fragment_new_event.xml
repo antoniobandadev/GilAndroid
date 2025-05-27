@@ -1,25 +1,263 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:background="@color/primaryDark"
-    tools:context=".features.newevent.ui.NewEventFragment">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:id="@+id/tvTitleContacts"
+        <TextView
+            android:id="@+id/tvTitleContacts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/secondary"
+            android:background="@color/primaryDark"
+            android:gravity="center"
+            android:text="@string/new_event" />
+
+    <ScrollView
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/main"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@color/secondary"
-        android:background="@color/primaryDark"
-        android:gravity="center"
-        android:text="@string/new_event" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:fillViewport="true"
+        tools:context=".features.newevent.ui.NewEventFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/primary"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="20dp"
+            tools:ignore="UselessLeaf" >
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_person"
+                app:tint="@color/accent"
+                />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomTextInputLayout.NoMargin"
+                android:id="@+id/lbEventName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/event_name"
+                app:startIconDrawable="@drawable/ic_search"
+                app:endIconMode="clear_text"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etEventName"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textCursorDrawable="@drawable/white_cursor"
+                    android:textColor="@color/white"
+                    android:maxLength="50"
+                    android:maxLines="1"
+                    android:inputType="textCapSentences"
+                    android:imeOptions="actionDone"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomTextInputLayout.NoMargin"
+                android:id="@+id/lbEventDesc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/event_description"
+                app:startIconDrawable="@drawable/ic_search"
+                app:endIconMode="clear_text"
+                android:layout_marginTop="5dp"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etEventDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textCursorDrawable="@drawable/white_cursor"
+                    android:textColor="@color/white"
+                    android:maxLength="50"
+                    android:maxLines="1"
+                    android:inputType="textCapSentences"
+                    android:imeOptions="actionDone"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomTextInputLayout.NoMargin"
+                android:id="@+id/lbEventType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/event_type"
+                app:startIconDrawable="@drawable/ic_search"
+                app:endIconMode="clear_text"
+                android:layout_marginTop="5dp"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etEvenType"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textCursorDrawable="@drawable/white_cursor"
+                    android:textColor="@color/white"
+                    android:maxLength="50"
+                    android:maxLines="1"
+                    android:inputType="textCapSentences"
+                    android:imeOptions="actionDone"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/CustomTextInputLayout.NoMargin"
+                    android:id="@+id/lbEventDateIni"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/start_date"
+                    app:startIconDrawable="@drawable/ic_search"
+                    app:endIconMode="clear_text"
+                    android:layout_marginTop="5dp"
+                    >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etEventDateIni"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textCursorDrawable="@drawable/white_cursor"
+                        android:textColor="@color/white"
+                        android:maxLength="50"
+                        android:maxLines="1"
+                        android:inputType="textCapSentences"
+                        android:imeOptions="actionDone"
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/CustomTextInputLayout.NoMargin"
+                    android:id="@+id/lbEventDateEnd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/end_date"
+                    app:startIconDrawable="@drawable/ic_search"
+                    app:endIconMode="clear_text"
+                    android:layout_marginTop="5dp"
+                    >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etEventDateEnd"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textCursorDrawable="@drawable/white_cursor"
+                        android:textColor="@color/white"
+                        android:maxLength="50"
+                        android:maxLines="1"
+                        android:inputType="textCapSentences"
+                        android:imeOptions="actionDone"
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomTextInputLayout.NoMargin"
+                android:id="@+id/lbEventStreet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/street"
+                app:startIconDrawable="@drawable/ic_search"
+                app:endIconMode="clear_text"
+                android:layout_marginTop="5dp"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etEventStreet"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textCursorDrawable="@drawable/white_cursor"
+                    android:textColor="@color/white"
+                    android:maxLength="50"
+                    android:maxLines="1"
+                    android:inputType="textCapSentences"
+                    android:imeOptions="actionDone"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomTextInputLayout.NoMargin"
+                android:id="@+id/lbEventState"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/exterior_number"
+                app:startIconDrawable="@drawable/ic_search"
+                app:endIconMode="clear_text"
+                android:layout_marginTop="5dp"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etEventState"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textCursorDrawable="@drawable/white_cursor"
+                    android:textColor="@color/white"
+                    android:maxLength="50"
+                    android:maxLines="1"
+                    android:inputType="textCapSentences"
+                    android:imeOptions="actionDone"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomTextInputLayout.NoMargin"
+                android:id="@+id/lbEventCountry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/country"
+                app:startIconDrawable="@drawable/ic_search"
+                app:endIconMode="clear_text"
+                android:layout_marginTop="5dp"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etEventCountry"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textCursorDrawable="@drawable/white_cursor"
+                    android:textColor="@color/white"
+                    android:maxLength="50"
+                    android:maxLines="1"
+                    android:inputType="textCapSentences"
+                    android:imeOptions="actionDone"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                style="@style/CustomButton"
+                android:id="@+id/btSignUp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
+                android:layout_marginTop="5dp"
+                android:text="@string/save"
+                />
+
+        </LinearLayout>
+
+    </ScrollView>
+    </LinearLayout>
+

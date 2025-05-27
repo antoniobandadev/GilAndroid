@@ -93,7 +93,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvTitle"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/lbSignPassEmail"
+            app:layout_constraintBottom_toTopOf="@+id/lbSignEmail"
             android:hint="@string/name"
             app:startIconDrawable="@drawable/ic_person"
             app:endIconMode="clear_text"
