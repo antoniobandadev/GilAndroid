@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -42,6 +43,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
+                android:contentDescription="@string/new_event"
                 android:src="@drawable/ic_person"
                 app:tint="@color/accent"
                 />
@@ -65,10 +67,12 @@
                     android:maxLength="50"
                     android:maxLines="1"
                     android:inputType="textCapSentences"
-                    android:imeOptions="actionDone"
+                    android:imeOptions="actionNext"
+                   style="@style/ShrinkTextInput"
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
+
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/CustomTextInputLayout.NoMargin"
@@ -90,87 +94,131 @@
                     android:maxLength="50"
                     android:maxLines="1"
                     android:inputType="textCapSentences"
-                    android:imeOptions="actionDone"
+                    android:imeOptions="actionNext"
+                    style="@style/ShrinkTextInput"
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/CustomTextInputLayout.NoMargin"
-                android:id="@+id/lbEventType"
+                android:id="@+id/textInputLayout"
+                style="@style/CustomSpine.NoMargin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/event_type"
-                app:startIconDrawable="@drawable/ic_search"
-                app:endIconMode="clear_text"
-                android:layout_marginTop="5dp"
-                >
+                app:startIconDrawable="@drawable/ic_person"
+                app:boxBackgroundMode="outline">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etEvenType"
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteTextView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textCursorDrawable="@drawable/white_cursor"
-                    android:textColor="@color/white"
-                    android:maxLength="50"
-                    android:maxLines="1"
-                    android:inputType="textCapSentences"
-                    android:imeOptions="actionDone"
-                    />
-
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:textColor="@color/accent"
+                    style="@style/ShrinkTextInput"
+                    tools:ignore="LabelFor" />
             </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/CustomTextInputLayout.NoMargin"
-                    android:id="@+id/lbEventDateIni"
-                    android:layout_width="match_parent"
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="16sp"
+                android:text="@string/date"
+                android:textColor="@color/accent"
+                />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:hint="@string/start_date"
-                    app:startIconDrawable="@drawable/ic_search"
-                    app:endIconMode="clear_text"
-                    android:layout_marginTop="5dp"
-                    >
+                    android:orientation="vertical">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etEventDateIni"
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/CustomTextInputLayout.NoMargin"
+                        android:id="@+id/lbEventDateIni"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:textCursorDrawable="@drawable/white_cursor"
-                        android:textColor="@color/white"
-                        android:maxLength="50"
-                        android:maxLines="1"
-                        android:inputType="textCapSentences"
-                        android:imeOptions="actionDone"
-                        />
+                        android:layout_height="wrap_content"
+                        android:hint="@string/start_date"
+                        app:startIconDrawable="@drawable/ic_calendar"
+                        app:endIconMode="clear_text"
+                        >
 
-                </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etEventDateIni"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textCursorDrawable="@drawable/white_cursor"
+                            android:textColor="@color/white"
+                            android:maxLength="50"
+                            android:maxLines="1"
+                            android:imeOptions="actionNext"
+                            style="@style/ShrinkTextInput"
+                            android:focusable="false"
+                            android:clickable="true"
+                            android:inputType="none"
+                            />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/CustomTextInputLayout.NoMargin"
-                    android:id="@+id/lbEventDateEnd"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/end_date"
-                    app:startIconDrawable="@drawable/ic_search"
-                    app:endIconMode="clear_text"
-                    android:layout_marginTop="5dp"
-                    >
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etEventDateEnd"
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/CustomTextInputLayout.NoMargin"
+                        android:id="@+id/lbEventDateEnd"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:textCursorDrawable="@drawable/white_cursor"
-                        android:textColor="@color/white"
-                        android:maxLength="50"
-                        android:maxLines="1"
-                        android:inputType="textCapSentences"
-                        android:imeOptions="actionDone"
-                        />
+                        android:layout_height="wrap_content"
+                        android:hint="@string/start_date"
+                        app:startIconDrawable="@drawable/ic_calendar"
+                        app:endIconMode="clear_text"
+                        android:layout_marginTop="5dp"
+                        >
 
-                </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etEventDateEnd"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textCursorDrawable="@drawable/white_cursor"
+                            android:textColor="@color/white"
+                            android:maxLength="50"
+                            android:maxLines="1"
+                            android:imeOptions="actionNext"
+                            style="@style/ShrinkTextInput"
+                            android:focusable="false"
+                            android:clickable="true"
+                            android:inputType="none"
+                            />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+                <ProgressBar
+                    android:id="@+id/spDate"
+                    style="?android:attr/progressBarStyleSmall"
+                    android:layout_gravity="end|center_vertical"
+                    android:visibility="gone"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp" />
+
+            </LinearLayout>
 
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="16sp"
+                android:text="@string/address"
+                android:textColor="@color/accent"
+                />
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/CustomTextInputLayout.NoMargin"
                 android:id="@+id/lbEventStreet"
@@ -191,32 +239,8 @@
                     android:maxLength="50"
                     android:maxLines="1"
                     android:inputType="textCapSentences"
-                    android:imeOptions="actionDone"
-                    />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/CustomTextInputLayout.NoMargin"
-                android:id="@+id/lbEventState"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/exterior_number"
-                app:startIconDrawable="@drawable/ic_search"
-                app:endIconMode="clear_text"
-                android:layout_marginTop="5dp"
-                >
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etEventState"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textCursorDrawable="@drawable/white_cursor"
-                    android:textColor="@color/white"
-                    android:maxLength="50"
-                    android:maxLines="1"
-                    android:inputType="textCapSentences"
-                    android:imeOptions="actionDone"
+                    android:imeOptions="actionNext"
+                    style="@style/ShrinkTextInput"
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -226,7 +250,7 @@
                 android:id="@+id/lbEventCountry"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/country"
+                android:hint="@string/city"
                 app:startIconDrawable="@drawable/ic_search"
                 app:endIconMode="clear_text"
                 android:layout_marginTop="5dp"
@@ -242,6 +266,7 @@
                     android:maxLines="1"
                     android:inputType="textCapSentences"
                     android:imeOptions="actionDone"
+                    style="@style/ShrinkTextInput"
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -252,7 +277,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="40dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:text="@string/save"
                 />
 

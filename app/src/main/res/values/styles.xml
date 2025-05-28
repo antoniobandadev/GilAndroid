@@ -97,4 +97,26 @@
         <item name="cursorColor">@color/accent</item>
     </style>
 
+    <style name="ShrinkTextInput" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="CustomSpine.NoMargin" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="boxStrokeColor">@color/secondary</item>
+        <item name="boxStrokeWidth">2dp</item>
+        <item name="boxBackgroundColor">@color/black</item>
+        <item name="boxBackgroundMode">outline</item>
+        <item name="hintEnabled">true</item>
+        <item name="android:textColorHint">@color/secondary</item>
+        <item name="hintTextColor">@color/secondary</item>
+        <item name="startIconTint">@color/accent</item>
+        <item name="endIconTint">@color/accent</item>
+        <item name="hintTextAppearance">@style/TextLabel</item>
+        <item name="cursorColor">@color/accent</item>
+    </style>
+
+
 </resources>

@@ -83,13 +83,15 @@
     <string name="event_type">Tipo</string>
     <string name="start_date">Fecha de inicio</string>
     <string name="end_date">Fecha de fin</string>
-    <string name="interior_number">Número int.</string>
-    <string name="exterior_number">Número</string>
-    <string name="street">Calle</string>
+    <string name="street">Calle y número</string>
     <string name="city">Ciudad</string>
-    <string name="state">Estado</string>
-    <string name="country">País, Estado, Ciudad</string>
-    <string name="postal_code">Código postal</string>
+    <string name="date">Fecha</string>
+    <string name="address">Dirección</string>
+    <string name="my_event_date">Fecha de mi evento</string>
+    <string name="event_category_social">Social / Celebración</string>
+    <string name="event_category_corporate">Corporativo / Profesional</string>
+    <string name="event_category_academic">Académico / Educativo</string>
+    <string name="event_category_other">Otro</string>
 
 
     <!--- Contacts -->

@@ -83,13 +83,15 @@
     <string name="event_type">Type</string>
     <string name="start_date">Start Date</string>
     <string name="end_date">End Date</string>
-    <string name="interior_number">Int. Number</string>
-    <string name="exterior_number">Number</string>
-    <string name="street">Street</string>
+    <string name="street">Street and number</string>
     <string name="city">City</string>
-    <string name="state">State</string>
-    <string name="country">Country, State, City</string>
-    <string name="postal_code">Postal Code</string>
+    <string name="date">Date</string>
+    <string name="address">Address</string>
+    <string name="my_event_date">My event day</string>
+    <string name="event_category_social">Social / Celebration</string>
+    <string name="event_category_corporate">Corporate / Professional</string>
+    <string name="event_category_academic">Academic / Educational</string>
+    <string name="event_category_other">Other</string>
 
     <!--- Friends -->
     <string name="my_friends">My friends</string>
