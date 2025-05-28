@@ -28,8 +28,8 @@
     <string name="invalid_logPass">Por favor, ingresa tu contraseña.</string>
     <string name="invalid_data">¡Ups! El nombre de usuario o la contraseña no coinciden. Verifica tus datos e inténtalo de nuevo.</string>
 
-    <string name="login_success">Sesión iniciada correctamente. Bienvenido(a).</string>
-    <string name="server_error">Ha ocurrido un error inesperado. Intente nuevamente más tarde.</string>
+    <string name="login_success">Sesión iniciada exitósamente. Bienvenido(a).</string>
+    <string name="server_error">¡Ups! Ha ocurrido un error inesperado. Intente nuevamente más tarde.</string>
 
     <string name="forgot_password">¿Olvidaste tu contraseña?</string>
     <string name="change_password">Actualizar contraseña</string>
@@ -50,7 +50,7 @@
     <string name="email">Correo electrónico</string>
     <string name="confirm_email">Confirma correo electrónico</string>
     <string name="confirm_password">Confirma contraseña</string>
-    <string name="password_updated_success">La contraseña fue actualizada correctamente.</string>
+    <string name="password_updated_success">La contraseña fue actualizada exitósamente.</string>
 
 
     <string name="invalid_name">El nombre debe tener al menos 3 caracteres.</string>
@@ -91,7 +91,9 @@
     <string name="event_category_social">Social / Celebración</string>
     <string name="event_category_corporate">Corporativo / Profesional</string>
     <string name="event_category_academic">Académico / Educativo</string>
-    <string name="event_category_other">Otro</string>
+    <string name="event_category_other">Otro</string>Required field
+    <string name="required_field">Campo obligatorio *</string>
+    <string name="event_save_success">Evento guardado exitósamente.</string>
 
 
     <!--- Contacts -->
@@ -119,7 +121,7 @@
     <string name="no_friends_found">No se encontraron amigos.</string>
     <string name="no_sol_rec_found">No se encontraron solicitudes recibidas.</string>
     <string name="no_sol_send_found">No se encontraron solicitudes enviadas.</string>
-    <string name="sol_friend_send">La solicitud se envió correctamente.</string>
+    <string name="sol_friend_send">La solicitud se envió exitósamente.</string>
     <string name="sol_no_friend_found">No encontramos a tu amigo con esa dirección de correo. Por favor, verifica que esté correcta e inténtalo nuevamente.</string>
     <string name="sol_friend_pending">Ya enviaste una solicitud de amistad a este usuario. Está pendiente de respuesta.</string>
     <string name="reject_friend">Rechazar amigo</string>
@@ -128,7 +130,7 @@
     <string name="friend_request_accepted_success">La solicitud de amistad se aceptó exitosamente.</string>
     <string name="cancel_request">Cancelar solicitud</string>
     <string name="confirm_cancel_request">¿Estás seguro de que quieres cancelar esta solicitud de amistad?</string>
-    <string name="friend_request_cancelled_success">La solicitud de amistad fue cancelada correctamente.</string>
+    <string name="friend_request_cancelled_success">La solicitud de amistad fue cancelada exitósamente.</string>
     <string name="delete_friend">Eliminar amigo</string>
     <string name="confirm_delete_friend">¿Estás seguro de que quieres eliminar a este amigo?</string>
     <string name="delete_friend_success">Amigo eliminado exitósamente.</string>
@@ -145,10 +147,10 @@
 
     <!--- Pendientes
     <string name="changes_saved">Los cambios han sido guardados con éxito.</string>
-    <string name="message_sent">El mensaje ha sido enviado correctamente.</string>
+    <string name="message_sent">El mensaje ha sido enviado exitósamente.</string>
     <string name="password_updated">Su contraseña ha sido actualizada satisfactoriamente.</string>
     <string name="account_deleted">La cuenta se ha eliminado de forma exitosa.</string>
-    <string name="file_uploaded">El archivo se ha cargado correctamente.</string>
+    <string name="file_uploaded">El archivo se ha cargado exitósamente.</string>
     <string name="operation_successful">La operación se realizó con éxito.</string>
     <string name="info_updated">Su información ha sido actualizada.</string>
     <string name="request_processed">La solicitud se procesó satisfactoriamente.</string>

@@ -26,13 +26,11 @@ class OpContactViewHolder (
                 MotionEvent.ACTION_DOWN -> {
                     itemView.animate().scaleX(1.03f).scaleY(1.03f).setDuration(100).start()
                     binding.tvItemMenu.setTextColor(ContextCompat.getColor(itemView.context, R.color.secondary))
-                    binding.imgStart.setColorFilter(ContextCompat.getColor(itemView.context, R.color.secondary))
                     binding.imgEnd.setColorFilter(ContextCompat.getColor(itemView.context, R.color.secondary))
                 }
                 MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                     itemView.animate().scaleX(1f).scaleY(1f).setDuration(100).start()
                     binding.tvItemMenu.setTextColor(ContextCompat.getColor(itemView.context, R.color.accent))
-                    binding.imgStart.setColorFilter(ContextCompat.getColor(itemView.context, R.color.accent))
                     binding.imgEnd.setColorFilter(ContextCompat.getColor(itemView.context, R.color.accent))
                 }
             }

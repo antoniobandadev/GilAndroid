@@ -37,7 +37,7 @@ class MyGuestFragment : Fragment() {
         options = listOf(
             OpContactItem(
                 title = getString(R.string.contacts),
-                imgStart = R.drawable.ic_contact,
+                imgStart = R.drawable.ic_contacts,
                 imgEnd = R.drawable.ic_arrow_forward
             ),
             OpContactItem(

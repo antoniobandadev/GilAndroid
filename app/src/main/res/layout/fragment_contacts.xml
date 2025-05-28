@@ -72,7 +72,7 @@
         app:layout_constraintTop_toBottomOf="@id/tvTitleContacts"
         app:layout_constraintEnd_toEndOf="parent"
         android:hint="@string/search"
-        app:startIconDrawable="@drawable/ic_search"
+        app:startIconDrawable="@drawable/ic_search_color"
         app:endIconMode="clear_text"
         >
 

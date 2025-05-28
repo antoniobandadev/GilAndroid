@@ -23,7 +23,6 @@
             android:text="@string/new_event" />
 
     <ScrollView
-        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -40,12 +39,13 @@
             tools:ignore="UselessLeaf" >
 
             <ImageView
+                android:id="@+id/ivEvent"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:contentDescription="@string/new_event"
-                android:src="@drawable/ic_person"
-                app:tint="@color/accent"
+                android:src="@drawable/ic_add_image"
+                app:tint="@null"
                 />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -54,7 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/event_name"
-                app:startIconDrawable="@drawable/ic_search"
+                app:startIconDrawable="@drawable/ic_event"
                 app:endIconMode="clear_text"
                 >
 
@@ -80,7 +80,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/event_description"
-                app:startIconDrawable="@drawable/ic_search"
+                app:startIconDrawable="@drawable/ic_event_desc"
                 app:endIconMode="clear_text"
                 android:layout_marginTop="5dp"
                 >
@@ -101,16 +101,16 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout"
+                android:id="@+id/lbEventType"
                 style="@style/CustomSpine.NoMargin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/event_type"
-                app:startIconDrawable="@drawable/ic_person"
+                app:startIconDrawable="@drawable/ic_event_type"
                 app:boxBackgroundMode="outline">
 
                 <AutoCompleteTextView
-                    android:id="@+id/autoCompleteTextView"
+                    android:id="@+id/acEventType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none"
@@ -142,7 +142,7 @@
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/CustomTextInputLayout.NoMargin"
-                        android:id="@+id/lbEventDateIni"
+                        android:id="@+id/lbEventDateStart"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/start_date"
@@ -151,7 +151,7 @@
                         >
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etEventDateIni"
+                            android:id="@+id/etEventDateStart"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:textCursorDrawable="@drawable/white_cursor"
@@ -174,7 +174,7 @@
                         android:id="@+id/lbEventDateEnd"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/start_date"
+                        android:hint="@string/end_date"
                         app:startIconDrawable="@drawable/ic_calendar"
                         app:endIconMode="clear_text"
                         android:layout_marginTop="5dp"
@@ -225,7 +225,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/street"
-                app:startIconDrawable="@drawable/ic_search"
+                app:startIconDrawable="@drawable/ic_event_street"
                 app:endIconMode="clear_text"
                 android:layout_marginTop="5dp"
                 >
@@ -247,17 +247,17 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/CustomTextInputLayout.NoMargin"
-                android:id="@+id/lbEventCountry"
+                android:id="@+id/lbEventCity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/city"
-                app:startIconDrawable="@drawable/ic_search"
+                app:startIconDrawable="@drawable/ic_event_city"
                 app:endIconMode="clear_text"
                 android:layout_marginTop="5dp"
                 >
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etEventCountry"
+                    android:id="@+id/etEventCity"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textCursorDrawable="@drawable/white_cursor"
@@ -273,7 +273,7 @@
 
             <Button
                 style="@style/CustomButton"
-                android:id="@+id/btSignUp"
+                android:id="@+id/btSaveEvent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="40dp"

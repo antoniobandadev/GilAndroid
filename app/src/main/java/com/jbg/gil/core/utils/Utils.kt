@@ -7,12 +7,14 @@ import android.app.Dialog
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Rect
+import android.graphics.drawable.RippleDrawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.provider.Settings
 import android.util.Patterns
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.webkit.WebView
 import android.widget.EditText
@@ -81,7 +83,7 @@ object Utils {
 
     //_______________________________________________________________________________________
 
-    @SuppressLint("ClickableViewAccessibility")
+    /*@SuppressLint("ClickableViewAccessibility")
     fun setupHideKeyboardOnTouch(view: View, activity: Activity) {
         view.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
@@ -99,7 +101,37 @@ object Utils {
             }
             false
         }
+    }*/
+    //____________________________________________________________________________________________
+    @SuppressLint("ClickableViewAccessibility")
+     fun setupHideKeyboardOnTouch(view: View, activity: Activity) {
+        // Set up touch listener for non-text box views to hide keyboard.
+        if (view !is EditText) {
+            view.setOnTouchListener { _, _ ->
+                hideKeyboard(activity)
+                false
+            }
+        }
+
+        // If a layout container, iterate over children and seed recursion.
+        if (view is ViewGroup) {
+            for (i in 0 until view.childCount) {
+                val innerView = view.getChildAt(i)
+                setupHideKeyboardOnTouch(innerView, activity)
+            }
+        }
     }
+
+    private fun hideKeyboard(activity : Activity) {
+        val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val view = activity.currentFocus
+        view?.let {
+            imm.hideSoftInputFromWindow(it.windowToken, 0)
+            it.clearFocus()
+        }
+    }
+
+
 
     //--------------------------------------------------------------------------------------------
     fun View.showSnackBar(
@@ -272,6 +304,17 @@ object Utils {
 
     //---------------------------------------------------------------------------------------------
 
+    fun showRipple(context: Context) : RippleDrawable{
+        val rippleDrawable = RippleDrawable(
+            ColorStateList.valueOf(ContextCompat.getColor(context, R.color.grey_load)), // Color del ripple
+            null,
+            null
+        )
+        return rippleDrawable
+    }
+
+
+    //----------------------------------------------------------------------------------------------
 
 }
 

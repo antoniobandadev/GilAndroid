@@ -11,9 +11,9 @@
         <item name="boxBackgroundColor">@color/black</item>
         <item name="boxBackgroundMode">outline</item>
         <item name="hintEnabled">true</item>
+        <item name="startIconTint">@null</item>
         <item name="android:textColorHint">@color/secondary</item>
         <item name="hintTextColor">@color/secondary</item>
-        <item name="startIconTint">@color/accent</item>
         <item name="endIconTint">@color/accent</item>
         <item name="hintTextAppearance">@style/TextLabel</item>
         <item name="android:layout_marginStart">40dp</item>
@@ -74,7 +74,7 @@
         <item name="hintEnabled">true</item>
         <item name="android:textColorHint">@color/secondary</item>
         <item name="hintTextColor">@color/secondary</item>
-        <item name="startIconTint">@color/accent</item>
+        <item name="startIconTint">@null</item>
         <item name="endIconTint">@color/accent</item>
         <item name="hintTextAppearance">@style/TextLabel</item>
         <item name="android:layout_marginStart">10dp</item>
@@ -89,18 +89,18 @@
         <item name="boxBackgroundColor">@color/black</item>
         <item name="boxBackgroundMode">outline</item>
         <item name="hintEnabled">true</item>
+        <item name="startIconTint">@null</item>
         <item name="android:textColorHint">@color/secondary</item>
         <item name="hintTextColor">@color/secondary</item>
-        <item name="startIconTint">@color/accent</item>
         <item name="endIconTint">@color/accent</item>
         <item name="hintTextAppearance">@style/TextLabel</item>
         <item name="cursorColor">@color/accent</item>
     </style>
 
     <style name="ShrinkTextInput" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">
-        <item name="android:paddingTop">4dp</item>
-        <item name="android:paddingBottom">4dp</item>
-        <item name="android:minHeight">0dp</item>
+        <item name="android:paddingTop">18dp</item>
+        <item name="android:paddingBottom">18dp</item>
+        <item name="android:minHeight">5dp</item>
         <item name="android:textSize">14sp</item>
     </style>
 
@@ -110,9 +110,9 @@
         <item name="boxBackgroundColor">@color/black</item>
         <item name="boxBackgroundMode">outline</item>
         <item name="hintEnabled">true</item>
+        <item name="startIconTint">@null</item>
         <item name="android:textColorHint">@color/secondary</item>
         <item name="hintTextColor">@color/secondary</item>
-        <item name="startIconTint">@color/accent</item>
         <item name="endIconTint">@color/accent</item>
         <item name="hintTextAppearance">@style/TextLabel</item>
         <item name="cursorColor">@color/accent</item>

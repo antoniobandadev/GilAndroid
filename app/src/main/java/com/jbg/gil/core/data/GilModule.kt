@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.jbg.gil.core.data.local.db.GilDataBase
 import com.jbg.gil.core.data.local.db.daos.ContactDao
 import com.jbg.gil.core.data.remote.apis.ContactApi
+import com.jbg.gil.core.data.remote.apis.EventApi
 import com.jbg.gil.core.data.remote.apis.UserApi
 import com.jbg.gil.core.utils.Constants
 import dagger.Module
@@ -54,6 +55,12 @@ object GilModule {
     @Singleton
     fun provideContactApi(retrofit: Retrofit): ContactApi {
         return retrofit.create(ContactApi::class.java)
+    }
+    //EventApi
+    @Provides
+    @Singleton
+    fun provideEventApi(retrofit: Retrofit): EventApi {
+        return retrofit.create(EventApi::class.java)
     }
 
     //Room

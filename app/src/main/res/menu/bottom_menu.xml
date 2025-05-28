@@ -3,12 +3,12 @@
 
     <item
         android:id="@+id/eventsFragment"
-        android:icon="@drawable/ic_calendar"
+        android:icon="@drawable/ic_event_note"
         android:title="@string/my_events" />
 
     <item
         android:id="@+id/myGuestFragment"
-        android:icon="@drawable/ic_friends"
+        android:icon="@drawable/ic_guests"
         android:title="@string/contacts" />
 
     <item

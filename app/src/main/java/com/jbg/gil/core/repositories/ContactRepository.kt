@@ -17,9 +17,7 @@ class ContactRepository @Inject constructor(
 
     //___________________________Contacts----------------------------------------------------
 
-    suspend fun getContactsFromDb(): List<ContactEntity> {
-        return contactDao.getAllContacts()
-    }
+    suspend fun getContactsFromDb(): List<ContactEntity> = contactDao.getAllContacts()
 
     private suspend fun loadContactsFromApi(userId: String) {
         try {
@@ -58,34 +56,12 @@ class ContactRepository @Inject constructor(
         }
     }
 
-    suspend fun insertContact(contact : ContactEntity){
-        try {
-            contactDao.insertOneContact(contact)
+    suspend fun insertContact(contact : ContactEntity) =  contactDao.insertOneContact(contact)
 
-        }catch (e: Exception){
-            Log.d("Error save contact:" , e.toString())
+    suspend fun updateContact(contact: ContactEntity) =  contactDao.updateContact(contact)
 
-        }
-    }
+    suspend fun deleteContact(contactId: String) = contactDao.deleteContact(contactId)
 
-    suspend fun updateContact(contact: ContactEntity){
-        try {
-            contactDao.updateContact(contact)
-        }catch(e: Exception){
-            Log.d("Error update contact", e.toString())
-        }
-
-    }
-
-    suspend fun deleteContact(contactId: String){
-
-        Log.d(Constants.GIL_TAG,"Eliminao")
-        try {
-            contactDao.deleteContact(contactId)
-        }catch (e: Exception){
-            Log.d(Constants.GIL_TAG, e.toString())
-        }
-    }
 
     //_________________________________________Friends____________________________________________
 
@@ -118,9 +94,6 @@ class ContactRepository @Inject constructor(
          return emptyList()
     }
 
-    /*suspend fun getFriendsFromDb(): List<ContactEntity> {
-        return contactDao.getAllFriends()
-    }*/
 
     //_________________________________________Received ____________________________________________
 

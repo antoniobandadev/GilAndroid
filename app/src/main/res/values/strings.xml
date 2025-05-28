@@ -19,6 +19,7 @@
     <string name="accept">Accept</string>
     <string name="_continue">Continue</string>
     <string name="change">Change</string>
+    <string name="required_field">Required field *</string>
 
     <!--- LogIn-->
     <string name="user">Username</string>
@@ -30,7 +31,7 @@
 
     <string name="invalid_data">Oops! The username or password doesn’t match. Please double-check your details and try again.</string>
     <string name="login_success">Login successful. Welcome.</string>
-    <string name="server_error">An unexpected error occurred. Please try again later.</string>
+    <string name="server_error">Oops! An unexpected error occurred. Please try again later.</string>
 
     <string name="forgot_password">Forgot your password?</string>
     <string name="change_password">Update password</string>
@@ -92,6 +93,7 @@
     <string name="event_category_corporate">Corporate / Professional</string>
     <string name="event_category_academic">Academic / Educational</string>
     <string name="event_category_other">Other</string>
+    <string name="event_save_success">The event was successfully saved.</string>
 
     <!--- Friends -->
     <string name="my_friends">My friends</string>
