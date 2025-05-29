@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class EventDto(
 
     @SerializedName("eventId")
-    val eventId: Int? = 0,
+    val eventId: String? = null,
 
     @SerializedName("eventName")
     val eventName: String? = null,
@@ -34,7 +34,13 @@ data class EventDto(
     @SerializedName("eventImg")
     val eventImg: String? = null,
 
+    @SerializedName("eventCreatedAt")
+    val eventCreatedAt: String? = null,
+
     @SerializedName("userId")
-    val userId: Int? = 0
+    val userId: String? = null,
+
+    @SerializedName("eventSync")
+    val eventSync: Boolean
 
 )

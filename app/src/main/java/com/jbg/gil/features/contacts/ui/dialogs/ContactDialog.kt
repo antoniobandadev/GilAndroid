@@ -24,7 +24,7 @@ import com.jbg.gil.core.utils.Utils.getActivityRootView
 import com.jbg.gil.core.utils.Utils.showSnackBar
 import com.jbg.gil.core.utils.Utils.showSnackBarError
 import com.jbg.gil.databinding.ContactDialogBinding
-import com.jbg.gil.features.contacts.data.model.ContactMapper.toEntity
+import com.jbg.gil.core.data.model.EntityDtoMapper.toEntity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch

@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.jbg.gil.core.data.local.db.GilDataBase
 import com.jbg.gil.core.data.local.db.daos.ContactDao
+import com.jbg.gil.core.data.local.db.daos.EventDao
 import com.jbg.gil.core.data.remote.apis.ContactApi
 import com.jbg.gil.core.data.remote.apis.EventApi
 import com.jbg.gil.core.data.remote.apis.UserApi
@@ -17,6 +18,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 
@@ -31,6 +33,9 @@ object GilModule {
 
     private val client = OkHttpClient.Builder().apply {
         addInterceptor(interceptor)
+        connectTimeout(60, TimeUnit.SECONDS)
+        readTimeout(60, TimeUnit.SECONDS)
+        writeTimeout(60, TimeUnit.SECONDS)
     }.build()
 
     //Retrofit
@@ -77,5 +82,9 @@ object GilModule {
     //ContactDao
     @Provides
     fun provideContactDao(db: GilDataBase): ContactDao = db.contactDao()
+
+    //EventDao
+    @Provides
+    fun provideEventDao(db: GilDataBase): EventDao = db.eventDao()
 
 }

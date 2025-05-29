@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     id("com.google.dagger.hilt.android")
+    id ("kotlin-kapt")
 }
 
 android {
@@ -82,7 +83,12 @@ dependencies {
 
     //Hilt
     implementation("com.google.dagger:hilt-android:2.56.2")
-    ksp("com.google.dagger:hilt-android-compiler:2.56.2")
+    kapt("com.google.dagger:hilt-android-compiler:2.56.2")
+
+    //
+    // WorkManager con Hilt
+    implementation ("androidx.hilt:hilt-work:1.1.0")
+    kapt ("androidx.hilt:hilt-compiler:1.1.0")
 
     //Shimmer
     implementation ("com.facebook.shimmer:shimmer:0.5.0")
@@ -90,6 +96,8 @@ dependencies {
     //ImagePicker
     implementation ("androidx.activity:activity:1.6.1")
 
+    //SyncTask
+    implementation ("androidx.work:work-runtime-ktx:2.9.0")
 
 
     testImplementation(libs.junit)

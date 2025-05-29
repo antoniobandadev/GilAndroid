@@ -5,11 +5,13 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.jbg.gil.core.data.local.db.daos.ContactDao
+import com.jbg.gil.core.data.local.db.daos.EventDao
 import com.jbg.gil.core.data.local.db.entities.ContactEntity
+import com.jbg.gil.core.data.local.db.entities.EventEntity
 import com.jbg.gil.core.utils.Constants
 
 @Database(
-    entities = [ContactEntity::class],
+    entities = [ContactEntity::class, EventEntity::class],
     version = 1,
     exportSchema = false
 )
@@ -17,6 +19,7 @@ import com.jbg.gil.core.utils.Constants
 abstract class GilDataBase : RoomDatabase(){
 
     abstract fun contactDao() : ContactDao
+    abstract fun eventDao() : EventDao
 
     companion object {
         // Singleton prevents multiple instances of database opening at the

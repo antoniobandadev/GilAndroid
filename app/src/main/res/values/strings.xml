@@ -20,6 +20,8 @@
     <string name="_continue">Continue</string>
     <string name="change">Change</string>
     <string name="required_field">Required field *</string>
+    <string name="add_image">Add image</string>
+    <string name="edit_image">Edit image</string>
 
     <!--- LogIn-->
     <string name="user">Username</string>
@@ -93,6 +95,7 @@
     <string name="event_category_corporate">Corporate / Professional</string>
     <string name="event_category_academic">Academic / Educational</string>
     <string name="event_category_other">Other</string>
+    <string name="invalid_date">The start date cannot be earlier than today. Please verify.</string>
     <string name="event_save_success">The event was successfully saved.</string>
 
     <!--- Friends -->

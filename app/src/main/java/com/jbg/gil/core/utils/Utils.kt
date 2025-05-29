@@ -6,10 +6,13 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.graphics.Rect
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.RippleDrawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.net.Uri
 import android.provider.Settings
 import android.util.Patterns
 import android.view.MotionEvent
@@ -26,10 +29,21 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.jbg.gil.R
 import com.jbg.gil.databinding.AlertDialogNegativeBinding
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 import java.util.regex.Pattern
+import androidx.core.graphics.drawable.toDrawable
+import androidx.work.Constraints
+import androidx.work.ExistingWorkPolicy
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import com.jbg.gil.core.data.background.SyncWorker
 
 
 object Utils {
@@ -304,18 +318,56 @@ object Utils {
 
     //---------------------------------------------------------------------------------------------
 
-    fun showRipple(context: Context) : RippleDrawable{
-        val rippleDrawable = RippleDrawable(
-            ColorStateList.valueOf(ContextCompat.getColor(context, R.color.grey_load)), // Color del ripple
-            null,
-            null
+    fun showRipple(context: Context): RippleDrawable {
+        val rippleColor = ColorStateList.valueOf(
+            ContextCompat.getColor(context, R.color.grey_load)
         )
-        return rippleDrawable
+
+        val contentDrawable = Color.TRANSPARENT.toDrawable() // base mínima para limitar el área
+        return RippleDrawable(rippleColor, contentDrawable, null)
     }
 
 
     //----------------------------------------------------------------------------------------------
 
+    fun prepareImagePart(uri: Uri?, context: Context, imageName : String): MultipartBody.Part? {
+        if (uri == null) return null
+
+        val contentResolver = context.contentResolver
+        val inputStream = contentResolver.openInputStream(uri)
+        val fileBytes = inputStream?.readBytes() ?: return null
+        val fileName = "image_${System.currentTimeMillis()}.jpg"
+
+        val requestFile = fileBytes.toRequestBody("image/*".toMediaTypeOrNull())
+        return MultipartBody.Part.createFormData(imageName, fileName, requestFile)
+    }
+
+    //---------------------------------------------------------------------------------------------
+
+    fun createPartFromString(text: String): RequestBody {
+        val valText = text.toRequestBody("text/plain".toMediaTypeOrNull())
+        return valText
+    }
+
+    //---------------------------------------------------------------------------------------------
+    //TaskSyncOffLine
+    fun enqueueSyncWorker(context: Context) {
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+
+        val request = OneTimeWorkRequestBuilder<SyncWorker>()
+            .setConstraints(constraints)
+            .build()
+
+        WorkManager.getInstance(context).enqueueUniqueWork(
+            "sync_eventos",
+            ExistingWorkPolicy.KEEP,
+            request
+        )
+    }
+
+    //---------------------------------------------------------------------------------------------
 }
 
 object DialogUtils {

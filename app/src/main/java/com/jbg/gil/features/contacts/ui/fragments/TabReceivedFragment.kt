@@ -22,7 +22,7 @@ import com.jbg.gil.core.utils.Utils
 import com.jbg.gil.core.utils.Utils.getActivityRootView
 import com.jbg.gil.core.utils.Utils.showSnackBarError
 import com.jbg.gil.databinding.FragmentTabReceivedBinding
-import com.jbg.gil.features.contacts.data.model.ContactMapper.toDto
+import com.jbg.gil.core.data.model.EntityDtoMapper.toDto
 import com.jbg.gil.features.contacts.ui.adapters.ContactAdapter
 import com.jbg.gil.features.contacts.ui.dialogs.SolDialog
 import dagger.hilt.android.AndroidEntryPoint

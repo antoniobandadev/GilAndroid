@@ -93,7 +93,10 @@
     <string name="event_category_academic">Académico / Educativo</string>
     <string name="event_category_other">Otro</string>Required field
     <string name="required_field">Campo obligatorio *</string>
+    <string name="invalid_date">La fecha de inicio no puede ser menor al día de hoy, Verifique por favor.</string>
     <string name="event_save_success">Evento guardado exitósamente.</string>
+    <string name="add_image">Agregar imagen</string>
+    <string name="edit_image">Editar imagen</string>
 
 
     <!--- Contacts -->

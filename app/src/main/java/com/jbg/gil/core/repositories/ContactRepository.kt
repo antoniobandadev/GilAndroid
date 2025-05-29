@@ -6,7 +6,7 @@ import com.jbg.gil.core.data.local.db.entities.ContactEntity
 import com.jbg.gil.core.data.remote.apis.ContactApi
 import com.jbg.gil.core.datastore.UserPreferences
 import com.jbg.gil.core.utils.Constants
-import com.jbg.gil.features.contacts.data.model.ContactMapper.toEntity
+import com.jbg.gil.core.data.model.EntityDtoMapper.toEntity
 import javax.inject.Inject
 
 class ContactRepository @Inject constructor(
