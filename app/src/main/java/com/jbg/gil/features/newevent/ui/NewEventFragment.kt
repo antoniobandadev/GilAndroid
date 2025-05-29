@@ -103,7 +103,7 @@ class NewEventFragment () : Fragment() {
                     binding.apply {
 
                         lifecycleScope.launch {
-                            val myNewEvent: EventDto = EventDto(
+                            val myNewEvent = EventDto(
                                 eventName = etEventName.text.toString(),
                                 eventDesc = etEventDesc.text.toString(),
                                 eventType = eventType,
