@@ -34,4 +34,7 @@ data class EventDto(
     @SerializedName("eventImg")
     val eventImg: String? = null,
 
+    @SerializedName("userId")
+    val userId: Int? = 0
+
 )

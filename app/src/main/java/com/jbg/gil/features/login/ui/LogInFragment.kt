@@ -141,11 +141,11 @@ class LogInFragment : Fragment() {
             loginSuccess.observe(viewLifecycleOwner) { success ->
                 if (success) {
                     getActivityRootView()?.showSnackBar(getString(R.string.login_success))
-                    DialogUtils.dismissLoadingDialog()
                     val startIntentH =
                         Intent(requireContext(), HomeActivity::class.java)
                     startActivity(startIntentH)
                     requireActivity().finish()
+
                 }
             }
 

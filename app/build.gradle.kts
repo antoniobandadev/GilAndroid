@@ -87,6 +87,8 @@ dependencies {
     //Shimmer
     implementation ("com.facebook.shimmer:shimmer:0.5.0")
 
+    //ImagePicker
+    implementation ("androidx.activity:activity:1.6.1")
 
 
 

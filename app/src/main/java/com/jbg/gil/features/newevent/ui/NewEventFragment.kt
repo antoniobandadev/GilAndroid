@@ -1,15 +1,14 @@
 package com.jbg.gil.features.newevent.ui
 
 
-import android.content.res.ColorStateList
-import android.graphics.drawable.RippleDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import androidx.core.content.ContextCompat
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -45,6 +44,14 @@ class NewEventFragment () : Fragment() {
 
     private val networkStatusViewModel : NetworkStatusViewModel by viewModels()
 
+    private val pickImage = registerForActivityResult(ActivityResultContracts.PickVisualMedia()){ uri ->
+        if (uri != null){
+            Log.d(Constants.GIL_TAG, "Imagen seleccionada")
+        }else{
+            Log.d(Constants.GIL_TAG, "Imagen NO seleccionada")
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -67,6 +74,14 @@ class NewEventFragment () : Fragment() {
             }
         }
 
+        binding.ivEvent.setOnClickListener {
+            binding.ivEvent.background = Utils.showRipple(requireContext())
+           //Tipo en especifico
+           // pickImage.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.SingleMimeType("img/gif")))
+            pickImage.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+
+        }
+
 
         binding.acEventType.setOnItemClickListener { parent, _, position, _ ->
             eventType = parent.getItemAtPosition(position) as String
@@ -78,10 +93,6 @@ class NewEventFragment () : Fragment() {
 
         binding.etEventDateEnd.setOnClickListener {
             showCalendar()
-        }
-
-        binding.ivEvent.setOnClickListener {
-            binding.ivEvent.background = Utils.showRipple(requireContext())
         }
 
         binding.btSaveEvent.setOnClickListener {
