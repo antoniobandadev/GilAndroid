@@ -1,6 +1,5 @@
 package com.jbg.gil.core.data.remote.apis
 
-import com.jbg.gil.core.data.remote.dtos.BasicResponse
 import com.jbg.gil.core.data.remote.dtos.EventDto
 import okhttp3.MultipartBody
 import okhttp3.RequestBody

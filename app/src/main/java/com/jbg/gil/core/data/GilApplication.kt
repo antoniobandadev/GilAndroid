@@ -1,10 +1,7 @@
 package com.jbg.gil.core.data
 
 import android.app.Application
-import androidx.work.Configuration
-import dagger.Provides
 import dagger.hilt.android.HiltAndroidApp
-import javax.inject.Inject
 
 
 @HiltAndroidApp

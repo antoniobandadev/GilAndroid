@@ -1,6 +1,5 @@
 package com.jbg.gil.core.data.local.db.entities
 
-import android.content.Intent
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey

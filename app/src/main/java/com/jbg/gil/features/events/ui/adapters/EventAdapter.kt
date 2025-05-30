@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.jbg.gil.core.data.local.db.entities.ContactEntity
 import com.jbg.gil.core.data.local.db.entities.EventEntity
 import com.jbg.gil.core.utils.Constants
 import com.jbg.gil.databinding.ItemEventBinding

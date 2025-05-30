@@ -13,14 +13,12 @@ import com.jbg.gil.R
 import com.jbg.gil.core.data.model.EntityDtoMapper.toEntity
 import com.jbg.gil.core.datastore.UserPreferences
 import com.jbg.gil.core.network.NetworkStatusViewModel
-import com.jbg.gil.core.repositories.ContactRepository
 import com.jbg.gil.core.repositories.EventRepository
 import com.jbg.gil.core.utils.Constants
 import com.jbg.gil.core.utils.Utils
 import com.jbg.gil.core.utils.Utils.getActivityRootView
 import com.jbg.gil.core.utils.Utils.showSnackBarError
 import com.jbg.gil.databinding.FragmentTabEventsBinding
-import com.jbg.gil.features.contacts.ui.adapters.ContactAdapter
 import com.jbg.gil.features.events.ui.adapters.EventAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.async

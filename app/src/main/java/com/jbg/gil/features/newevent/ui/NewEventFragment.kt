@@ -1,7 +1,6 @@
 package com.jbg.gil.features.newevent.ui
 
 
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,10 +15,10 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.work.ListenableWorker.Result
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.jbg.gil.R
+import com.jbg.gil.core.data.model.EntityDtoMapper.toEntity
 import com.jbg.gil.core.data.remote.dtos.EventDto
 import com.jbg.gil.core.datastore.UserPreferences
 import com.jbg.gil.core.network.NetworkStatusViewModel
@@ -27,14 +26,13 @@ import com.jbg.gil.core.repositories.EventRepository
 import com.jbg.gil.core.utils.Constants
 import com.jbg.gil.core.utils.DialogUtils
 import com.jbg.gil.core.utils.Utils
+import com.jbg.gil.core.utils.Utils.convertDate
+import com.jbg.gil.core.utils.Utils.copyUriToInternalStorage
 import com.jbg.gil.core.utils.Utils.getActivityRootView
 import com.jbg.gil.core.utils.Utils.prepareImagePart
 import com.jbg.gil.core.utils.Utils.showSnackBar
 import com.jbg.gil.core.utils.Utils.showSnackBarError
 import com.jbg.gil.databinding.FragmentNewEventBinding
-import com.jbg.gil.core.data.model.EntityDtoMapper.toEntity
-import com.jbg.gil.core.utils.Utils.convertDate
-import com.jbg.gil.core.utils.Utils.copyUriToInternalStorage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
