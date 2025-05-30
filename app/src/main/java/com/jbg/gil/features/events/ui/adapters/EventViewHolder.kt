@@ -32,8 +32,6 @@ class EventViewHolder(
             tvEventName.text = event.eventName
             tvEventDesc.text = event.eventDesc
             tvEventDate.text = "$startDate - ${endDate}"
-            tvEventStreet.text = event.eventStreet
-            tvEventCity.text  =event.eventCity
         }
 
 
