@@ -3,15 +3,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/primary"
     tools:context=".features.events.ui.fragments.TabEventsFragment">
 
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvEvents"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:textColor="@color/secondary"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:text="@string/my_events" />
+        android:layout_marginTop="5dp"
+        android:visibility="gone"
+        />
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:shimmer_auto_start="true"
+        >
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/viewEventsLoad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical">
+
+            <include layout="@layout/item_event_load"/>
+            <include layout="@layout/item_event_load"/>
+            <include layout="@layout/item_event_load"/>
+            <include layout="@layout/item_event_load"/>
+            <include layout="@layout/item_event_load"/>
+            <include layout="@layout/item_event_load"/>
+            <include layout="@layout/item_event_load"/>
+            <include layout="@layout/item_event_load"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
 
 </FrameLayout>

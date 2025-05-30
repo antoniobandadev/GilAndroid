@@ -7,6 +7,7 @@ import com.jbg.gil.core.data.remote.apis.ContactApi
 import com.jbg.gil.core.datastore.UserPreferences
 import com.jbg.gil.core.utils.Constants
 import com.jbg.gil.core.data.model.EntityDtoMapper.toEntity
+import com.jbg.gil.core.data.remote.dtos.ContactDto
 import javax.inject.Inject
 
 class ContactRepository @Inject constructor(
@@ -61,6 +62,13 @@ class ContactRepository @Inject constructor(
     suspend fun updateContact(contact: ContactEntity) =  contactDao.updateContact(contact)
 
     suspend fun deleteContact(contactId: String) = contactDao.deleteContact(contactId)
+
+    suspend fun getSyncContacts() = contactDao.getSyncContacts()
+
+    suspend fun insertContactApi(contact: ContactDto) = contactApi.newContact(contact)
+
+    suspend fun updateSyncContactsDB(contactId: String) = contactDao.updateSyncContacts(contactId)
+
 
 
     //_________________________________________Friends____________________________________________

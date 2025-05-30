@@ -1,5 +1,6 @@
 package com.jbg.gil.core.data.local.db.entities
 
+import android.content.Intent
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -47,6 +48,6 @@ data class EventEntity(
     var userId: String,
 
     @ColumnInfo(name = "eventSync")
-    var eventSync: Boolean
+    var eventSync: Int
 
 )

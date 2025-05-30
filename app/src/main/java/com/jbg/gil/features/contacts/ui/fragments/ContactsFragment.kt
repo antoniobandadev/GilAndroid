@@ -69,6 +69,9 @@ class ContactsFragment : Fragment() {
         networkViewModel.getNetworkStatus().observe(viewLifecycleOwner) { isConnected ->
             Log.d(Constants.GIL_TAG, "Conectado: $isConnected")
             selectContacts()
+            if (isConnected){
+                contactsSync()
+            }
         }
 
         contactAdapter = ContactAdapter(emptyList()) { selectedContact ->
@@ -180,6 +183,27 @@ class ContactsFragment : Fragment() {
             }
             contactAdapter.updateData(contactsFilter)
         }
+    }
+
+    private fun contactsSync(){
+        lifecycleScope.launch {
+            val contacts = contactRepository.getSyncContacts()
+            for (contact in contacts) {
+                try {
+                    val updateContacts = contactRepository.insertContactApi(contact.toDto())
+                    if(updateContacts.isSuccessful){
+                        contactRepository.updateSyncContactsDB(contact.contactId)
+                        Log.d(Constants.GIL_TAG, "Datos Actualizados en el servidor")
+                    }else{
+                        Log.d(Constants.GIL_TAG, "Error al enviar al servidor")
+                    }
+                }catch (e : Exception){
+                    Log.d(Constants.GIL_TAG, e.toString())
+                }
+            }
+        }
+
+
     }
 
     override fun onDestroy() {

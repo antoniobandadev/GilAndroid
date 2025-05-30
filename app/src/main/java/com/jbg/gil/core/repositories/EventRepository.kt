@@ -34,7 +34,7 @@ class EventRepository @Inject constructor (private val eventApi: EventApi,
         eventStatus: RequestBody?,
         userId: RequestBody
 
-    ): Response<BasicResponse> = eventApi.newEvent(
+    ): Response<EventDto> = eventApi.newEvent(
         eventImage,
         eventName,
         eventDesc,
@@ -47,8 +47,14 @@ class EventRepository @Inject constructor (private val eventApi: EventApi,
         userId
     )
 
+    suspend fun getAllEventsApi(userId: String)= eventApi.getAllEventsApi(userId)
+
+    //DAO
+    suspend fun insertEventsDB(events : List<EventEntity>) =  eventDao.insertEvents(events)
     suspend fun insertEventDB(event : EventEntity) =  eventDao.insertEvent(event)
     suspend fun getEventSyncDB() =  eventDao.getSyncEvents()
-    suspend fun updateEventSyncDB(eventId : String) =  eventDao.updateSyncEvent(eventId)
+    suspend fun updateEventSyncDB(eventId : String, eventImg: String) =  eventDao.updateSyncEvent(eventId, eventImg)
+    suspend fun getAllEventsDB() = eventDao.getAllEventsDB()
+    suspend fun deleteAllEventsDB() = eventDao.deleteAllEventsDB()
 
 }

@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.work.ListenableWorker.Result
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.jbg.gil.R
@@ -32,11 +33,15 @@ import com.jbg.gil.core.utils.Utils.showSnackBar
 import com.jbg.gil.core.utils.Utils.showSnackBarError
 import com.jbg.gil.databinding.FragmentNewEventBinding
 import com.jbg.gil.core.data.model.EntityDtoMapper.toEntity
-import com.jbg.gil.core.utils.Utils.enqueueSyncWorker
+import com.jbg.gil.core.utils.Utils.convertDate
+import com.jbg.gil.core.utils.Utils.copyUriToInternalStorage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.File
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -65,7 +70,7 @@ class NewEventFragment () : Fragment() {
         "en" -> "MM/dd/yyyy"
         else -> "MM/dd/yyyy"
     }
-    private val strDateFormatBD = "yyyy-mm-dd"
+    private val strDateFormatBD = "yyyy-MM-dd"
 
     private val networkStatusViewModel : NetworkStatusViewModel by viewModels()
 
@@ -74,12 +79,12 @@ class NewEventFragment () : Fragment() {
     private lateinit var imageSelected : ImageView
     private lateinit var textAdd : TextView
 
-    private lateinit var uriDB : Uri
+    private lateinit var uriDB : String
 
     private val pickImage = registerForActivityResult(ActivityResultContracts.PickVisualMedia()){ uri ->
          eventImage = prepareImagePart(uri, requireContext(), "eventImage")
         if (uri != null){
-            uriDB = uri
+            uriDB = copyUriToInternalStorage(requireContext(),uri).toString()
             Log.d(Constants.GIL_TAG, "Imagen seleccionada")
             imageSelected.visibility = View.VISIBLE
             imageSelected.setImageURI(uri)
@@ -116,6 +121,9 @@ class NewEventFragment () : Fragment() {
             Log.d(Constants.GIL_TAG, "Status: $isConnected")
             if (!isConnected){
                 DialogUtils.dismissLoadingDialog()
+            }else{
+                eventsPendingDB()
+                Log.d(Constants.GIL_TAG, "Actualizando")
             }
         }
 
@@ -150,21 +158,9 @@ class NewEventFragment () : Fragment() {
                         binding.apply {
 
                             lifecycleScope.launch {
-                                val appFormat = SimpleDateFormat(strDateFormat, Locale.getDefault())
-                                val dbFormat = SimpleDateFormat(strDateFormatBD, Locale.getDefault())
-                                val dateStart: Date? = try {
-                                    appFormat.parse(etEventDateStart.text.toString())
-                                } catch (e: ParseException) {
-                                    null
-                                }
-                                val etEventDateStartDB = dateStart?.let { dbFormat.format(it) }
 
-                                val dateEnd: Date? = try {
-                                    appFormat.parse(etEventDateEnd.text.toString())
-                                } catch (e: ParseException) {
-                                    null
-                                }
-                                val etEventDateEndDB = dateEnd?.let { dbFormat.format(it) }
+                                val etEventDateStartDB = convertDate(etEventDateStart.text.toString(), strDateFormat, strDateFormatBD)
+                                val etEventDateEndDB = convertDate(etEventDateEnd.text.toString(), strDateFormat, strDateFormatBD)
 
                                 val eventName =
                                     Utils.createPartFromString(etEventName.text.toString())
@@ -219,7 +215,7 @@ class NewEventFragment () : Fragment() {
                     val currentDate = Date()
                     val formatter = SimpleDateFormat(strDateFormatBD, Locale.getDefault())
                     val dateNow = formatter.format(currentDate)
-                    val imagePath = uriDB.toString()
+                    val imagePath = uriDB
 
                     val myEvent = EventDto(
                         eventId = UUID.randomUUID().toString(),
@@ -228,13 +224,13 @@ class NewEventFragment () : Fragment() {
                         eventType = eventType,
                         eventDateStart = binding.etEventDateStart.text.toString(),
                         eventDateEnd = binding.etEventDateEnd.text.toString(),
-                        eventStreet = binding.etEventName.text.toString(),
-                        eventCity = binding.etEventName.text.toString(),
-                        eventStatus = binding.etEventName.text.toString(),
+                        eventStreet = binding.etEventStreet.text.toString(),
+                        eventCity = binding.etEventCity.text.toString(),
+                        eventStatus = "A",
                         eventImg = imagePath,
                         eventCreatedAt = dateNow,
                         userId = userPreferences.getUserId().toString(),
-                        eventSync = false
+                        eventSync = 0
                     )
 
                     try {
@@ -244,7 +240,6 @@ class NewEventFragment () : Fragment() {
                                 eventRepository.insertEventDB(myEvent.toEntity())
                             }
                             result.await()
-                            enqueueSyncWorker(requireContext())
                             getActivityRootView()?.showSnackBar(getString(R.string.event_save_success))
                             clearAll()
                             requireActivity().findViewById<BottomNavigationView>(R.id.botHomMenu)
@@ -285,7 +280,7 @@ class NewEventFragment () : Fragment() {
             }
 
             val formatter = SimpleDateFormat(strDateFormat, Locale.getDefault())
-            formatter.timeZone = TimeZone.getTimeZone("UTC")
+            //formatter.timeZone = TimeZone.getTimeZone("UTC")
 
             val dateStart: Date? = try {
                 formatter.parse(etEventDateStart.text.toString())
@@ -294,9 +289,11 @@ class NewEventFragment () : Fragment() {
                 return false
             }
 
+           // val utcCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
             val today = Calendar.getInstance().time
             if (dateStart?.before(today) == true) {
                 lbEventDateStart.error = getString(R.string.invalid_date)
+                Log.d(Constants.GIL_TAG, today.toString())
                 return false
             }
 
@@ -388,6 +385,61 @@ class NewEventFragment () : Fragment() {
             etEventDateEnd.text?.clear()
             etEventStreet.text?.clear()
             etEventCity.text?.clear()
+        }
+    }
+
+    private fun eventsPendingDB(){
+        lifecycleScope.launch {
+            val events = eventRepository.getEventSyncDB()
+            for (event in events) {
+                try {
+                    val eventName =
+                        Utils.createPartFromString(event.eventName)
+                    val eventDesc =
+                        Utils.createPartFromString(event.eventDesc)
+                    val eventTypeBody = Utils.createPartFromString(event.eventType)
+                    val eventDateStart =
+                        Utils.createPartFromString(event.eventDateStart)
+                    val eventDateEnd =
+                        Utils.createPartFromString(event.eventDateEnd)
+                    val eventStreet =
+                        Utils.createPartFromString(event.eventStreet)
+                    val eventCity =
+                        Utils.createPartFromString(event.eventCity)
+                    val eventStatus = Utils.createPartFromString(event.eventStatus)
+                    val userId = Utils.createPartFromString(event.userId)
+
+                    val eventImage = event.eventImg.let { path ->
+                        val file = File(path)
+                        val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+                        MultipartBody.Part.createFormData("eventImage", file.name, requestFile)
+                    }
+
+                    val response = eventRepository.uploadEvent(
+                        eventImage,
+                        eventName,
+                        eventDesc,
+                        eventTypeBody,
+                        eventDateStart,
+                        eventDateEnd,
+                        eventStreet,
+                        eventCity,
+                        eventStatus,
+                        userId
+                    )
+
+                    if (response.isSuccessful) {
+                        val myEvent = response.body()
+                        eventRepository.updateEventSyncDB(myEvent?.eventId.toString(),myEvent?.eventImg.toString())
+                    }
+
+
+
+                } catch (e: Exception) {
+                    Log.e("SyncWorker", "Error al subir evento: ${e.message}", e)
+                }
+            }
+
         }
     }
 

@@ -13,8 +13,12 @@ interface ContactDao {
     @Query("SELECT * FROM ${Constants.DATABASE_CONTACTS_TABLE} WHERE contactStatus != 'C' and contactType = 'C' ORDER BY contactName ASC ")
     suspend fun getAllContacts() : List<ContactEntity>
 
-    @Query("SELECT * FROM ${Constants.DATABASE_CONTACTS_TABLE} WHERE contactStatus = 'A' and contactType = 'F' ORDER BY contactName ASC ")
-    suspend fun getAllFriends() : List<ContactEntity>
+    @Query("SELECT * FROM ${Constants.DATABASE_CONTACTS_TABLE} WHERE contactStatus ='P' and contactType = 'C' ORDER BY contactName ASC ")
+    suspend fun getSyncContacts() : List<ContactEntity>
+
+    @Query("UPDATE ${Constants.DATABASE_CONTACTS_TABLE} SET contactStatus = 'A' WHERE contactId = :contactId ")
+    suspend fun updateSyncContacts(contactId: String)
+
 
     @Insert
     suspend fun insertContact(contact: List<ContactEntity>)

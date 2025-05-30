@@ -41,6 +41,6 @@ data class EventDto(
     val userId: String? = null,
 
     @SerializedName("eventSync")
-    val eventSync: Boolean
+    val eventSync: Int
 
 )

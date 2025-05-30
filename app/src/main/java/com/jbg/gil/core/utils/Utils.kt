@@ -43,7 +43,8 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import com.jbg.gil.core.data.background.SyncWorker
+import java.io.File
+import java.text.ParseException
 
 
 object Utils {
@@ -350,21 +351,36 @@ object Utils {
     }
 
     //---------------------------------------------------------------------------------------------
-    //TaskSyncOffLine
-    fun enqueueSyncWorker(context: Context) {
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .build()
+    fun copyUriToInternalStorage(context: Context, uri: Uri): String? {
+        return try {
+            val inputStream = context.contentResolver.openInputStream(uri)
+            val fileName = "upload_${System.currentTimeMillis()}.jpg"
+            val outputFile = File(context.filesDir, fileName)
 
-        val request = OneTimeWorkRequestBuilder<SyncWorker>()
-            .setConstraints(constraints)
-            .build()
+            inputStream?.use { input ->
+                outputFile.outputStream().use { output ->
+                    input.copyTo(output)
+                }
+            }
 
-        WorkManager.getInstance(context).enqueueUniqueWork(
-            "sync_eventos",
-            ExistingWorkPolicy.KEEP,
-            request
-        )
+            outputFile.absolutePath // Guarda esto en Room
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+    //---------------------------------------------------------------------------------------------
+
+    fun convertDate(input: String, inputFormat: String, outputFormat: String): String? {
+        return try {
+            val inputFormatter = SimpleDateFormat(inputFormat, Locale.getDefault())
+            val outputFormatter = SimpleDateFormat(outputFormat, Locale.getDefault())
+            val date = inputFormatter.parse(input)
+            date?.let { outputFormatter.format(it) }
+        } catch (e: ParseException) {
+            null
+        }
     }
 
     //---------------------------------------------------------------------------------------------

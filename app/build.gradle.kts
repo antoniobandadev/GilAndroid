@@ -85,11 +85,6 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.56.2")
     kapt("com.google.dagger:hilt-android-compiler:2.56.2")
 
-    //
-    // WorkManager con Hilt
-    implementation ("androidx.hilt:hilt-work:1.1.0")
-    kapt ("androidx.hilt:hilt-compiler:1.1.0")
-
     //Shimmer
     implementation ("com.facebook.shimmer:shimmer:0.5.0")
 
@@ -98,6 +93,9 @@ dependencies {
 
     //SyncTask
     implementation ("androidx.work:work-runtime-ktx:2.9.0")
+
+    //Glide
+    implementation("com.github.bumptech.glide:glide:4.13.2")
 
 
     testImplementation(libs.junit)
