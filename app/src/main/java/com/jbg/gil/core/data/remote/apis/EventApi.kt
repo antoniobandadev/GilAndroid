@@ -1,9 +1,11 @@
 package com.jbg.gil.core.data.remote.apis
 
+import com.jbg.gil.core.data.remote.dtos.BasicResponse
 import com.jbg.gil.core.data.remote.dtos.EventDto
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
@@ -52,5 +54,10 @@ interface EventApi {
         @Part("eventStatus") eventStatus: RequestBody?,
         @Part("userId") userId: RequestBody
     ) : Response<EventDto>
+
+    @POST("events/deleteEvent")
+    suspend fun cancelEvent(
+        @Body event: EventDto
+    ):Response<BasicResponse>
 
 }

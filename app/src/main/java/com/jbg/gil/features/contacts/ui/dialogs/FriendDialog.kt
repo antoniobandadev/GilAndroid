@@ -203,8 +203,8 @@ class FriendDialog (
     private fun deleteFriend(){
 
         val respSolFriend = RespFriendDto(
-            userId = myFriend.userId,
-            friendId = myFriend.contactId,
+            userId = myFriend.userId.toString(),
+            friendId = myFriend.contactId.toString(),
             friendStatus = "C"
         )
         DialogUtils.showLoadingDialog(requireContext())

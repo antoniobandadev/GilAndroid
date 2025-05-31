@@ -25,6 +25,12 @@
     <string name="edit_image">Edit image</string>
     <string name="edit_event">Edit event</string>
 
+    <string name="cancel_event">Cancel event.</string>
+    <string name="confirm_cancel_event">Are you sure you want to cancel this event?</string>
+    <string name="event_cancel_success">The event was canceled successfully.</string>
+
+
+
     <!--- LogIn-->
     <string name="user">Username</string>
     <string name="password">Password</string>
@@ -97,6 +103,7 @@
     <string name="event_category_corporate">Corporate / Professional</string>
     <string name="event_category_academic">Academic / Educational</string>
     <string name="event_category_other">Other</string>
+    <string name="access_controller">Access controller</string>
     <string name="invalid_date">The start date cannot be earlier than today. Please verify.</string>
     <string name="event_save_success">The event was successfully saved.</string>
     <string name="event_update_success">The event was successfully updated.</string>
@@ -148,8 +155,6 @@
     <!--- Settings -->
     <string name="logOut">Log Out</string>
     <string name="save">Save</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
     <!--- Pendientes

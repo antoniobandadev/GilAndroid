@@ -208,6 +208,21 @@ class ContactsFragment : Fragment() {
                     Log.d(Constants.GIL_TAG, e.toString())
                 }
             }
+
+            val contactsDelete = contactRepository.getSyncContactsDelete()
+            for (contact in contactsDelete) {
+                try {
+                    val updateContacts = contactRepository.deleteContactApi(contact.toDto())
+                    if(updateContacts.isSuccessful){
+                        contactRepository.deleteContact(contact.contactId)
+                        Log.d(Constants.GIL_TAG, "Datos Actualizados en el servidor")
+                    }else{
+                        Log.d(Constants.GIL_TAG, "Error al enviar al servidor")
+                    }
+                }catch (e : Exception){
+                    Log.d(Constants.GIL_TAG, e.toString())
+                }
+            }
         }
 
 

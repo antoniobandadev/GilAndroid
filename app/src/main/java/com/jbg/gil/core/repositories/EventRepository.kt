@@ -71,6 +71,7 @@ class EventRepository @Inject constructor (private val eventApi: EventApi,
     )
 
     suspend fun getAllEventsApi(userId: String)= eventApi.getAllEventsApi(userId)
+    suspend fun deleteEventApi(event : EventDto) = eventApi.cancelEvent(event)
 
     //DAO
     suspend fun insertEventsDB(events : List<EventEntity>) =  eventDao.insertEvents(events)
@@ -81,5 +82,8 @@ class EventRepository @Inject constructor (private val eventApi: EventApi,
     suspend fun updateEventSyncDB(eventId : String, eventImg: String) =  eventDao.updateSyncEvent(eventId, eventImg)
     suspend fun updateEvent(event: EventEntity) = eventDao.updateEvent(event)
     suspend fun deleteAllEventsDB() = eventDao.deleteAllEventsDB()
+    suspend fun getEventsDelete() = eventDao.getSyncEventsDelete()
+    suspend fun updateEventDelete(eventId: String) = eventDao.deleteEventNoConnection(eventId)
+    suspend fun deleteEventDB(eventId: String) = eventDao.deleteEvent(eventId)
 
 }

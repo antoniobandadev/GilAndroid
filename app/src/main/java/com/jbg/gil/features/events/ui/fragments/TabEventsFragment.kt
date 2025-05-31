@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jbg.gil.R
 import com.jbg.gil.core.data.model.EntityDtoMapper.toEntity
+import com.jbg.gil.core.data.remote.dtos.EventDto
 import com.jbg.gil.core.datastore.UserPreferences
 import com.jbg.gil.core.network.NetworkStatusViewModel
 import com.jbg.gil.core.repositories.EventRepository
@@ -75,59 +76,32 @@ class TabEventsFragment : Fragment() {
             if (isConnected){
                 showLoad()
                 lifecycleScope.launch {
-                    val eventsPending = eventRepository.getEventSyncDB()
+                    eventsPendingDeleteDB()
+                    eventsPendingDB()
 
-                    if(eventsPending.isNotEmpty()){
-
-                        eventsPendingDB()
-                        Log.d(Constants.GIL_TAG, "updatePending" )
-
-                       // eventRepository.deleteAllEventsDB()
-                        val eventsApi = eventRepository.getAllEventsApi(userPreferences.getUserId().toString())
-                        if (eventsApi.isSuccessful){
-                            val eventList = eventsApi.body() ?: emptyList()
-                            val events = eventList.map { event->
-                                event.toEntity()
-                            }
-                            Log.d(Constants.GIL_TAG, "GET" )
-
-                            eventRepository.deleteAllEventsDB()
-                            Log.d(Constants.GIL_TAG, "Delete" )
-
-                            eventRepository.insertEventsDB(events)
-                            Log.d(Constants.GIL_TAG, "Insert" )
-
-                            eventAdapter.updateEvents(events)
-                            Log.d(Constants.GIL_TAG, "Adapter" )
-
-                            showData()
-                        }else{
-                            getActivityRootView()?.showSnackBarError(getString(R.string.server_error))
+                   // eventRepository.deleteAllEventsDB()
+                    val eventsApi = eventRepository.getAllEventsApi(userPreferences.getUserId().toString())
+                    if (eventsApi.isSuccessful){
+                        val eventList = eventsApi.body() ?: emptyList()
+                        val events = eventList.map { event->
+                            event.toEntity()
                         }
+                        Log.d(Constants.GIL_TAG, "GET" )
 
+                        eventRepository.deleteAllEventsDB()
+                        Log.d(Constants.GIL_TAG, "Delete" )
 
+                        eventRepository.insertEventsDB(events)
+                        Log.d(Constants.GIL_TAG, "Insert" )
 
+                        eventAdapter.updateEvents(events)
+                        Log.d(Constants.GIL_TAG, "Adapter" )
+
+                        showData()
                     }else{
-                        val eventsApi = eventRepository.getAllEventsApi(userPreferences.getUserId().toString())
-                        if (eventsApi.isSuccessful){
-                            val eventList = eventsApi.body() ?: emptyList()
-                            val events = eventList.map { event->
-                                event.toEntity()
-                            }
-
-                            eventRepository.deleteAllEventsDB()
-
-                            eventRepository.insertEventsDB(events)
-
-                            eventAdapter.updateEvents(events)
-
-                            showData()
-                        }else{
-                            getActivityRootView()?.showSnackBarError(getString(R.string.server_error))
-                        }
-
-
+                        getActivityRootView()?.showSnackBarError(getString(R.string.server_error))
                     }
+
                    // eventAdapter.updateEvents(events)
                 }
 
@@ -242,6 +216,28 @@ class TabEventsFragment : Fragment() {
                     getActivityRootView()?.showSnackBarError(getString(R.string.server_error))
                 }
             }
+    }
+
+
+    private suspend fun eventsPendingDeleteDB() {
+        val events = eventRepository.getEventsDelete()
+        for (event in events) {
+            try {
+                val eventDto = EventDto(eventId = event.eventId)
+                val eventDelete = eventRepository.deleteEventApi(eventDto)
+                if(eventDelete.isSuccessful){
+                    eventRepository.deleteEventDB(event.eventId)
+                }else{
+                    Log.d(Constants.GIL_TAG, "Error Delete Event canceled DB: ${event.eventId}")
+                    getActivityRootView()?.showSnackBarError(getString(R.string.server_error))
+
+                }
+            }catch (e: Exception){
+                Log.d(Constants.GIL_TAG, "Error Delete Events canceled DB")
+                getActivityRootView()?.showSnackBarError(getString(R.string.server_error))
+            }
+        }
+
     }
 
 

@@ -308,6 +308,34 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="16sp"
+                android:text="@string/access_controller"
+                android:textColor="@color/accent"
+                />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/lbUserScan"
+                style="@style/CustomSpine.NoMargin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/friends"
+                app:startIconDrawable="@drawable/ic_qr_scan"
+                app:boxBackgroundMode="outline">
+
+                <AutoCompleteTextView
+                    android:id="@+id/acUserScan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:textColor="@color/accent"
+                    style="@style/ShrinkTextInput"
+                    tools:ignore="LabelFor" />
+            </com.google.android.material.textfield.TextInputLayout>
+
 
 
             <Button

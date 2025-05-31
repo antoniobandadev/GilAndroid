@@ -21,6 +21,7 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.jbg.gil.R
+import com.jbg.gil.core.data.local.db.GilDataBase
 import com.jbg.gil.core.data.model.EntityDtoMapper.toEntity
 import com.jbg.gil.core.data.remote.dtos.EventDto
 import com.jbg.gil.core.datastore.UserPreferences
@@ -82,7 +83,7 @@ class EventsDetailFragment : Fragment() {
         eventImage = prepareImagePart(uri, requireContext(), "eventImage")
         if (uri != null){
             uriDB = copyUriToInternalStorage(requireContext(),uri).toString()
-            Log.d(Constants.GIL_TAG, "Imagen seleccionada")
+            Log.d(Constants.GIL_TAG, "Image select")
             imageSelected.visibility = View.VISIBLE
             imageSelected.setImageURI(uri)
             textDelete.visibility = View.VISIBLE
@@ -92,7 +93,7 @@ class EventsDetailFragment : Fragment() {
         }else{
             textAdd.setTextColor(ContextCompat.getColor(requireContext(), R.color.greyDark_load))
             /*uriDB = "null"
-            Log.d(Constants.GIL_TAG, "Imagen NO seleccionada")
+            Log.d(Constants.GIL_TAG, "Image NO select")
             imageSelected.visibility = View.GONE
             imageSelected.setImageResource(R.drawable.ic_add_image)
             textAdd.setText(R.string.add_image)
@@ -127,14 +128,14 @@ class EventsDetailFragment : Fragment() {
         binding.tvAddImage.setOnClickListener {
             binding.tvAddImage.setTextColor(ContextCompat.getColor(requireContext(), R.color.accent))
             // binding.tvAddImage.setTextColor(ContextCompat.getColor(requireContext(), R.color.secondary))
-            //Tipo en especifico
+            //Type en specific
             // pickImage.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.SingleMimeType("img/gif")))
             pickImage.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
 
         }
         binding.tvDeleteImage.setOnClickListener {
             uriDB = "null"
-            Log.d(Constants.GIL_TAG, "Imagen NO seleccionada")
+            Log.d(Constants.GIL_TAG, "Image NO selected")
             imageSelected.visibility = View.GONE
             imageSelected.setImageResource(R.drawable.ic_add_image)
             textAdd.setText(R.string.add_image)
@@ -210,8 +211,27 @@ class EventsDetailFragment : Fragment() {
             }
         }
 
+        binding.btCancelEvent.setOnClickListener {
+            val myEventId = args.eventId
+            Utils.showConfirmAlertDialog(
+                context = requireContext(),
+                title = getString(R.string.cancel_event),
+                message = getString(R.string.confirm_cancel_event),
+                confirmText = getString(R.string.yes),
+                cancelText = getString(R.string.no),
+                confirmColor = ContextCompat.getColor(requireContext(), R.color.red),
+                onConfirm = {
+                    lifecycleScope.launch {
+                       deleteEvents(myEventId)
+                    }
+                }
+
+            )
+        }
+
 
     }
+
 
 
     private fun loadInfoEvent(eventId : String){
@@ -222,8 +242,8 @@ class EventsDetailFragment : Fragment() {
             if (events.isNotEmpty()) {
                 val event = events.first()
 
-                val eventStartDateFormat = Utils.convertDate(event.eventDateStart, strDateFormatBD, strDateFormat)
-                val eventEndDateFormat = Utils.convertDate(event.eventDateEnd, strDateFormatBD, strDateFormat)
+                val eventStartDateFormat = convertDate(event.eventDateStart, strDateFormatBD, strDateFormat)
+                val eventEndDateFormat = convertDate(event.eventDateEnd, strDateFormatBD, strDateFormat)
 
                 binding.apply {
                     btSaveEvent.setText(R.string.update)
@@ -262,8 +282,6 @@ class EventsDetailFragment : Fragment() {
                         tvAddImage.text = getString(R.string.edit_image)
                         tvDeleteImage.visibility = View.VISIBLE
 
-                    }else{
-
                     }
 
                     showData()
@@ -273,6 +291,33 @@ class EventsDetailFragment : Fragment() {
 
         }
     }
+
+    private suspend fun deleteEvents(eventId: String){
+        Log.d(Constants.GIL_TAG,"Event: $eventId")
+        DialogUtils.showLoadingDialog(requireContext())
+        if (Utils.isConnectedNow(requireContext())){
+            try {
+                val eventDto = EventDto(eventId = eventId)
+                val deleteEvent = eventRepository.deleteEventApi(eventDto)
+                if (deleteEvent.isSuccessful) {
+                    eventRepository.deleteEventDB(eventId)
+                    getActivityRootView()?.showSnackBar(getString(R.string.event_cancel_success))
+                    DialogUtils.dismissLoadingDialog()
+                    findNavController().navigateUp()
+                }
+            }catch (e: Exception){
+                Log.d(Constants.GIL_TAG, "Error Delete:")
+                getActivityRootView()?.showSnackBarError(getString(R.string.server_error))
+                DialogUtils.dismissLoadingDialog()
+            }
+        }else{
+            eventRepository.updateEventDelete(eventId)
+            getActivityRootView()?.showSnackBar(getString(R.string.event_cancel_success))
+            DialogUtils.dismissLoadingDialog()
+            findNavController().navigateUp()
+        }
+    }
+
 
     private fun validateInputs() : Boolean{
         binding.apply {

@@ -146,8 +146,8 @@ class SolDialog (
 
     private fun acceptFriend(){
         val respSolFriend = RespFriendDto(
-            userId = friendSol.userId,
-            friendId = friendSol.contactId,
+            userId = friendSol.userId.toString(),
+            friendId = friendSol.contactId.toString(),
             friendStatus = "A"
         )
         DialogUtils.showLoadingDialog(requireContext())
@@ -189,8 +189,8 @@ class SolDialog (
 
     private fun rejectFriend(){
         val respSolFriend = RespFriendDto(
-            userId = friendSol.userId,
-            friendId = friendSol.contactId,
+            userId = friendSol.userId.toString(),
+            friendId = friendSol.contactId.toString(),
             friendStatus = "C"
         )
         DialogUtils.showLoadingDialog(requireContext())
@@ -232,8 +232,8 @@ class SolDialog (
 
     private fun cancelFriend(){
         val respSolFriend = RespFriendDto(
-            userId = friendSol.userId,
-            friendId = friendSol.contactId,
+            userId = friendSol.userId.toString(),
+            friendId = friendSol.contactId.toString(),
             friendStatus = "C"
         )
         DialogUtils.showLoadingDialog(requireContext())

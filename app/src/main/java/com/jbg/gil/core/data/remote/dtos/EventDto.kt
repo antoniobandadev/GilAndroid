@@ -41,6 +41,9 @@ data class EventDto(
     val userId: String? = null,
 
     @SerializedName("eventSync")
-    val eventSync: Int
+    val eventSync: Int = 0,
+
+    @SerializedName("userIdScan")
+    val userIdScan: String? = null,
 
 )

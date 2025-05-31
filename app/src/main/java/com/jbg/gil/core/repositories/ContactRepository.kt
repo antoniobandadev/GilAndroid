@@ -65,10 +65,15 @@ class ContactRepository @Inject constructor(
 
     suspend fun getSyncContacts() = contactDao.getSyncContacts()
 
-    suspend fun insertContactApi(contact: ContactDto) = contactApi.newContact(contact)
+    suspend fun getSyncContactsDelete() = contactDao.getSyncContactsDelete()
 
     suspend fun updateSyncContactsDB(contactId: String) = contactDao.updateSyncContacts(contactId)
 
+    suspend fun insertContactApi(contact: ContactDto) = contactApi.newContact(contact)
+
+    suspend fun deleteContactApi(contact: ContactDto) = contactApi.deleteContact(contact)
+
+    suspend fun getFriendsApi(userId: String, friendStatus: String) = contactApi.getFriends(userId, friendStatus)
 
 
     //_________________________________________Friends____________________________________________

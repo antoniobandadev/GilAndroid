@@ -169,12 +169,11 @@ class ContactDialog (
         if (isConnected == true) {
             try {
                 lifecycleScope.launch {
-
-                    val deleteMyContact = apiContactApi.deleteContact(contact.contactId, contact.userId)
+                    val deleteMyContact = apiContactApi.deleteContact(contact)
 
                     if (deleteMyContact.code() == 200){
                         val resultBd = async {
-                            contactRepository.deleteContact(contact.contactId)
+                            contactRepository.deleteContact(contact.contactId.toString())
                         }
                         resultBd.await()
 
@@ -305,7 +304,7 @@ class ContactDialog (
             try {
                 lifecycleScope.launch {
                     if (contact.contactStatus == "A") {
-                        val updateMyContact = apiContactApi.updateContact(contact.contactId, contact)
+                        val updateMyContact = apiContactApi.updateContact(contact)
 
                         if (updateMyContact.code() == 200) {
                             val resultBd = async {

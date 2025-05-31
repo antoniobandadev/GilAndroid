@@ -1,6 +1,7 @@
 package com.jbg.gil.core.data.local.db.daos
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -14,7 +15,7 @@ interface EventDao {
     @Query("SELECT * FROM ${Constants.DATABASE_EVENTS_TABLE} WHERE eventStatus = 'A' ORDER BY eventDateStart DESC")
     suspend fun getAllEventsDB() : List<EventEntity>
 
-    @Query("SELECT * FROM ${Constants.DATABASE_EVENTS_TABLE} WHERE eventSync = 0 ")
+    @Query("SELECT * FROM ${Constants.DATABASE_EVENTS_TABLE} WHERE eventSync = 0 AND eventStatus = 'A'")
     suspend fun getSyncEvents() : List<EventEntity>
 
     @Query("SELECT * FROM ${Constants.DATABASE_EVENTS_TABLE} WHERE eventStatus = 'A' AND eventId= :eventId ORDER BY eventDateStart DESC")
@@ -34,5 +35,14 @@ interface EventDao {
 
     @Query("DELETE FROM ${Constants.DATABASE_EVENTS_TABLE}")
     suspend fun deleteAllEventsDB()
+
+    @Query("UPDATE ${Constants.DATABASE_EVENTS_TABLE} SET eventStatus = 'C' WHERE eventId = :eventId")
+    suspend fun deleteEventNoConnection(eventId: String)
+
+    @Query("SELECT * FROM ${Constants.DATABASE_EVENTS_TABLE} WHERE eventStatus = 'C'")
+    suspend fun getSyncEventsDelete() : List<EventEntity>
+
+    @Query("DELETE FROM ${Constants.DATABASE_EVENTS_TABLE} WHERE eventId= :eventId")
+    suspend fun deleteEvent(eventId: String)
 
 }

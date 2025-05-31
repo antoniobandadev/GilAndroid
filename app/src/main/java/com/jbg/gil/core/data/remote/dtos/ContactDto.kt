@@ -1,12 +1,12 @@
 package com.jbg.gil.core.data.remote.dtos
 
 data class ContactDto(
-    var contactId : String,
-    var userId : String,
-    var contactEmail : String,
-    var contactName : String,
-    var contactStatus : String,
-    var contactType : String
+    var contactId : String? = null,
+    var userId : String? = null,
+    var contactEmail : String? = null,
+    var contactName : String? = null,
+    var contactStatus : String? = null,
+    var contactType : String? = null
 )
 
 data class BasicResponse(

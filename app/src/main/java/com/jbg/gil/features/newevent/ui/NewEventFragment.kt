@@ -22,6 +22,7 @@ import com.jbg.gil.core.data.model.EntityDtoMapper.toEntity
 import com.jbg.gil.core.data.remote.dtos.EventDto
 import com.jbg.gil.core.datastore.UserPreferences
 import com.jbg.gil.core.network.NetworkStatusViewModel
+import com.jbg.gil.core.repositories.ContactRepository
 import com.jbg.gil.core.repositories.EventRepository
 import com.jbg.gil.core.utils.Constants
 import com.jbg.gil.core.utils.DialogUtils
@@ -57,6 +58,8 @@ class NewEventFragment () : Fragment() {
 
     @Inject
     lateinit var eventRepository: EventRepository
+    @Inject
+    lateinit var contactRepository: ContactRepository
     @Inject
     lateinit var userPreferences: UserPreferences
 
@@ -114,6 +117,8 @@ class NewEventFragment () : Fragment() {
         Utils.setupHideKeyboardOnTouch(binding.root, requireActivity())
         focusAndTextListener()
         loadEventTypes()
+        loadFriends()
+
         imageSelected = binding.ivEvent
         textAdd = binding.tvAddImage
         textDelete = binding.tvDeleteImage
@@ -328,6 +333,25 @@ class NewEventFragment () : Fragment() {
 
         val adapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, typesEvents)
         binding.acEventType.setAdapter(adapter)
+    }
+
+    private fun loadFriends(){
+        lifecycleScope.launch {
+            val friends =
+                contactRepository.getFriendsApi(userPreferences.getUserId().toString(), "A")
+            binding.acUserScan.setDropDownBackgroundResource(android.R.color.transparent)
+
+            if (friends.isSuccessful){
+                Log.d(Constants.GIL_TAG, "Select Friends")
+                val friendList = friends.body()
+                val adapter = ArrayAdapter(
+                    requireContext(),
+                    R.layout.item_dropdown,
+                    friendList?.map { it.contactName } ?: emptyList())
+                binding.acUserScan.setAdapter(adapter)
+            }
+
+        }
     }
 
     private fun showCalendar(){

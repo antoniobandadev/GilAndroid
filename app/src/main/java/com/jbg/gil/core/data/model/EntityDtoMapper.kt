@@ -4,7 +4,6 @@ import com.jbg.gil.core.data.local.db.entities.ContactEntity
 import com.jbg.gil.core.data.local.db.entities.EventEntity
 import com.jbg.gil.core.data.remote.dtos.ContactDto
 import com.jbg.gil.core.data.remote.dtos.EventDto
-import com.jbg.gil.core.utils.Utils
 
 object EntityDtoMapper {
 
@@ -21,12 +20,12 @@ object EntityDtoMapper {
 
      fun ContactDto.toEntity(): ContactEntity {
         return ContactEntity(
-            contactId = this.contactId,
-            userId = this.userId,
-            contactEmail = this.contactEmail,
-            contactName = this.contactName,
-            contactStatus = this.contactStatus,
-            contactType = this.contactType
+            contactId = this.contactId.toString(),
+            userId = this.userId.toString(),
+            contactEmail = this.contactEmail.toString(),
+            contactName = this.contactName.toString(),
+            contactStatus = this.contactStatus.toString(),
+            contactType = this.contactType.toString()
         )
     }
 

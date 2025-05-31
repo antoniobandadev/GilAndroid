@@ -351,7 +351,7 @@
                 android:textSize="14sp"
                 android:text="@string/my_guests"
                 android:textStyle="bold"
-                android:textColor="@color/secondary"
+                android:textColor="@color/greyDark_load"
                 android:background="@color/primaryDark"
                 android:gravity="center"
                 />
@@ -382,6 +382,7 @@
                     android:layout_marginHorizontal="10dp"
                     android:layout_marginTop="10dp"
                     android:backgroundTint="@color/red"
+                    android:textColor="@color/accent"
                     android:text="@string/cancel"
                     />
 
