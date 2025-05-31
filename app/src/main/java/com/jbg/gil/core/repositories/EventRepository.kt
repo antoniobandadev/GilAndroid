@@ -18,6 +18,7 @@ class EventRepository @Inject constructor (private val eventApi: EventApi,
     //suspend fun newEvent(event: EventDto): Response<EventDto> = eventApi.newEvent(event)
     suspend fun uploadEvent(
         eventImage: MultipartBody.Part?,
+        eventId: RequestBody,
         eventName: RequestBody,
         eventDesc: RequestBody,
         eventType: RequestBody,
@@ -30,6 +31,34 @@ class EventRepository @Inject constructor (private val eventApi: EventApi,
 
     ): Response<EventDto> = eventApi.newEvent(
         eventImage,
+        eventId,
+        eventName,
+        eventDesc,
+        eventType,
+        eventDateStart,
+        eventDateEnd,
+        eventStreet,
+        eventCity,
+        eventStatus,
+        userId
+    )
+
+    suspend fun updateEvent(
+        eventImage: MultipartBody.Part?,
+        eventId: RequestBody,
+        eventName: RequestBody,
+        eventDesc: RequestBody,
+        eventType: RequestBody,
+        eventDateStart: RequestBody,
+        eventDateEnd: RequestBody,
+        eventStreet: RequestBody,
+        eventCity: RequestBody,
+        eventStatus: RequestBody?,
+        userId: RequestBody
+
+    ): Response<EventDto> = eventApi.updateEvent(
+        eventImage,
+        eventId,
         eventName,
         eventDesc,
         eventType,
@@ -47,8 +76,10 @@ class EventRepository @Inject constructor (private val eventApi: EventApi,
     suspend fun insertEventsDB(events : List<EventEntity>) =  eventDao.insertEvents(events)
     suspend fun insertEventDB(event : EventEntity) =  eventDao.insertEvent(event)
     suspend fun getEventSyncDB() =  eventDao.getSyncEvents()
-    suspend fun updateEventSyncDB(eventId : String, eventImg: String) =  eventDao.updateSyncEvent(eventId, eventImg)
     suspend fun getAllEventsDB() = eventDao.getAllEventsDB()
+    suspend fun getEvent(eventId: String) = eventDao.getEventDB(eventId)
+    suspend fun updateEventSyncDB(eventId : String, eventImg: String) =  eventDao.updateSyncEvent(eventId, eventImg)
+    suspend fun updateEvent(event: EventEntity) = eventDao.updateEvent(event)
     suspend fun deleteAllEventsDB() = eventDao.deleteAllEventsDB()
 
 }

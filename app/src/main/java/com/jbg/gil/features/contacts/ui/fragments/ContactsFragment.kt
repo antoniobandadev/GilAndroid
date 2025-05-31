@@ -16,15 +16,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jbg.gil.R
 import com.jbg.gil.core.data.local.db.entities.ContactEntity
+import com.jbg.gil.core.data.model.EntityDtoMapper.toDto
 import com.jbg.gil.core.datastore.UserPreferences
 import com.jbg.gil.core.network.NetworkStatusViewModel
 import com.jbg.gil.core.repositories.ContactRepository
 import com.jbg.gil.core.utils.Constants
 import com.jbg.gil.core.utils.Utils
+import com.jbg.gil.core.utils.Utils.applyClickAnimation
 import com.jbg.gil.databinding.FragmentContactsBinding
-import com.jbg.gil.core.data.model.EntityDtoMapper.toDto
-import com.jbg.gil.features.contacts.ui.dialogs.ContactDialog
 import com.jbg.gil.features.contacts.ui.adapters.ContactAdapter
+import com.jbg.gil.features.contacts.ui.dialogs.ContactDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -115,10 +116,16 @@ class ContactsFragment : Fragment() {
     }
 
     private fun backAction() {
-        binding.imgBtBack.setOnClickListener {
+        binding.imgBtBack.setOnClickListener {btnBack ->
+            btnBack.applyClickAnimation()
+            binding.tvBack.setTextColor(ContextCompat.getColor(requireContext(), R.color.accent))
+            binding.imgBtBack.setColorFilter(ContextCompat.getColor(requireContext(), R.color.accent))
             findNavController().navigate(R.id.action_contactsFragment_to_myGuestFragment)
         }
-        binding.tvBack.setOnClickListener {
+        binding.tvBack.setOnClickListener {btnBack ->
+            btnBack.applyClickAnimation()
+            binding.tvBack.setTextColor(ContextCompat.getColor(requireContext(), R.color.accent))
+            binding.imgBtBack.setColorFilter(ContextCompat.getColor(requireContext(), R.color.accent))
             findNavController().navigate(R.id.action_contactsFragment_to_myGuestFragment)
         }
     }

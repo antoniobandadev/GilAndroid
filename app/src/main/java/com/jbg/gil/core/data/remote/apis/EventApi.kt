@@ -18,6 +18,7 @@ interface EventApi {
     @POST("events/newEvent")
     suspend fun newEvent(
         @Part eventImage: MultipartBody.Part?,
+        @Part("eventId") eventId: RequestBody,
         @Part("eventName") eventName: RequestBody,
         @Part("eventDesc") eventDesc: RequestBody,
         @Part("eventType") eventType: RequestBody,
@@ -35,5 +36,21 @@ interface EventApi {
         userId: String
     ): Response<List<EventDto>>
 
+    @Multipart  //Para que lo pueda enviar por partes
+    @Streaming  //No usa toda la ram
+    @POST("events/updateEvent")
+    suspend fun updateEvent(
+        @Part eventImage: MultipartBody.Part?,
+        @Part("eventId") eventId: RequestBody,
+        @Part("eventName") eventName: RequestBody,
+        @Part("eventDesc") eventDesc: RequestBody,
+        @Part("eventType") eventType: RequestBody,
+        @Part("eventDateStart") eventDateStart: RequestBody,
+        @Part("eventDateEnd") eventDateEnd: RequestBody,
+        @Part("eventStreet") eventStreet: RequestBody,
+        @Part("eventCity") eventCity: RequestBody,
+        @Part("eventStatus") eventStatus: RequestBody?,
+        @Part("userId") userId: RequestBody
+    ) : Response<EventDto>
 
 }

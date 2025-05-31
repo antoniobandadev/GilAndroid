@@ -40,9 +40,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
-import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
@@ -76,8 +74,9 @@ class NewEventFragment () : Fragment() {
 
     private lateinit var imageSelected : ImageView
     private lateinit var textAdd : TextView
+    private lateinit var textDelete : TextView
 
-    private lateinit var uriDB : String
+    private var uriDB : String = "null"
 
     private val pickImage = registerForActivityResult(ActivityResultContracts.PickVisualMedia()){ uri ->
          eventImage = prepareImagePart(uri, requireContext(), "eventImage")
@@ -87,14 +86,17 @@ class NewEventFragment () : Fragment() {
             imageSelected.visibility = View.VISIBLE
             imageSelected.setImageURI(uri)
             textAdd.setText(R.string.edit_image)
-            textAdd.setTextColor(ContextCompat.getColor(requireContext(), R.color.secondary))
+            textDelete.visibility = View.VISIBLE
+            textAdd.setTextColor(ContextCompat.getColor(requireContext(), R.color.greyDark_load))
 
         }else{
+            textAdd.setTextColor(ContextCompat.getColor(requireContext(), R.color.greyDark_load))
+            /*uriDB = "null"
             Log.d(Constants.GIL_TAG, "Imagen NO seleccionada")
             imageSelected.visibility = View.GONE
             imageSelected.setImageResource(R.drawable.ic_add_image)
             textAdd.setText(R.string.add_image)
-            textAdd.setTextColor(ContextCompat.getColor(requireContext(), R.color.secondary))
+            textAdd.setTextColor(ContextCompat.getColor(requireContext(), R.color.secondary))*/
         }
     }
 
@@ -114,6 +116,7 @@ class NewEventFragment () : Fragment() {
         loadEventTypes()
         imageSelected = binding.ivEvent
         textAdd = binding.tvAddImage
+        textDelete = binding.tvDeleteImage
 
         networkStatusViewModel.getNetworkStatus().observe(viewLifecycleOwner) { isConnected ->
             Log.d(Constants.GIL_TAG, "Status: $isConnected")
@@ -131,6 +134,18 @@ class NewEventFragment () : Fragment() {
            //Tipo en especifico
            // pickImage.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.SingleMimeType("img/gif")))
             pickImage.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+
+        }
+
+        binding.tvDeleteImage.setOnClickListener {
+            eventImage = null
+            uriDB = "null"
+            Log.d(Constants.GIL_TAG, "Imagen NO seleccionada")
+            imageSelected.visibility = View.GONE
+            imageSelected.setImageResource(R.drawable.ic_add_image)
+            textAdd.setText(R.string.add_image)
+            textAdd.setTextColor(ContextCompat.getColor(requireContext(), R.color.greyDark_load))
+            textDelete.visibility = View.GONE
 
         }
 
@@ -159,7 +174,7 @@ class NewEventFragment () : Fragment() {
 
                                 val etEventDateStartDB = convertDate(etEventDateStart.text.toString(), strDateFormat, strDateFormatBD)
                                 val etEventDateEndDB = convertDate(etEventDateEnd.text.toString(), strDateFormat, strDateFormatBD)
-
+                                val eventId = Utils.createPartFromString("new")
                                 val eventName =
                                     Utils.createPartFromString(etEventName.text.toString())
                                 val eventDesc =
@@ -180,6 +195,7 @@ class NewEventFragment () : Fragment() {
 
                                 val eventInsert = eventRepository.uploadEvent(
                                     eventImage,
+                                    eventId,
                                     eventName,
                                     eventDesc,
                                     eventTypeBody,
@@ -215,13 +231,16 @@ class NewEventFragment () : Fragment() {
                     val dateNow = formatter.format(currentDate)
                     val imagePath = uriDB
 
+                    val etEventDateStartDB = convertDate(binding.etEventDateStart.text.toString(), strDateFormat, strDateFormatBD)
+                    val etEventDateEndDB = convertDate(binding.etEventDateEnd.text.toString(), strDateFormat, strDateFormatBD)
+
                     val myEvent = EventDto(
                         eventId = UUID.randomUUID().toString(),
                         eventName = binding.etEventName.text.toString(),
                         eventDesc = binding.etEventDesc.text.toString(),
                         eventType = eventType,
-                        eventDateStart = binding.etEventDateStart.text.toString(),
-                        eventDateEnd = binding.etEventDateEnd.text.toString(),
+                        eventDateStart =etEventDateStartDB,
+                        eventDateEnd = etEventDateEndDB,
                         eventStreet = binding.etEventStreet.text.toString(),
                         eventCity = binding.etEventCity.text.toString(),
                         eventStatus = "A",
@@ -277,21 +296,8 @@ class NewEventFragment () : Fragment() {
                 return false
             }
 
-            val formatter = SimpleDateFormat(strDateFormat, Locale.getDefault())
-            //formatter.timeZone = TimeZone.getTimeZone("UTC")
-
-            val dateStart: Date? = try {
-                formatter.parse(etEventDateStart.text.toString())
-            } catch (e: ParseException) {
-                lbEventDateStart.error = getString(R.string.required_field)
-                return false
-            }
-
-           // val utcCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
-            val today = Calendar.getInstance().time
-            if (dateStart?.before(today) == true) {
+            if(!Utils.isDateEarlierToday(etEventDateStart.text.toString(), strDateFormat)){
                 lbEventDateStart.error = getString(R.string.invalid_date)
-                Log.d(Constants.GIL_TAG, today.toString())
                 return false
             }
 
@@ -309,23 +315,13 @@ class NewEventFragment () : Fragment() {
                 lbEventCity.error = getString(R.string.required_field)
                 return false
             }
-
-
-
-
-
-
         }
 
         return true
     }
 
     private fun loadEventTypes(){
-        val typesEvents = listOf(getString(R.string.event_category_social),
-            getString(R.string.event_category_corporate),
-            getString(R.string.event_category_academic),
-            getString(R.string.event_category_other)
-        )
+        val typesEvents = Utils.getEventTypes(requireContext())
 
         binding.acEventType.setDropDownBackgroundResource(android.R.color.transparent)
 
@@ -391,6 +387,7 @@ class NewEventFragment () : Fragment() {
             val events = eventRepository.getEventSyncDB()
             for (event in events) {
                 try {
+                    val eventId = Utils.createPartFromString(event.eventId)
                     val eventName =
                         Utils.createPartFromString(event.eventName)
                     val eventDesc =
@@ -415,6 +412,7 @@ class NewEventFragment () : Fragment() {
 
                     val response = eventRepository.uploadEvent(
                         eventImage,
+                        eventId,
                         eventName,
                         eventDesc,
                         eventTypeBody,
@@ -434,7 +432,7 @@ class NewEventFragment () : Fragment() {
 
 
                 } catch (e: Exception) {
-                    Log.e("SyncWorker", "Error al subir evento: ${e.message}", e)
+                    Log.e("SyncWorker", "Error al subir evento imagen: ${e.message}", e)
                 }
             }
 

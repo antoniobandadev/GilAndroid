@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jbg.gil.R
 import com.jbg.gil.core.data.model.EntityDtoMapper.toEntity
@@ -17,11 +18,12 @@ import com.jbg.gil.core.repositories.EventRepository
 import com.jbg.gil.core.utils.Constants
 import com.jbg.gil.core.utils.Utils
 import com.jbg.gil.core.utils.Utils.getActivityRootView
+import com.jbg.gil.core.utils.Utils.isInteger
 import com.jbg.gil.core.utils.Utils.showSnackBarError
 import com.jbg.gil.databinding.FragmentTabEventsBinding
+import com.jbg.gil.features.events.ui.EventsFragmentDirections
 import com.jbg.gil.features.events.ui.adapters.EventAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -60,7 +62,8 @@ class TabEventsFragment : Fragment() {
 
         eventAdapter = EventAdapter(emptyList()) {event ->
             Log.d(Constants.GIL_TAG, event.eventName)
-
+            val action = EventsFragmentDirections.actionEventsFragmentToEventsDetailFragment(eventId = event.eventId)
+            findNavController().navigate(action)
         }
 
         binding.rvEvents.apply {
@@ -75,32 +78,34 @@ class TabEventsFragment : Fragment() {
                     val eventsPending = eventRepository.getEventSyncDB()
 
                     if(eventsPending.isNotEmpty()){
+
                         eventsPendingDB()
-                        eventRepository.deleteAllEventsDB()
+                        Log.d(Constants.GIL_TAG, "updatePending" )
+
+                       // eventRepository.deleteAllEventsDB()
                         val eventsApi = eventRepository.getAllEventsApi(userPreferences.getUserId().toString())
                         if (eventsApi.isSuccessful){
                             val eventList = eventsApi.body() ?: emptyList()
                             val events = eventList.map { event->
                                 event.toEntity()
                             }
-                            val resultBdDelete = async {
-                                eventRepository.deleteAllEventsDB()
-                            }
-                            resultBdDelete.await()
+                            Log.d(Constants.GIL_TAG, "GET" )
 
-                            val resultBdInsert = async {
-                                eventRepository.insertEventsDB(events)
-                            }
-                            resultBdInsert.await()
+                            eventRepository.deleteAllEventsDB()
+                            Log.d(Constants.GIL_TAG, "Delete" )
 
-                            val resultBdUpdate = async {
-                                eventAdapter.updateEvents(events)
-                            }
-                            resultBdUpdate.await()
+                            eventRepository.insertEventsDB(events)
+                            Log.d(Constants.GIL_TAG, "Insert" )
+
+                            eventAdapter.updateEvents(events)
+                            Log.d(Constants.GIL_TAG, "Adapter" )
+
                             showData()
                         }else{
                             getActivityRootView()?.showSnackBarError(getString(R.string.server_error))
                         }
+
+
 
                     }else{
                         val eventsApi = eventRepository.getAllEventsApi(userPreferences.getUserId().toString())
@@ -110,26 +115,20 @@ class TabEventsFragment : Fragment() {
                                 event.toEntity()
                             }
 
-                            val resultBdDelete = async {
-                                eventRepository.deleteAllEventsDB()
-                            }
-                            resultBdDelete.await()
+                            eventRepository.deleteAllEventsDB()
 
-                            val resultBdInsert = async {
-                                eventRepository.insertEventsDB(events)
-                            }
-                            resultBdInsert.await()
+                            eventRepository.insertEventsDB(events)
 
-                            val resultBdUpdate = async {
-                                eventAdapter.updateEvents(events)
-                            }
-                            resultBdUpdate.await()
+                            eventAdapter.updateEvents(events)
+
                             showData()
                         }else{
                             getActivityRootView()?.showSnackBarError(getString(R.string.server_error))
                         }
+
+
                     }
-                    //eventAdapter.updateEvents(events)
+                   // eventAdapter.updateEvents(events)
                 }
 
             }else{
@@ -145,12 +144,13 @@ class TabEventsFragment : Fragment() {
 
     }
 
-    private fun eventsPendingDB(){
-        lifecycleScope.launch {
+     private suspend fun eventsPendingDB(){
             val events = eventRepository.getEventSyncDB()
 
             for (event in events) {
                 try {
+                    val eventId =
+                        Utils.createPartFromString(event.eventId)
                     val eventName =
                         Utils.createPartFromString(event.eventName)
                     val eventDesc =
@@ -167,38 +167,81 @@ class TabEventsFragment : Fragment() {
                     val eventStatus = Utils.createPartFromString(event.eventStatus)
                     val userId = Utils.createPartFromString(event.userId)
 
-                    val eventImage = event.eventImg.let { path ->
-                        val file = File(path)
-                        val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
-                        MultipartBody.Part.createFormData("eventImage", file.name, requestFile)
-                    }
+                    var eventImage :MultipartBody.Part? = null
+                    Log.d(Constants.GIL_TAG, "Image: ${event.eventId} - ${event.eventImg}" )
 
-                    val response = eventRepository.uploadEvent(
-                        eventImage,
-                        eventName,
-                        eventDesc,
-                        eventTypeBody,
-                        eventDateStart,
-                        eventDateEnd,
-                        eventStreet,
-                        eventCity,
-                        eventStatus,
-                        userId
-                    )
+                    if(event.eventImg == "null"){
 
-                    if (response.isSuccessful) {
-                        val myEvent = response.body()
-                        eventRepository.updateEventSyncDB(myEvent?.eventId.toString(),myEvent?.eventImg.toString())
+                    }else{
+                         eventImage = event.eventImg.let { path ->
+                             val file = File(path)
+                             val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+                             MultipartBody.Part.createFormData("eventImage", file.name, requestFile)
+                         }
                     }
 
 
+
+                    Log.d(Constants.GIL_TAG, "Event_ mi db: $event.eventId")
+
+                    if(isInteger(event.eventId)){
+                        Log.d(Constants.GIL_TAG, "Update: ${event.eventId} - ${event.eventImg}" )
+                        val response = eventRepository.updateEvent(
+                            eventImage,
+                            eventId,
+                            eventName,
+                            eventDesc,
+                            eventTypeBody,
+                            eventDateStart,
+                            eventDateEnd,
+                            eventStreet,
+                            eventCity,
+                            eventStatus,
+                            userId
+                        )
+
+                        if (response.isSuccessful) {
+                            val myEvent = response.body()
+                            eventRepository.updateEventSyncDB(myEvent?.eventId.toString(),myEvent?.eventImg.toString())
+                            Log.d(Constants.GIL_TAG, "Updated: ${event.eventId}" )
+
+                        }else{
+                            Log.d(Constants.GIL_TAG, "Error Update: ${response.errorBody()}" )
+                            getActivityRootView()?.showSnackBarError(getString(R.string.server_error))
+                        }
+
+
+                    }else{
+                        Log.d(Constants.GIL_TAG, "Insert: ${event.eventId}" )
+                        val response = eventRepository.uploadEvent(
+                            eventImage,
+                            eventId,
+                            eventName,
+                            eventDesc,
+                            eventTypeBody,
+                            eventDateStart,
+                            eventDateEnd,
+                            eventStreet,
+                            eventCity,
+                            eventStatus,
+                            userId
+                        )
+
+                        if (response.isSuccessful) {
+                            val myEvent = response.body()
+                            eventRepository.updateEventSyncDB(myEvent?.eventId.toString(),myEvent?.eventImg.toString())
+                        }else{
+                            Log.d(Constants.GIL_TAG, "Error Insert: ${response.errorBody()}" )
+                            getActivityRootView()?.showSnackBarError(getString(R.string.server_error))
+                        }
+
+                    }
 
                 } catch (e: Exception) {
-                    Log.e("SyncWorker", "Error al subir evento: ${e.message}", e)
+                    Log.e(Constants.GIL_TAG, "Error al subir evento: ${event.eventImg}", e)
+                    getActivityRootView()?.showSnackBarError(getString(R.string.server_error))
                 }
             }
-
-        }
     }
 
 

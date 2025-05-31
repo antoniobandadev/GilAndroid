@@ -97,6 +97,9 @@
     <string name="event_save_success">Evento guardado exitósamente.</string>
     <string name="add_image">Agregar imagen</string>
     <string name="edit_image">Editar imagen</string>
+    <string name="delete_image">Eliminar imagen</string>
+    <string name="edit_event">Editar evento</string>
+    <string name="event_update_success">Evento actualizado exitósamente.</string>
 
 
     <!--- Contacts -->

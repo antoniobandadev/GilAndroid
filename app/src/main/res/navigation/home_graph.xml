@@ -9,7 +9,12 @@
         android:id="@+id/eventsFragment"
         android:name="com.jbg.gil.features.events.ui.EventsFragment"
         android:label="fragment_events"
-        tools:layout="@layout/fragment_events" />
+        tools:layout="@layout/fragment_events" >
+        <action
+            android:id="@+id/action_eventsFragment_to_eventsDetailFragment"
+            app:destination="@id/eventsDetailFragment" />
+
+    </fragment>
     <fragment
         android:id="@+id/connectionsFragment"
         android:name="com.jbg.gil.features.contacts.ui.fragments.FriendsFragment"
@@ -53,5 +58,17 @@
         <action
             android:id="@+id/action_contactsFragment_to_myGuestFragment"
             app:destination="@id/myGuestFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/eventsDetailFragment"
+        android:name="com.jbg.gil.features.events.ui.fragments.EventsDetailFragment"
+        android:label="fragment_events_detail"
+        tools:layout="@layout/fragment_events_detail" >
+        <argument
+            android:name="eventId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_eventsDetailFragment_to_eventsFragment"
+            app:destination="@id/eventsFragment" />
     </fragment>
 </navigation>

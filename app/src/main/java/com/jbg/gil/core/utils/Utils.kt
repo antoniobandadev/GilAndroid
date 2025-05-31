@@ -6,13 +6,12 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.res.ColorStateList
-import android.graphics.Color
-import android.graphics.drawable.RippleDrawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
 import android.provider.Settings
 import android.util.Patterns
+import android.view.HapticFeedbackConstants
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -20,7 +19,6 @@ import android.webkit.WebView
 import android.widget.EditText
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.toDrawable
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
@@ -35,6 +33,7 @@ import java.io.File
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 import java.util.regex.Pattern
 
@@ -311,15 +310,15 @@ object Utils {
 
     //---------------------------------------------------------------------------------------------
 
-    fun showRipple(context: Context): RippleDrawable {
-        val rippleColor = ColorStateList.valueOf(
-            ContextCompat.getColor(context, R.color.grey_load)
+
+    fun getEventTypes(context: Context): List<String> {
+        return listOf(
+            context.getString(R.string.event_category_social),
+            context.getString(R.string.event_category_corporate),
+            context.getString(R.string.event_category_academic),
+            context.getString(R.string.event_category_other)
         )
-
-        val contentDrawable = Color.TRANSPARENT.toDrawable() // base mínima para limitar el área
-        return RippleDrawable(rippleColor, contentDrawable, null)
     }
-
 
     //----------------------------------------------------------------------------------------------
 
@@ -374,6 +373,62 @@ object Utils {
             null
         }
     }
+
+    //-------------------------------------------------------------------------------------------
+
+    fun isDateEarlierToday(dateStr: String, format: String): Boolean {
+        return try {
+            val sdf = SimpleDateFormat(format, Locale.getDefault())
+            sdf.isLenient = false
+            val inputDate: Date = sdf.parse(dateStr) ?: return false
+
+            // Quitar la parte de la hora para comparar solo fechas
+            val today = Calendar.getInstance()
+            today.set(Calendar.HOUR_OF_DAY, 0)
+            today.set(Calendar.MINUTE, 0)
+            today.set(Calendar.SECOND, 0)
+            today.set(Calendar.MILLISECOND, 0)
+
+            val inputCal = Calendar.getInstance()
+            inputCal.time = inputDate
+            inputCal.set(Calendar.HOUR_OF_DAY, 0)
+            inputCal.set(Calendar.MINUTE, 0)
+            inputCal.set(Calendar.SECOND, 0)
+            inputCal.set(Calendar.MILLISECOND, 0)
+
+            !inputCal.before(today) // true si es hoy o en el futuro
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    //---------------------------------------------------------------------------------------------
+
+    fun View.applyClickAnimation() {
+        performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
+        scaleX = 1f
+        scaleY = 1f
+        animate()
+            .scaleX(0.95f)
+            .scaleY(0.95f)
+            .setDuration(100)
+            .withEndAction {
+                animate()
+                    .scaleX(1f)
+                    .scaleY(1f)
+                    .setDuration(100)
+                    .start()
+            }
+            .start()
+    }
+
+    //----------------------------------------------------------------------------------------------
+
+    fun isInteger(value: String): Boolean {
+        return value.toIntOrNull() != null
+    }
+
+
 
     //---------------------------------------------------------------------------------------------
 }

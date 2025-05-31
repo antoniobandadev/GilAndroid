@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
@@ -11,6 +12,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.jbg.gil.R
 import com.jbg.gil.core.ui.ViewPagerAdapter
+import com.jbg.gil.core.utils.Utils.applyClickAnimation
 import com.jbg.gil.databinding.FragmentFriendsBinding
 
 
@@ -62,10 +64,16 @@ class FriendsFragment : Fragment() {
     }
 
     private fun backAction(){
-        binding.imgBtBack.setOnClickListener {
+        binding.imgBtBack.setOnClickListener {btnBack ->
+            btnBack.applyClickAnimation()
+            binding.tvBack.setTextColor(ContextCompat.getColor(requireContext(), R.color.accent))
+            binding.imgBtBack.setColorFilter(ContextCompat.getColor(requireContext(), R.color.accent))
             findNavController().navigate(R.id.action_connectionsFragment_to_myGuestFragment)
         }
-        binding.tvBack.setOnClickListener {
+        binding.tvBack.setOnClickListener {btnBack ->
+            btnBack.applyClickAnimation()
+            binding.tvBack.setTextColor(ContextCompat.getColor(requireContext(), R.color.accent))
+            binding.imgBtBack.setColorFilter(ContextCompat.getColor(requireContext(), R.color.accent))
             findNavController().navigate(R.id.action_connectionsFragment_to_myGuestFragment)
         }
     }
