@@ -21,7 +21,6 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.jbg.gil.R
-import com.jbg.gil.core.data.local.db.GilDataBase
 import com.jbg.gil.core.data.model.EntityDtoMapper.toEntity
 import com.jbg.gil.core.data.remote.dtos.EventDto
 import com.jbg.gil.core.datastore.UserPreferences

@@ -351,8 +351,7 @@ class NewEventFragment () : Fragment() {
                 }
 
 
-                val friends =
-                    contactRepository.getFriendsApi(userPreferences.getUserId().toString(), "A")
+                val friends = contactRepository.getFriendsApi(userPreferences.getUserId().toString(), "A")
                     binding.acUserScan.setDropDownBackgroundResource(android.R.color.transparent)
 
                 if (friends.isSuccessful) {
