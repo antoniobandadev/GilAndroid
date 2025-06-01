@@ -65,14 +65,14 @@ class ContactsFragment : Fragment() {
         backAction()
         colorIconButton()
         searchContact()
-        //selectContacts()
+        contactsSync()
+        selectContacts()
 
         networkViewModel.getNetworkStatus().observe(viewLifecycleOwner) { isConnected ->
             Log.d(Constants.GIL_TAG, "Conectado: $isConnected")
-            selectContacts()
-            if (isConnected){
-                contactsSync()
-            }
+            /*if (isConnected){
+
+            }*/
         }
 
         contactAdapter = ContactAdapter(emptyList()) { selectedContact ->
@@ -180,7 +180,8 @@ class ContactsFragment : Fragment() {
         binding.etContactSearch.addTextChangedListener { searchContact ->
             val contactsFilter =
                 contacts.filter { contact ->
-                    contact.contactName.lowercase().contains(searchContact.toString().lowercase())
+                    contact.contactName.toString().lowercase().contains(searchContact.toString().lowercase())
+
                 }
             if (contactsFilter.isEmpty()){
                 binding.tvContactsFound.text = getString(R.string.no_results_for,searchContact.toString())
@@ -193,34 +194,36 @@ class ContactsFragment : Fragment() {
     }
 
     private fun contactsSync(){
-        lifecycleScope.launch {
-            val contacts = contactRepository.getSyncContacts()
-            for (contact in contacts) {
-                try {
-                    val updateContacts = contactRepository.insertContactApi(contact.toDto())
-                    if(updateContacts.isSuccessful){
-                        contactRepository.updateSyncContactsDB(contact.contactId)
-                        Log.d(Constants.GIL_TAG, "Datos Actualizados en el servidor")
-                    }else{
-                        Log.d(Constants.GIL_TAG, "Error al enviar al servidor")
+        if (Utils.isConnectedNow(requireContext())) {
+            lifecycleScope.launch {
+                val contacts = contactRepository.getSyncContacts()
+                for (contact in contacts) {
+                    try {
+                        val updateContacts = contactRepository.insertContactApi(contact.toDto())
+                        if (updateContacts.isSuccessful) {
+                            contactRepository.updateSyncContactsDB(contact.contactId)
+                            Log.d(Constants.GIL_TAG, "Datos Actualizados en el servidor")
+                        } else {
+                            Log.d(Constants.GIL_TAG, "Error al enviar al servidor")
+                        }
+                    } catch (e: Exception) {
+                        Log.d(Constants.GIL_TAG, e.toString())
                     }
-                }catch (e : Exception){
-                    Log.d(Constants.GIL_TAG, e.toString())
                 }
-            }
 
-            val contactsDelete = contactRepository.getSyncContactsDelete()
-            for (contact in contactsDelete) {
-                try {
-                    val updateContacts = contactRepository.deleteContactApi(contact.toDto())
-                    if(updateContacts.isSuccessful){
-                        contactRepository.deleteContact(contact.contactId)
-                        Log.d(Constants.GIL_TAG, "Datos Actualizados en el servidor")
-                    }else{
-                        Log.d(Constants.GIL_TAG, "Error al enviar al servidor")
+                val contactsDelete = contactRepository.getSyncContactsDelete()
+                for (contact in contactsDelete) {
+                    try {
+                        val updateContacts = contactRepository.deleteContactApi(contact.toDto())
+                        if (updateContacts.isSuccessful) {
+                            contactRepository.deleteContact(contact.contactId)
+                            Log.d(Constants.GIL_TAG, "Datos Actualizados en el servidor")
+                        } else {
+                            Log.d(Constants.GIL_TAG, "Error al enviar al servidor")
+                        }
+                    } catch (e: Exception) {
+                        Log.d(Constants.GIL_TAG, e.toString())
                     }
-                }catch (e : Exception){
-                    Log.d(Constants.GIL_TAG, e.toString())
                 }
             }
         }

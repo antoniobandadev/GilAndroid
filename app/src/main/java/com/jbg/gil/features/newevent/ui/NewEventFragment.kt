@@ -337,18 +337,44 @@ class NewEventFragment () : Fragment() {
 
     private fun loadFriends(){
         lifecycleScope.launch {
-            val friends =
-                contactRepository.getFriendsApi(userPreferences.getUserId().toString(), "A")
-            binding.acUserScan.setDropDownBackgroundResource(android.R.color.transparent)
+            if (Utils.isConnectedNow(requireContext())) {
 
-            if (friends.isSuccessful){
-                Log.d(Constants.GIL_TAG, "Select Friends")
-                val friendList = friends.body()
-                val adapter = ArrayAdapter(
-                    requireContext(),
-                    R.layout.item_dropdown,
-                    friendList?.map { it.contactName } ?: emptyList())
-                binding.acUserScan.setAdapter(adapter)
+                val updateFriends = contactRepository.getFriendsToContacts(userPreferences.getUserId().toString())
+                if (updateFriends.isSuccessful){
+                    contactRepository.deleteFriendsToContacts()
+                    val contactList = updateFriends.body() ?: emptyList()
+                    val contacts = contactList.map { contact ->
+                        contact.toEntity()
+                    }
+
+                    contactRepository.insertContactList(contacts)
+                }
+
+
+                val friends =
+                    contactRepository.getFriendsApi(userPreferences.getUserId().toString(), "A")
+                    binding.acUserScan.setDropDownBackgroundResource(android.R.color.transparent)
+
+                if (friends.isSuccessful) {
+                    Log.d(Constants.GIL_TAG, "Select Friends")
+                    val friendList = friends.body()
+                    val adapter = ArrayAdapter(
+                        requireContext(),
+                        R.layout.item_dropdown,
+                        friendList?.map { it.contactName } ?: emptyList())
+                    binding.acUserScan.setAdapter(adapter)
+                }
+            }else{
+                val friends = contactRepository.getFriendsDB()
+                binding.acUserScan.setDropDownBackgroundResource(android.R.color.transparent)
+                if (friends.isNotEmpty()){
+                    val adapter = ArrayAdapter(
+                        requireContext(),
+                        R.layout.item_dropdown,
+                        friends.map { it.contactName }
+                    )
+                    binding.acUserScan.setAdapter(adapter)
+                }
             }
 
         }

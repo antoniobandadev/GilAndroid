@@ -19,6 +19,12 @@ interface ContactApi {
         userId: String
     ) : Response<List<ContactDto>>
 
+    @GET("contacts/friends")
+    suspend fun getFriendsToContacts(
+        @Query("userId")
+        userId: String
+    ) : Response<List<ContactDto>>
+
     @POST("contacts/newContacts")
     suspend fun newContact(@Body contact: ContactDto) : Response<BasicResponse>
 

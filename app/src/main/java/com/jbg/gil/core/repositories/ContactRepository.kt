@@ -24,6 +24,7 @@ class ContactRepository @Inject constructor(
         try {
             val contactsFromApi = contactApi.getContacts(userId)
             if (contactsFromApi.isSuccessful) {
+                contactDao.clearAllFriends()
                 val contactList = contactsFromApi.body() ?: emptyList()
                 val contacts = contactList.map { contact ->
                     contact.toEntity()
@@ -59,6 +60,8 @@ class ContactRepository @Inject constructor(
 
     suspend fun insertContact(contact : ContactEntity) =  contactDao.insertOneContact(contact)
 
+    suspend fun insertContactList(contacts : List<ContactEntity>) =  contactDao.insertContact(contacts)
+
     suspend fun updateContact(contact: ContactEntity) =  contactDao.updateContact(contact)
 
     suspend fun deleteContact(contactId: String) = contactDao.deleteContact(contactId)
@@ -69,11 +72,19 @@ class ContactRepository @Inject constructor(
 
     suspend fun updateSyncContactsDB(contactId: String) = contactDao.updateSyncContacts(contactId)
 
+    suspend fun getFriendsDB() = contactDao.getFriendsDB()
+
     suspend fun insertContactApi(contact: ContactDto) = contactApi.newContact(contact)
 
     suspend fun deleteContactApi(contact: ContactDto) = contactApi.deleteContact(contact)
 
     suspend fun getFriendsApi(userId: String, friendStatus: String) = contactApi.getFriends(userId, friendStatus)
+
+    suspend fun getFriendsToContacts(userId: String) = contactApi.getFriendsToContacts(userId)
+
+    suspend fun deleteFriendsToContacts() = contactDao.clearAllFriends()
+
+
 
 
     //_________________________________________Friends____________________________________________
@@ -89,7 +100,7 @@ class ContactRepository @Inject constructor(
                     .map { contact ->
                     contact.toEntity()
                 }
-                //contactDao.clearAllFriends()
+
                 //contactDao.insertContact(contacts)
                 Log.d(Constants.GIL_TAG, "API Response: $contacts")
                 return contacts
@@ -123,7 +134,7 @@ class ContactRepository @Inject constructor(
                     .map { solReceived ->
                         solReceived.toEntity()
                 }
-                //contactDao.clearAllFriends()
+
                 Log.d(Constants.GIL_TAG, "API Response: $solRecs")
                 return solRecs
 
@@ -155,7 +166,7 @@ class ContactRepository @Inject constructor(
                     .map { solSend ->
                         solSend.toEntity()
                     }
-                //contactDao.clearAllFriends()
+
                 Log.d(Constants.GIL_TAG, "API Response: $solSend")
                 return solSend
 

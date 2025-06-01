@@ -197,7 +197,7 @@ class EventsDetailFragment : Fragment() {
                             eventRepository.updateEvent(myEvent.toEntity())
                         }
                         result.await()
-                        Thread.sleep(2000)
+
                         getActivityRootView()?.showSnackBar(getString(R.string.event_update_success))
                         findNavController().navigate(EventsDetailFragmentDirections.actionEventsDetailFragmentToEventsFragment())
                         DialogUtils.dismissLoadingDialog()

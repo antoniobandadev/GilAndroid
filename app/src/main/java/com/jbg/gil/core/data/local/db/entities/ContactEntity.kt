@@ -14,18 +14,18 @@ data class ContactEntity(
     //contactId = UUID.randomUUID().toString()
 
     @ColumnInfo(name = "userId")
-    var userId : String,
+    var userId : String?= null,
 
     @ColumnInfo(name = "contactName")
-    var contactName : String,
+    var contactName : String?= null,
 
     @ColumnInfo(name = "contactEmail")
-    var contactEmail : String,
+    var contactEmail : String?= null,
 
     @ColumnInfo(name = "contactStatus")
-    var contactStatus : String,
+    var contactStatus : String?= null,
 
     @ColumnInfo(name = "contactType")
-    var contactType: String
+    var contactType: String?= null
 
 )

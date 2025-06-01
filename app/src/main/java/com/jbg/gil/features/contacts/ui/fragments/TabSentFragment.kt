@@ -148,7 +148,7 @@ class TabSentFragment : Fragment() {
         binding.etSolSendearch.addTextChangedListener { searchContact ->
             val solFilter =
                 solSendList.filter { sol ->
-                    sol.contactName.lowercase().contains(searchContact.toString().lowercase())
+                    sol.contactName.toString().lowercase().contains(searchContact.toString().lowercase())
                 }
             if (solFilter.isEmpty()){
                 binding.tvSolSendFound.text = getString(R.string.no_results_for,searchContact.toString())

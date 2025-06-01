@@ -19,10 +19,11 @@ interface ContactDao {
     @Query("SELECT * FROM ${Constants.DATABASE_CONTACTS_TABLE} WHERE contactStatus ='C' and contactType = 'C' ORDER BY contactName ASC ")
     suspend fun getSyncContactsDelete() : List<ContactEntity>
 
+    @Query("SELECT * FROM ${Constants.DATABASE_CONTACTS_TABLE} WHERE contactStatus ='A' and contactType = 'F' ORDER BY contactName ASC ")
+    suspend fun getFriendsDB() : List<ContactEntity>
 
-    @Query("UPDATE ${Constants.DATABASE_CONTACTS_TABLE} SET contactStatus = 'A' WHERE contactId = :contactId ")
+    @Query("UPDATE ${Constants.DATABASE_CONTACTS_TABLE} SET contactStatus = 'A' and contactType = 'C' WHERE contactId = :contactId ")
     suspend fun updateSyncContacts(contactId: String)
-
 
     @Insert
     suspend fun insertContact(contact: List<ContactEntity>)

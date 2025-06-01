@@ -156,7 +156,7 @@ class TabFriendsFragment : Fragment() {
         binding.etFriendSearch.addTextChangedListener { searchFriend ->
             val friendsFilter =
                 friends.filter { contact ->
-                    contact.contactName.lowercase().contains(searchFriend.toString().lowercase())
+                    contact.contactName.toString().lowercase().contains(searchFriend.toString().lowercase())
                 }
             if (friendsFilter.isEmpty()){
                 binding.tvFriendsFound.text = getString(R.string.no_results_for,searchFriend.toString())
