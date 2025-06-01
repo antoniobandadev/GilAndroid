@@ -140,6 +140,9 @@ class TabEventsFragment : Fragment() {
                         Utils.createPartFromString(event.eventCity)
                     val eventStatus = Utils.createPartFromString(event.eventStatus)
                     val userId = Utils.createPartFromString(event.userId)
+                    val userIdScan = Utils.createPartFromString(event.userIdScan)
+
+                    var changeImage = Utils.createPartFromString("0")
 
                     var eventImage :MultipartBody.Part? = null
                     Log.d(Constants.GIL_TAG, "Image: ${event.eventId} - ${event.eventImg}" )
@@ -147,11 +150,20 @@ class TabEventsFragment : Fragment() {
                     if(event.eventImg == "null"){
 
                     }else{
-                         eventImage = event.eventImg.let { path ->
-                             val file = File(path)
-                             val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
-                             MultipartBody.Part.createFormData("eventImage", file.name, requestFile)
-                         }
+                        if (!event.eventImg.lowercase().startsWith("https")) {
+                             changeImage = Utils.createPartFromString("1")
+                            eventImage = event.eventImg.let { path ->
+                                val file = File(path)
+                                val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+                                MultipartBody.Part.createFormData(
+                                    "eventImage",
+                                    file.name,
+                                    requestFile
+                                )
+                            }
+                        }else{
+                            eventImage = null
+                        }
                     }
 
 
@@ -171,7 +183,9 @@ class TabEventsFragment : Fragment() {
                             eventStreet,
                             eventCity,
                             eventStatus,
-                            userId
+                            userId,
+                            userIdScan,
+                            changeImage
                         )
 
                         if (response.isSuccessful) {
@@ -198,7 +212,8 @@ class TabEventsFragment : Fragment() {
                             eventStreet,
                             eventCity,
                             eventStatus,
-                            userId
+                            userId,
+                            userIdScan
                         )
 
                         if (response.isSuccessful) {

@@ -21,9 +21,11 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.jbg.gil.R
+import com.jbg.gil.core.data.local.db.entities.ContactEntity
 import com.jbg.gil.core.data.model.EntityDtoMapper.toEntity
 import com.jbg.gil.core.data.remote.dtos.EventDto
 import com.jbg.gil.core.datastore.UserPreferences
+import com.jbg.gil.core.repositories.ContactRepository
 import com.jbg.gil.core.repositories.EventRepository
 import com.jbg.gil.core.utils.Constants
 import com.jbg.gil.core.utils.DialogUtils
@@ -56,6 +58,8 @@ class EventsDetailFragment : Fragment() {
     lateinit var eventRepository: EventRepository
     @Inject
     lateinit var userPreferences: UserPreferences
+    @Inject
+    lateinit var contactRepository : ContactRepository
 
     private val args: EventsDetailFragmentArgs by navArgs()
 
@@ -70,6 +74,10 @@ class EventsDetailFragment : Fragment() {
     private val strDateFormatBD = "yyyy-MM-dd"
 
     private var eventImage : MultipartBody.Part? = null
+
+    private lateinit var listOfFriends : List<ContactEntity>
+
+    private lateinit var userIdScan : String
 
     private lateinit var imageSelected : ImageView
     private lateinit var textAdd : TextView
@@ -116,6 +124,7 @@ class EventsDetailFragment : Fragment() {
         focusAndTextListener()
         backAction()
 
+
         imageSelected = binding.ivEvent
         textAdd = binding.tvAddImage
         textDelete = binding.tvDeleteImage
@@ -148,6 +157,15 @@ class EventsDetailFragment : Fragment() {
             eventType = parent.getItemAtPosition(position) as String
         }
 
+        binding.acUserScan.setOnItemClickListener { parent, _, position, _ ->
+            val selectedName = parent.getItemAtPosition(position) as String
+            val selectFriend = listOfFriends.find { it.contactName == selectedName }
+            selectFriend?.let {
+                userIdScan = selectFriend.contactId
+                Log.d(Constants.GIL_TAG, "Selecciono: ${userIdScan}")
+            }
+        }
+
         binding.etEventDateStart.setOnClickListener {
             showCalendar()
         }
@@ -166,9 +184,9 @@ class EventsDetailFragment : Fragment() {
                 val formatter = SimpleDateFormat(strDateFormatBD, Locale.getDefault())
                 val dateNow = formatter.format(currentDate)
 
-
-                imagePath = uriDB
-
+                if(uriDB != "null"){
+                    imagePath = uriDB
+                }
 
                 val etEventDateStartDB = convertDate(binding.etEventDateStart.text.toString(), strDateFormat, strDateFormatBD)
                 val etEventDateEndDB = convertDate(binding.etEventDateEnd.text.toString(), strDateFormat, strDateFormatBD)
@@ -186,7 +204,8 @@ class EventsDetailFragment : Fragment() {
                     eventImg = imagePath,
                     eventCreatedAt = dateNow,
                     userId = userPreferences.getUserId().toString(),
-                    eventSync = 0
+                    eventSync = 0,
+                    userIdScan = userIdScan
                 )
 
                 try {
@@ -254,6 +273,7 @@ class EventsDetailFragment : Fragment() {
                     etEventDateEnd.setText(eventEndDateFormat)
                     etEventStreet.setText(event.eventStreet)
                     etEventCity.setText(event.eventCity)
+                    loadFriends(event.userIdScan)
 
                     if (event.eventImg != "null") {
                         imagePath = event.eventImg
@@ -359,6 +379,14 @@ class EventsDetailFragment : Fragment() {
                 lbEventCity.error = getString(R.string.required_field)
                 return false
             }
+
+            val selectFriend = listOfFriends.find { it.contactName == acUserScan.text.toString() }
+            if (selectFriend == null){
+                Log.d(Constants.GIL_TAG, selectFriend.toString())
+                acUserScan.text.clear()
+                lbUserScan.error = getString(R.string.required_field)
+                return false
+            }
         }
 
         return true
@@ -379,6 +407,71 @@ class EventsDetailFragment : Fragment() {
             eventType = typeSelected
         }
 
+    }
+
+    private fun loadFriends(friendSelected : String){
+        lifecycleScope.launch {
+            if (Utils.isConnectedNow(requireContext())) {
+
+                val updateFriends = contactRepository.getFriendsToContacts(userPreferences.getUserId().toString())
+                if (updateFriends.isSuccessful){
+                    contactRepository.deleteFriendsToContacts()
+                    val contactList = updateFriends.body() ?: emptyList()
+                    val contacts = contactList.map { contact ->
+                        contact.toEntity()
+                    }
+
+                    contactRepository.insertContactList(contacts)
+                    listOfFriends = contacts
+                }
+
+
+                val friends = contactRepository.getFriendsApi(userPreferences.getUserId().toString(), "A")
+                binding.acUserScan.setDropDownBackgroundResource(android.R.color.transparent)
+
+                if (friends.isSuccessful) {
+                    Log.d(Constants.GIL_TAG, "Select Friends")
+                    val friendList = friends.body()
+                    val adapter = ArrayAdapter(
+                        requireContext(),
+                        R.layout.item_dropdown,
+                        friendList?.map { it.contactName } ?: emptyList())
+                    binding.acUserScan.setAdapter(adapter)
+
+                    val selectFriend = listOfFriends.find { it.contactId == friendSelected }
+                    if (selectFriend == null) {
+                        Log.d(Constants.GIL_TAG, "Sin valor:")
+                    }else{
+                        userIdScan = selectFriend.contactId
+                        binding.acUserScan.setText(selectFriend.contactName, false)
+                        Log.d(Constants.GIL_TAG, "Selecciono: ${userIdScan}")
+                    }
+
+                }
+            }else{
+                val friends = contactRepository.getFriendsDB()
+                binding.acUserScan.setDropDownBackgroundResource(android.R.color.transparent)
+                if (friends.isNotEmpty()){
+                    val adapter = ArrayAdapter(
+                        requireContext(),
+                        R.layout.item_dropdown,
+                        friends.map { it.contactName }
+                    )
+                    binding.acUserScan.setAdapter(adapter)
+                    listOfFriends = friends
+                    val selectFriend = listOfFriends.find { it.contactId == friendSelected }
+
+                    if (selectFriend == null) {
+                        Log.d(Constants.GIL_TAG, "Sin valor")
+                    }else{
+                        userIdScan = selectFriend.contactId
+                        binding.acUserScan.setText(selectFriend.contactName, false)
+                        Log.d(Constants.GIL_TAG, "Selecciono: ${userIdScan}")
+                    }
+                }
+            }
+
+        }
     }
 
     private fun showCalendar(){
@@ -417,6 +510,7 @@ class EventsDetailFragment : Fragment() {
             Utils.setupFocusAndTextListener(etEventDateEnd, lbEventDateEnd)
             Utils.setupFocusAndTextListener(etEventStreet, lbEventStreet)
             Utils.setupFocusAndTextListener(etEventCity, lbEventCity)
+            Utils.setupFocusAndTextListener(acUserScan, lbUserScan)
         }
     }
 

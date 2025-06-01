@@ -48,11 +48,11 @@ class EventViewHolder(
                     }
 
                     override fun onLoadCleared(placeholder: Drawable?) {
-
+                        binding.ivEvent.setImageResource(R.drawable.ic_event_img)
                     }
 
                     override fun onLoadFailed(errorDrawable: Drawable?) {
-                        binding.ivEvent.setImageDrawable(errorDrawable)
+                        binding.ivEvent.setImageResource(R.drawable.ic_event_img)
                     }
                 })
         }else{

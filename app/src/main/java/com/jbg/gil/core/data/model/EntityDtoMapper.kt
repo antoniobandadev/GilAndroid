@@ -43,7 +43,8 @@ object EntityDtoMapper {
             eventImg = this.eventImg,
             eventCreatedAt = this.eventCreatedAt,
             userId = this.userId,
-            eventSync = this.eventSync
+            eventSync = this.eventSync,
+            userIdScan = this.userIdScan
         )
     }
 
@@ -61,7 +62,8 @@ object EntityDtoMapper {
             eventImg = this.eventImg.toString(),
             eventCreatedAt = this.eventCreatedAt.toString(),
             userId = this.userId.toString(),
-            eventSync = this.eventSync
+            eventSync = this.eventSync,
+            userIdScan = this.userIdScan.toString()
         )
     }
 

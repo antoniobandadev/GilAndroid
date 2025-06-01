@@ -29,7 +29,8 @@ interface EventApi {
         @Part("eventStreet") eventStreet: RequestBody,
         @Part("eventCity") eventCity: RequestBody,
         @Part("eventStatus") eventStatus: RequestBody?,
-        @Part("userId") userId: RequestBody
+        @Part("userId") userId: RequestBody,
+        @Part("userIdScan") userIdScan: RequestBody
     ) : Response<EventDto>
 
     @GET("events/events")
@@ -52,7 +53,9 @@ interface EventApi {
         @Part("eventStreet") eventStreet: RequestBody,
         @Part("eventCity") eventCity: RequestBody,
         @Part("eventStatus") eventStatus: RequestBody?,
-        @Part("userId") userId: RequestBody
+        @Part("userId") userId: RequestBody,
+        @Part("userIdScan") userIdScan: RequestBody,
+        @Part("changeImage") changeImage : RequestBody
     ) : Response<EventDto>
 
     @POST("events/deleteEvent")

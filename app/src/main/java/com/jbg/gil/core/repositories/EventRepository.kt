@@ -27,7 +27,8 @@ class EventRepository @Inject constructor (private val eventApi: EventApi,
         eventStreet: RequestBody,
         eventCity: RequestBody,
         eventStatus: RequestBody?,
-        userId: RequestBody
+        userId: RequestBody,
+        userIdScan : RequestBody
 
     ): Response<EventDto> = eventApi.newEvent(
         eventImage,
@@ -40,7 +41,8 @@ class EventRepository @Inject constructor (private val eventApi: EventApi,
         eventStreet,
         eventCity,
         eventStatus,
-        userId
+        userId,
+        userIdScan
     )
 
     suspend fun updateEvent(
@@ -54,7 +56,9 @@ class EventRepository @Inject constructor (private val eventApi: EventApi,
         eventStreet: RequestBody,
         eventCity: RequestBody,
         eventStatus: RequestBody?,
-        userId: RequestBody
+        userId: RequestBody,
+        userIdScan: RequestBody,
+        changeImage: RequestBody
 
     ): Response<EventDto> = eventApi.updateEvent(
         eventImage,
@@ -67,7 +71,9 @@ class EventRepository @Inject constructor (private val eventApi: EventApi,
         eventStreet,
         eventCity,
         eventStatus,
-        userId
+        userId,
+        userIdScan,
+        changeImage
     )
 
     suspend fun getAllEventsApi(userId: String)= eventApi.getAllEventsApi(userId)

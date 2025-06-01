@@ -47,6 +47,9 @@ data class EventEntity(
     var userId: String,
 
     @ColumnInfo(name = "eventSync")
-    var eventSync: Int
+    var eventSync: Int,
 
-)
+    @ColumnInfo(name = "userIdScan")
+    var userIdScan: String,
+
+    )

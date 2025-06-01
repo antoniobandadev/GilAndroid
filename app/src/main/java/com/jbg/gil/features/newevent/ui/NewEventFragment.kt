@@ -18,6 +18,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.jbg.gil.R
+import com.jbg.gil.core.data.local.db.entities.ContactEntity
 import com.jbg.gil.core.data.model.EntityDtoMapper.toEntity
 import com.jbg.gil.core.data.remote.dtos.EventDto
 import com.jbg.gil.core.datastore.UserPreferences
@@ -74,6 +75,10 @@ class NewEventFragment () : Fragment() {
     private val networkStatusViewModel : NetworkStatusViewModel by viewModels()
 
     private var eventImage : MultipartBody.Part? = null
+
+    private lateinit var listOfFriends : List<ContactEntity>
+
+    private lateinit var userIdScan : String
 
     private lateinit var imageSelected : ImageView
     private lateinit var textAdd : TextView
@@ -159,6 +164,15 @@ class NewEventFragment () : Fragment() {
             eventType = parent.getItemAtPosition(position) as String
         }
 
+        binding.acUserScan.setOnItemClickListener { parent, _, position, _ ->
+            val selectedName = parent.getItemAtPosition(position) as String
+            val selectedCountry = listOfFriends.find { it.contactName == selectedName }
+            selectedCountry?.let {
+                userIdScan = selectedCountry.contactId
+                Log.d(Constants.GIL_TAG, "Selecciono: ${userIdScan}")
+            }
+        }
+
         binding.etEventDateStart.setOnClickListener {
             showCalendar()
         }
@@ -197,6 +211,7 @@ class NewEventFragment () : Fragment() {
                                 val userId = Utils.createPartFromString(
                                     userPreferences.getUserId().toString()
                                 )
+                                val userIdScan = Utils.createPartFromString(userIdScan)
 
                                 val eventInsert = eventRepository.uploadEvent(
                                     eventImage,
@@ -209,7 +224,8 @@ class NewEventFragment () : Fragment() {
                                     eventStreet,
                                     eventCity,
                                     eventStatus,
-                                    userId
+                                    userId,
+                                    userIdScan
                                 )
 
                                 if (eventInsert.isSuccessful) {
@@ -252,7 +268,8 @@ class NewEventFragment () : Fragment() {
                         eventImg = imagePath,
                         eventCreatedAt = dateNow,
                         userId = userPreferences.getUserId().toString(),
-                        eventSync = 0
+                        eventSync = 0,
+                        userIdScan = userIdScan
                     )
 
                     try {
@@ -277,6 +294,8 @@ class NewEventFragment () : Fragment() {
                 }
             }
         }
+
+
     }
 
     private fun validateInputs() : Boolean{
@@ -320,6 +339,17 @@ class NewEventFragment () : Fragment() {
                 lbEventCity.error = getString(R.string.required_field)
                 return false
             }
+            val selectedCountry = listOfFriends.find { it.contactName == acUserScan.text.toString() }
+            if (selectedCountry == null){
+                Log.d(Constants.GIL_TAG, selectedCountry.toString())
+                acUserScan.text.clear()
+                lbUserScan.error = getString(R.string.required_field)
+                return false
+               /* val selectedCountry = listOfFriends.find { it.contactName == acUserScan.toString() }
+                selectedCountry?.let {
+                    Log.d(Constants.GIL_TAG, "Selecciono: ${selectedName}")
+                }*/
+            }
         }
 
         return true
@@ -348,11 +378,12 @@ class NewEventFragment () : Fragment() {
                     }
 
                     contactRepository.insertContactList(contacts)
+                    listOfFriends = contacts
                 }
 
 
                 val friends = contactRepository.getFriendsApi(userPreferences.getUserId().toString(), "A")
-                    binding.acUserScan.setDropDownBackgroundResource(android.R.color.transparent)
+                binding.acUserScan.setDropDownBackgroundResource(android.R.color.transparent)
 
                 if (friends.isSuccessful) {
                     Log.d(Constants.GIL_TAG, "Select Friends")
@@ -373,6 +404,7 @@ class NewEventFragment () : Fragment() {
                         friends.map { it.contactName }
                     )
                     binding.acUserScan.setAdapter(adapter)
+                    listOfFriends = friends
                 }
             }
 
@@ -416,6 +448,7 @@ class NewEventFragment () : Fragment() {
             Utils.setupFocusAndTextListener(etEventDateEnd, lbEventDateEnd)
             Utils.setupFocusAndTextListener(etEventStreet, lbEventStreet)
             Utils.setupFocusAndTextListener(etEventCity, lbEventCity)
+            Utils.setupFocusAndTextListener(acUserScan, lbUserScan)
         }
     }
 
@@ -452,6 +485,7 @@ class NewEventFragment () : Fragment() {
                         Utils.createPartFromString(event.eventCity)
                     val eventStatus = Utils.createPartFromString(event.eventStatus)
                     val userId = Utils.createPartFromString(event.userId)
+                    val userIdScan = Utils.createPartFromString(event.userIdScan)
 
                     val eventImage = event.eventImg.let { path ->
                         val file = File(path)
@@ -470,7 +504,8 @@ class NewEventFragment () : Fragment() {
                         eventStreet,
                         eventCity,
                         eventStatus,
-                        userId
+                        userId,
+                        userIdScan
                     )
 
                     if (response.isSuccessful) {
