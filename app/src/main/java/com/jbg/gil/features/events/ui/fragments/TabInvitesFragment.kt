@@ -1,16 +1,45 @@
 package com.jbg.gil.features.events.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.jbg.gil.R
+import com.jbg.gil.core.data.model.EntityDtoMapper.toEntity
+import com.jbg.gil.core.datastore.UserPreferences
+import com.jbg.gil.core.network.NetworkStatusViewModel
+import com.jbg.gil.core.repositories.EventRepository
+import com.jbg.gil.core.utils.Constants
+import com.jbg.gil.core.utils.Utils.getActivityRootView
+import com.jbg.gil.core.utils.Utils.showSnackBarError
 import com.jbg.gil.databinding.FragmentTabInvitesBinding
+import com.jbg.gil.features.events.ui.EventsFragmentDirections
+import com.jbg.gil.features.events.ui.adapters.EventAdapter
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class TabInvitesFragment : Fragment() {
 
     private var _binding : FragmentTabInvitesBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var eventAdapter: EventAdapter
+
+    @Inject
+    lateinit var userPreferences: UserPreferences
+
+    @Inject
+    lateinit var eventRepository: EventRepository
+
+    private val networkViewModel: NetworkStatusViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -19,7 +48,79 @@ class TabInvitesFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentTabInvitesBinding.inflate(inflater, container, false)
         return binding.root
+
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        eventAdapter = EventAdapter(emptyList()) {event ->
+            Log.d(Constants.GIL_TAG, event.eventName)
+            /*val action = EventsFragmentDirections.actionEventsFragmentToEventsDetailFragment(eventId = event.eventId)
+            findNavController().navigate(action)*/
+        }
+
+        binding.rvInvites.apply {
+            adapter = eventAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+        }
+
+        networkViewModel.getNetworkStatus().observe(viewLifecycleOwner) { isConnected ->
+            if (isConnected){
+                showLoad()
+                lifecycleScope.launch {
+                    //eventsPendingDeleteDB()
+                   // eventsPendingDB()
+
+                    // eventRepository.deleteAllEventsDB()
+                    val eventsApi = eventRepository.getAllEventsApi(userPreferences.getUserId().toString())
+                    if (eventsApi.isSuccessful){
+                        val eventList = eventsApi.body() ?: emptyList()
+                        val events = eventList.map { event->
+                            event.toEntity()
+                        }
+                        Log.d(Constants.GIL_TAG, "GET" )
+
+                        eventRepository.deleteAllEventsDB()
+                        Log.d(Constants.GIL_TAG, "Delete" )
+
+                        eventRepository.insertEventsDB(events)
+                        Log.d(Constants.GIL_TAG, "Insert" )
+
+                        eventAdapter.updateEvents(events)
+                        Log.d(Constants.GIL_TAG, "Adapter" )
+
+                        showData()
+                    }else{
+                        getActivityRootView()?.showSnackBarError(getString(R.string.server_error))
+                    }
+
+                    // eventAdapter.updateEvents(events)
+                }
+
+            }else{
+                /*lifecycleScope.launch {
+                    showLoad()
+                    val events = eventRepository.getAllEventsDB()
+                    eventAdapter.updateEvents(events)
+                    showData()
+                    Log.d(Constants.GIL_TAG, "Desde DB")
+                }*/
+            }
+        }
+
+    }
+
+    private fun showData() {
+        binding.viewInvitesLoad.visibility = View.GONE
+        binding.rvInvites.visibility = View.VISIBLE
+    }
+
+    private fun showLoad() {
+        binding.viewInvitesLoad.visibility = View.VISIBLE
+        binding.rvInvites.visibility = View.GONE
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()
