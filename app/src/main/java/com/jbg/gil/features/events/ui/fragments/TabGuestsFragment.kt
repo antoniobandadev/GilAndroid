@@ -13,15 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jbg.gil.R
 import com.jbg.gil.core.data.local.db.entities.ContactEntity
-import com.jbg.gil.core.data.model.EntityDtoMapper.toDto
 import com.jbg.gil.core.network.NetworkStatusViewModel
 import com.jbg.gil.core.repositories.GuestRepository
 import com.jbg.gil.core.utils.Constants
 import com.jbg.gil.core.utils.Utils.showSnackBarError
 import com.jbg.gil.databinding.FragmentTabGuestsBinding
 import com.jbg.gil.features.contacts.ui.adapters.ContactAdapter
-import com.jbg.gil.features.events.ui.dialogs.ContactGuestDialog
-import com.jbg.gil.features.events.ui.fragments.TabGuestContactFragment.Companion
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject

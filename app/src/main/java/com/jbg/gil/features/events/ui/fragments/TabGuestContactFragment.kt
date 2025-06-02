@@ -22,7 +22,6 @@ import com.jbg.gil.core.utils.Utils.showSnackBarError
 import com.jbg.gil.databinding.FragmentTabGuestContactBinding
 import com.jbg.gil.features.contacts.ui.adapters.ContactAdapter
 import com.jbg.gil.features.events.ui.dialogs.ContactGuestDialog
-import com.jbg.gil.features.events.ui.fragments.TabGuestsFriendsFragment.Companion
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

@@ -14,7 +14,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:fillViewport="true"
-        tools:context=".features.newevent.ui.NewEventFragment">
+        tools:context=".features.newevent.ui.NewEventFragment"
+        tools:ignore="UselessParent">
 
         <com.facebook.shimmer.ShimmerFrameLayout
             android:layout_width="match_parent"
