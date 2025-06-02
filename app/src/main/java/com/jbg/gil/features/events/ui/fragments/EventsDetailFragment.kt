@@ -22,7 +22,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.datepicker.MaterialDatePicker
 import com.jbg.gil.R
 import com.jbg.gil.core.data.local.db.entities.ContactEntity
 import com.jbg.gil.core.data.model.EntityDtoMapper.toEntity
@@ -49,7 +48,6 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
-import java.util.TimeZone
 import javax.inject.Inject
 
 @AndroidEntryPoint

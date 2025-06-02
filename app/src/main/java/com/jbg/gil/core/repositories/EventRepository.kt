@@ -4,15 +4,13 @@ import com.jbg.gil.core.data.local.db.daos.EventDao
 import com.jbg.gil.core.data.local.db.entities.EventEntity
 import com.jbg.gil.core.data.remote.apis.EventApi
 import com.jbg.gil.core.data.remote.dtos.EventDto
-import com.jbg.gil.core.datastore.UserPreferences
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
 import javax.inject.Inject
 
 class EventRepository @Inject constructor (private val eventApi: EventApi,
-                                           private val eventDao: EventDao,
-                                           private var userPreferences: UserPreferences
+                                           private val eventDao: EventDao
 ) {
 
     //suspend fun newEvent(event: EventDto): Response<EventDto> = eventApi.newEvent(event)
