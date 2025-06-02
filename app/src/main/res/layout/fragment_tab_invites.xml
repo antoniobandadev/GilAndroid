@@ -7,6 +7,16 @@
     android:background="@color/primary"
     tools:context=".features.events.ui.fragments.TabInvitesFragment">
 
+    <TextView
+        android:id="@+id/tvNoInvites"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:textSize="20sp"
+        android:visibility="invisible"
+        android:textAlignment="center"
+        tools:ignore="RtlCompat" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvInvites"
         android:layout_width="match_parent"

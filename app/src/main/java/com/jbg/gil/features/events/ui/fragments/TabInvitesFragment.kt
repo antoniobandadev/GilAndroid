@@ -16,6 +16,7 @@ import com.jbg.gil.core.network.NetworkStatusViewModel
 import com.jbg.gil.core.repositories.EventRepository
 import com.jbg.gil.core.utils.Constants
 import com.jbg.gil.core.utils.Utils.getActivityRootView
+import com.jbg.gil.core.utils.Utils.showSnackBar
 import com.jbg.gil.core.utils.Utils.showSnackBarError
 import com.jbg.gil.databinding.FragmentTabInvitesBinding
 import com.jbg.gil.features.events.ui.adapters.EventAdapter
@@ -71,7 +72,7 @@ class TabInvitesFragment : Fragment() {
                    // eventsPendingDB()
 
                     // eventRepository.deleteAllEventsDB()
-                    val eventsApi = eventRepository.getAllEventsApi(userPreferences.getUserId().toString())
+                    val eventsApi = eventRepository.getAllEventsInviteApi(userPreferences.getUserId().toString())
                     if (eventsApi.isSuccessful){
                         val eventList = eventsApi.body() ?: emptyList()
                         val events = eventList.map { event->
@@ -90,7 +91,16 @@ class TabInvitesFragment : Fragment() {
 
                         showData()
                     }else{
-                        getActivityRootView()?.showSnackBarError(getString(R.string.server_error))
+                        if(eventsApi.code() == 404){
+                            getActivityRootView()?.showSnackBar(getString(R.string.no_pending_events))
+                            binding.tvNoInvites.text = getString(R.string.no_invites_found)
+                            binding.tvNoInvites.visibility = View.VISIBLE
+                            showData()
+                        }else{
+                            getActivityRootView()?.showSnackBarError(getString(R.string.server_error))
+                            showData()
+                        }
+
                     }
 
                     // eventAdapter.updateEvents(events)

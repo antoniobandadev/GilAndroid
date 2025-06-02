@@ -101,6 +101,7 @@
     <string name="event_category_other">Other</string>
     <string name="access_controller">Access controller</string>
     <string name="invalid_date">The start date cannot be earlier than today. Please verify.</string>
+    <string name="invalid_date_bigger">The start date cannot be bigger than end date. Please verify.</string>
     <string name="event_save_success">The event was successfully saved.</string>
     <string name="event_update_success">The event was successfully updated.</string>
 
@@ -115,6 +116,12 @@
     <string name="invitation_name_label">Name on the invitation</string>
     <string name="send_invitation">Send invitation</string>
     <string name="send_invitation_success">Invitation sent successfully</string>
+
+    <string name="no_pending_events">You have no pending events.</string>
+    <string name="no_events">No events.</string>
+    <string name="no_events_found">No events found.</string>
+    <string name="no_invites_found">No invitations found.</string>
+
 
 
 

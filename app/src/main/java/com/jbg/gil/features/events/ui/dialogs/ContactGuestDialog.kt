@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import com.jbg.gil.R
 import com.jbg.gil.core.data.remote.dtos.ContactDto
 import com.jbg.gil.core.data.remote.dtos.GuestDto
+import com.jbg.gil.core.datastore.UserPreferences
 import com.jbg.gil.core.repositories.GuestRepository
 import com.jbg.gil.core.utils.Constants
 import com.jbg.gil.core.utils.DialogUtils
@@ -22,6 +23,7 @@ import com.jbg.gil.core.utils.Utils.showSnackBarError
 import com.jbg.gil.databinding.GuestsDialogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -42,6 +44,10 @@ class ContactGuestDialog (
 
     @Inject
     lateinit var guestRepository: GuestRepository
+    @Inject
+    lateinit var userPreferences: UserPreferences
+
+    private val locale = Locale.getDefault().language
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         super.onCreateDialog(savedInstanceState)
@@ -69,44 +75,54 @@ class ContactGuestDialog (
         }
 
         binding.btnSendInvitation.setOnClickListener {
-            if (validateInputs()){
-                val guestInvName = binding.etInviteName.text.toString()
-                DialogUtils.showLoadingDialog(requireContext())
-                lifecycleScope.launch {
-                    val guest : GuestDto
+            if (Utils.isConnectedNow(requireContext())) {
+                if (validateInputs()) {
+                    val guestInvName = binding.etInviteName.text.toString()
+                    DialogUtils.showLoadingDialog(requireContext())
+                    lifecycleScope.launch {
+                        val guest: GuestDto
 
-                    if (guestType.toString() == "0"){
-                        guest = GuestDto(
-                            eventId = eventId,
-                            guestInvName = guestInvName,
-                            guestsType = guestType.toString(),
-                            contactId = contact.contactId
-                        )
-                    }else{
+                        if (guestType.toString() == "0") {
                             guest = GuestDto(
-                            eventId = eventId,
-                            guestInvName = guestInvName,
-                            guestsType = guestType.toString(),
-                            userId = contact.contactId,
-                        )
+                                eventId = eventId,
+                                guestInvName = guestInvName,
+                                guestsType = guestType.toString(),
+                                contactId = contact.contactId,
+                                userSendId = userPreferences.getUserId().toString(),
+                                userLanguage = locale
+                            )
+                        } else {
+                            guest = GuestDto(
+                                eventId = eventId,
+                                guestInvName = guestInvName,
+                                guestsType = guestType.toString(),
+                                userId = contact.contactId,
+                                userSendId = userPreferences.getUserId().toString(),
+                                userLanguage = locale
+                            )
+                        }
+
+
+                        Log.d(Constants.GIL_TAG, "Guest: $guest")
+                        val insertGuest = guestRepository.insertGuest(guest)
+
+                        if (insertGuest.isSuccessful) {
+                            DialogUtils.dismissLoadingDialog()
+                            dialog.dismiss()
+                            getActivityRootView()?.showSnackBar(getString(R.string.send_invitation_success))
+                            updateUI()
+                        } else {
+                            dialog.dismiss()
+                            DialogUtils.dismissLoadingDialog()
+                            getActivityRootView()?.showSnackBarError(getString(R.string.server_error))
+                        }
+
                     }
-
-
-                    Log.d(Constants.GIL_TAG, "Guest: $guest")
-                    val insertGuest = guestRepository.insertGuest(guest)
-
-                    if (insertGuest.isSuccessful){
-                        DialogUtils.dismissLoadingDialog()
-                        dialog.dismiss()
-                        getActivityRootView()?.showSnackBar(getString(R.string.send_invitation_success))
-                        updateUI()
-                    }else{
-                        dialog.dismiss()
-                        DialogUtils.dismissLoadingDialog()
-                        getActivityRootView()?.showSnackBarError(getString(R.string.server_error))
-                    }
-
                 }
+            }else{
+                dialog.dismiss()
+                DialogUtils.dismissLoadingDialog()
+                getActivityRootView()?.showSnackBarError(getString(R.string.no_internet_connection))
             }
         }
 

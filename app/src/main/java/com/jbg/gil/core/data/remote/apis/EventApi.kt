@@ -63,4 +63,10 @@ interface EventApi {
         @Body event: EventDto
     ):Response<BasicResponse>
 
+    @GET("events/myEvents")
+    suspend fun getAllEventsInviteApi(
+        @Query("userId")
+        userId: String
+    ): Response<List<EventDto>>
+
 }

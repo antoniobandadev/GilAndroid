@@ -20,6 +20,7 @@ import com.jbg.gil.core.utils.Constants
 import com.jbg.gil.core.utils.Utils
 import com.jbg.gil.core.utils.Utils.getActivityRootView
 import com.jbg.gil.core.utils.Utils.isInteger
+import com.jbg.gil.core.utils.Utils.showSnackBar
 import com.jbg.gil.core.utils.Utils.showSnackBarError
 import com.jbg.gil.databinding.FragmentTabEventsBinding
 import com.jbg.gil.features.events.ui.EventsFragmentDirections
@@ -99,7 +100,15 @@ class TabEventsFragment : Fragment() {
 
                         showData()
                     }else{
-                        getActivityRootView()?.showSnackBarError(getString(R.string.server_error))
+                        if(eventsApi.code() == 404){
+                            getActivityRootView()?.showSnackBar(getString(R.string.no_pending_events))
+                            binding.tvNoEvents.text = getString(R.string.no_events_found)
+                            binding.tvNoEvents.visibility = View.VISIBLE
+                            showData()
+                        }else{
+                            getActivityRootView()?.showSnackBarError(getString(R.string.server_error))
+                            showData()
+                        }
                     }
 
                    // eventAdapter.updateEvents(events)

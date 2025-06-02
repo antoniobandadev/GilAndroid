@@ -79,6 +79,8 @@ class EventRepository @Inject constructor (private val eventApi: EventApi,
     suspend fun getAllEventsApi(userId: String)= eventApi.getAllEventsApi(userId)
     suspend fun deleteEventApi(event : EventDto) = eventApi.cancelEvent(event)
 
+    suspend fun getAllEventsInviteApi(userId: String)= eventApi.getAllEventsInviteApi(userId)
+
     //DAO
     suspend fun insertEventsDB(events : List<EventEntity>) =  eventDao.insertEvents(events)
     suspend fun insertEventDB(event : EventEntity) =  eventDao.insertEvent(event)

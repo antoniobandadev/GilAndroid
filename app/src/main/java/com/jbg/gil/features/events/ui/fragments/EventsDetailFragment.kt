@@ -1,5 +1,7 @@
 package com.jbg.gil.features.events.ui.fragments
 
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
@@ -44,6 +46,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
@@ -70,11 +73,11 @@ class EventsDetailFragment : Fragment() {
 
     private val locale = Locale.getDefault().language
     private val strDateFormat = when (locale) {
-        "es" -> "dd/MM/yyyy"
-        "en" -> "MM/dd/yyyy"
-        else -> "MM/dd/yyyy"
+        "es" -> "dd/MM/yyyy HH:mm"
+        "en" -> "MM/dd/yyyy HH:mm"
+        else -> "MM/dd/yyyy HH:mm"
     }
-    private val strDateFormatBD = "yyyy-MM-dd"
+    private val strDateFormatBD = "yyyy-MM-dd HH:mm"
 
     private var eventImage : MultipartBody.Part? = null
 
@@ -171,11 +174,11 @@ class EventsDetailFragment : Fragment() {
         }
 
         binding.etEventDateStart.setOnClickListener {
-            showCalendar()
+            showStartDateTimePicker()
         }
 
         binding.etEventDateEnd.setOnClickListener {
-            showCalendar()
+            showEndDateTimePicker()
         }
 
 
@@ -374,6 +377,11 @@ class EventsDetailFragment : Fragment() {
                 return false
             }
 
+            if (etEventDateStart.text.toString() > etEventDateEnd.text.toString()){
+                lbEventDateEnd.error = getString(R.string.invalid_date_bigger)
+                return false
+            }
+
             if (etEventStreet.text.toString().isBlank()){
                 lbEventStreet.error = getString(R.string.required_field)
                 return false
@@ -478,7 +486,7 @@ class EventsDetailFragment : Fragment() {
         }
     }
 
-    private fun showCalendar(){
+    /*private fun showCalendar(){
         val picker = MaterialDatePicker.Builder.dateRangePicker()
             .build()
 
@@ -503,6 +511,71 @@ class EventsDetailFragment : Fragment() {
             binding.etEventDateStart.setText(formattedDateIni)
             binding.etEventDateEnd.setText(formattedDateEnd)
         }
+    }*/
+
+    private fun showStartDateTimePicker() {
+        val calendarStart = Calendar.getInstance()
+
+        // Selecciona fecha de inicio
+        DatePickerDialog(requireContext(),
+            R.style.CustomDatePickerDialogStyle,
+            { _, year, month, dayOfMonth ->
+                calendarStart.set(year, month, dayOfMonth)
+
+                // Luego selecciona hora de inicio
+                TimePickerDialog(requireContext(),
+                    R.style.CustomDatePickerDialogStyle,
+                    { _, hourOfDay, minute ->
+                        calendarStart.set(Calendar.HOUR_OF_DAY, hourOfDay)
+                        calendarStart.set(Calendar.MINUTE, minute)
+
+                        val formatter = SimpleDateFormat(strDateFormat, Locale.getDefault())
+                        binding.etEventDateStart.setText(formatter.format(calendarStart.time))
+
+                    },
+                    calendarStart.get(Calendar.HOUR_OF_DAY),
+                    calendarStart.get(Calendar.MINUTE),
+                    true
+                ).show()
+
+            },
+            calendarStart.get(Calendar.YEAR),
+            calendarStart.get(Calendar.MONTH),
+            calendarStart.get(Calendar.DAY_OF_MONTH)
+        ).show()
+    }
+
+    private fun showEndDateTimePicker() {
+        val calendarEnd = Calendar.getInstance()
+
+        // Selecciona fecha de fin
+        DatePickerDialog(requireContext(),
+            R.style.CustomDatePickerDialogStyle,
+            { _, year, month, dayOfMonth ->
+                calendarEnd.set(year, month, dayOfMonth)
+
+                // Luego selecciona hora de fin
+                TimePickerDialog(requireContext(),
+                    R.style.CustomDatePickerDialogStyle,
+                    { _, hourOfDay, minute ->
+                        calendarEnd.set(Calendar.HOUR_OF_DAY, hourOfDay)
+                        calendarEnd.set(Calendar.MINUTE, minute)
+
+                        // Finalmente, formateamos y mostramos los valores
+                        val formatter = SimpleDateFormat(strDateFormat, Locale.getDefault())
+                        binding.etEventDateEnd.setText(formatter.format(calendarEnd.time))
+
+                    },
+                    calendarEnd.get(Calendar.HOUR_OF_DAY),
+                    calendarEnd.get(Calendar.MINUTE),
+                    true
+                ).show()
+
+            },
+            calendarEnd.get(Calendar.YEAR),
+            calendarEnd.get(Calendar.MONTH),
+            calendarEnd.get(Calendar.DAY_OF_MONTH)
+        ).show()
     }
 
     private fun focusAndTextListener() {

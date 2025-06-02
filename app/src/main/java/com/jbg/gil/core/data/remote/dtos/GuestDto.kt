@@ -37,4 +37,10 @@ data class GuestDto (
     @SerializedName("guestsQRDateScan")
     val guestsQRDateScan: String? = null,
 
+    @SerializedName("userSendId")
+    val userSendId: String? = null,
+
+    @SerializedName("userLanguage")
+    val userLanguage: String? = null
+
 )

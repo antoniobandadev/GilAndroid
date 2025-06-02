@@ -118,5 +118,11 @@
         <item name="cursorColor">@color/accent</item>
     </style>
 
+    <style name="CustomDatePickerDialogStyle" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorAccent">@color/secondary</item>
+        <item name="android:textColorPrimary">@color/primary</item>
+    </style>
+
 
 </resources>
