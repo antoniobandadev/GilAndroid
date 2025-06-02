@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jbg.gil.R
 import com.jbg.gil.core.data.model.EntityDtoMapper.toEntity
@@ -19,7 +18,6 @@ import com.jbg.gil.core.utils.Constants
 import com.jbg.gil.core.utils.Utils.getActivityRootView
 import com.jbg.gil.core.utils.Utils.showSnackBarError
 import com.jbg.gil.databinding.FragmentTabInvitesBinding
-import com.jbg.gil.features.events.ui.EventsFragmentDirections
 import com.jbg.gil.features.events.ui.adapters.EventAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
