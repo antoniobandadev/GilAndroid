@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_eventsFragment_to_eventsDetailFragment"
             app:destination="@id/eventsDetailFragment" />
+        <action
+            android:id="@+id/action_eventsFragment_to_invitationDetailFragment"
+            app:destination="@id/invitationDetailFragment" />
 
     </fragment>
     <fragment
@@ -95,5 +98,18 @@
             android:name="eventName"
             app:argType="string"
             app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/invitationDetailFragment"
+        android:name="com.jbg.gil.features.events.ui.fragments.InvitationDetailFragment"
+        android:label="fragment_invitation_detail_load"
+        tools:layout="@layout/fragment_invitation_detail_load" >
+        <argument
+            android:name="eventId"
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_invitationDetailFragment_to_eventsFragment"
+            app:destination="@id/eventsFragment" />
     </fragment>
 </navigation>

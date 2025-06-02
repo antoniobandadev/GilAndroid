@@ -1,6 +1,7 @@
 package com.jbg.gil.core.data.remote.apis
 
 import com.jbg.gil.core.data.remote.dtos.ContactDto
+import com.jbg.gil.core.data.remote.dtos.EventGuestDto
 import com.jbg.gil.core.data.remote.dtos.GuestDto
 import retrofit2.Response
 import retrofit2.http.Body
@@ -21,5 +22,12 @@ interface GuestApi {
         eventId:String
     ): Response<List<ContactDto>>
 
+    @GET("guests/myGuestInvite")
+    suspend fun myGuestInvite(
+        @Query("eventId")
+        eventId:String,
+        @Query("userId")
+        userId:String
+    ): Response<List<EventGuestDto>>
 
 }

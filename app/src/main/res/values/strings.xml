@@ -123,10 +123,6 @@
     <string name="no_invites_found">No invitations found.</string>
 
 
-
-
-
-
     <!--- Friends -->
     <string name="my_friends">My friends</string>
     <string name="my_contacts">My contacts</string>
@@ -174,7 +170,6 @@
     <!--- Settings -->
     <string name="logOut">Log Out</string>
     <string name="save">Save</string>
-    <!-- TODO: Remove or change this placeholder text -->
 
 
     <!--- Pendientes

@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/primary"
+    tools:context=".features.events.ui.fragments.InvitationDetailFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imgBtBack"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/ic_arrow_back"
+                android:contentDescription="@string/back"
+                android:clickable="true"
+                android:focusable="true"
+                app:tint="@color/secondary"
+                />
+
+            <TextView
+                android:id="@+id/tvBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="14sp"
+                android:textColor="@color/secondary"
+                android:gravity="center"
+                android:text="@string/back"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvTitleInvName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="@string/events"
+            android:textSize="20sp"
+            android:textColor="@color/secondary"
+            android:gravity="center"
+            />
+
+        <ScrollView
+            android:id="@+id/mainView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:fillViewport="true"
+            android:visibility="gone"
+            tools:context=".features.newevent.ui.NewEventFragment">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/primary"
+                android:orientation="vertical"
+                android:layout_marginHorizontal="20dp"
+                tools:ignore="UselessLeaf" >
+
+                <ImageView
+                    android:id="@+id/ivGuestsQR"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/new_event"
+                    app:tint="@null"
+                    android:visibility="visible"
+                    android:layout_marginVertical="10dp"
+                    />
+
+
+                <TextView
+                    android:id="@+id/tvTitleEvent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="@string/events"
+                    android:textSize="20sp"
+                    android:textColor="@color/secondary"
+                    android:gravity="center"
+                    />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:textColor="@color/secondary"
+                    android:text="@string/event_description"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="5"
+                        android:src="@drawable/ic_event_desc"
+                        android:contentDescription="@string/event_description" />
+                    <TextView
+                        android:id="@+id/tvDescInvitation"
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:textSize="13sp"
+                        android:textColor="@color/accent"
+                        tools:text="@string/event_description"
+                        android:layout_marginStart="10dp"
+                        android:lines="3"
+                        android:gravity="center_vertical"
+                        />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:textColor="@color/secondary"
+                    android:text="@string/event_type"
+                    android:layout_marginTop="10dp"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="5"
+                        android:src="@drawable/ic_event_type"
+                        android:contentDescription="@string/event_description" />
+                    <TextView
+                        android:id="@+id/tvTypeInvitation"
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:textSize="13sp"
+                        android:textColor="@color/accent"
+                        tools:text="@string/event_description"
+                        android:layout_marginStart="10dp"
+                        android:lines="3"
+                        android:gravity="center_vertical"
+                        />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:textColor="@color/secondary"
+                    android:text="@string/date"
+                    android:layout_marginTop="10dp"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="5"
+                        android:src="@drawable/ic_calendar"
+                        android:contentDescription="@string/event_description" />
+                    <TextView
+                        android:id="@+id/tvDateStInvitation"
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:textSize="13sp"
+                        android:textColor="@color/accent"
+                        tools:text="@string/event_description"
+                        android:layout_marginStart="10dp"
+                        android:lines="3"
+                        android:gravity="center"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    >
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="5"
+                        android:src="@drawable/ic_calendar"
+                        android:contentDescription="@string/event_description" />
+                    <TextView
+                        android:id="@+id/tvDateEndInvitation"
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:textSize="13sp"
+                        android:textColor="@color/accent"
+                        tools:text="@string/event_description"
+                        android:layout_marginStart="10dp"
+                        android:lines="3"
+                        android:gravity="center"
+                        />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:textColor="@color/secondary"
+                    android:text="@string/address"
+                    android:layout_marginTop="10dp"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="5"
+                        android:src="@drawable/ic_event_street"
+                        android:contentDescription="@string/event_description" />
+                    <TextView
+                        android:id="@+id/tvStreetInvitation"
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:textSize="13sp"
+                        android:textColor="@color/accent"
+                        tools:text="@string/event_description"
+                        android:layout_marginStart="10dp"
+                        android:lines="3"
+                        android:gravity="center_vertical"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    >
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="5"
+                        android:src="@drawable/ic_event_city"
+                        android:contentDescription="@string/event_description" />
+                    <TextView
+                        android:id="@+id/tvCityInvitation"
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:textSize="13sp"
+                        android:textColor="@color/accent"
+                        tools:text="@string/event_description"
+                        android:layout_marginStart="10dp"
+                        android:lines="3"
+                        android:gravity="center_vertical"
+                        />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+         <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/viewInvitationDetLoad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <include layout="@layout/fragment_invitation_detail_load"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </LinearLayout>

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jbg.gil.R
 import com.jbg.gil.core.data.model.EntityDtoMapper.toEntity
@@ -19,6 +20,7 @@ import com.jbg.gil.core.utils.Utils.getActivityRootView
 import com.jbg.gil.core.utils.Utils.showSnackBar
 import com.jbg.gil.core.utils.Utils.showSnackBarError
 import com.jbg.gil.databinding.FragmentTabInvitesBinding
+import com.jbg.gil.features.events.ui.EventsFragmentDirections
 import com.jbg.gil.features.events.ui.adapters.EventAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -55,8 +57,9 @@ class TabInvitesFragment : Fragment() {
 
         eventAdapter = EventAdapter(emptyList()) {event ->
             Log.d(Constants.GIL_TAG, event.eventName)
-            /*val action = EventsFragmentDirections.actionEventsFragmentToEventsDetailFragment(eventId = event.eventId)
-            findNavController().navigate(action)*/
+            Log.d(Constants.GIL_TAG, event.eventId)
+            val action = EventsFragmentDirections.actionEventsFragmentToInvitationDetailFragment(eventId = event.eventId)
+            findNavController().navigate(action)
         }
 
         binding.rvInvites.apply {
@@ -89,6 +92,7 @@ class TabInvitesFragment : Fragment() {
                         eventAdapter.updateEvents(events)
                         Log.d(Constants.GIL_TAG, "Adapter" )
 
+                        binding.tvNoInvites.visibility = View.INVISIBLE
                         showData()
                     }else{
                         if(eventsApi.code() == 404){
@@ -107,17 +111,16 @@ class TabInvitesFragment : Fragment() {
                 }
 
             }else{
-                /*lifecycleScope.launch {
-                    showLoad()
-                    val events = eventRepository.getAllEventsDB()
-                    eventAdapter.updateEvents(events)
-                    showData()
-                    Log.d(Constants.GIL_TAG, "Desde DB")
-                }*/
+                getActivityRootView()?.showSnackBarError(getString(R.string.no_internet_connection))
+                binding.tvNoInvites.text = getString(R.string.no_invites_found)
+                binding.tvNoInvites.visibility = View.VISIBLE
+                showData()
             }
         }
 
     }
+
+
 
     private fun showData() {
         binding.viewInvitesLoad.visibility = View.GONE
@@ -128,6 +131,7 @@ class TabInvitesFragment : Fragment() {
         binding.viewInvitesLoad.visibility = View.VISIBLE
         binding.rvInvites.visibility = View.GONE
     }
+
 
 
     override fun onDestroy() {
