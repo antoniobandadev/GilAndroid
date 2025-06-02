@@ -36,8 +36,10 @@ import com.jbg.gil.core.utils.Utils.showSnackBar
 import com.jbg.gil.core.utils.Utils.showSnackBarError
 import com.jbg.gil.databinding.FragmentNewEventBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -118,11 +120,15 @@ class NewEventFragment () : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val inicio = System.currentTimeMillis()
         super.onViewCreated(view, savedInstanceState)
         Utils.setupHideKeyboardOnTouch(binding.root, requireActivity())
         focusAndTextListener()
         loadEventTypes()
         loadFriends()
+        val fin = System.currentTimeMillis()
+        Log.d(Constants.GIL_TAG, "Tiempo total: ${fin - inicio} ms")
+
 
         imageSelected = binding.ivEvent
         textAdd = binding.tvAddImage
@@ -189,7 +195,7 @@ class NewEventFragment () : Fragment() {
                     try {
                         binding.apply {
 
-                            lifecycleScope.launch {
+                            lifecycleScope.launch(Dispatchers.IO){
 
                                 val etEventDateStartDB = convertDate(etEventDateStart.text.toString(), strDateFormat, strDateFormatBD)
                                 val etEventDateEndDB = convertDate(etEventDateEnd.text.toString(), strDateFormat, strDateFormatBD)
@@ -273,7 +279,7 @@ class NewEventFragment () : Fragment() {
                     )
 
                     try {
-                        lifecycleScope.launch {
+                        lifecycleScope.launch(Dispatchers.IO) {
 
                             val result = async {
                                 eventRepository.insertEventDB(myEvent.toEntity())
@@ -366,7 +372,7 @@ class NewEventFragment () : Fragment() {
     }
 
     private fun loadFriends(){
-        lifecycleScope.launch {
+        lifecycleScope.launch(Dispatchers.IO){
             if (Utils.isConnectedNow(requireContext())) {
 
                 val updateFriends = contactRepository.getFriendsToContacts(userPreferences.getUserId().toString())
@@ -392,7 +398,9 @@ class NewEventFragment () : Fragment() {
                         requireContext(),
                         R.layout.item_dropdown,
                         friendList?.map { it.contactName } ?: emptyList())
-                    binding.acUserScan.setAdapter(adapter)
+                    withContext(Dispatchers.Main) {
+                        binding.acUserScan.setAdapter(adapter)
+                    }
                 }
             }else{
                 val friends = contactRepository.getFriendsDB()
@@ -403,8 +411,11 @@ class NewEventFragment () : Fragment() {
                         R.layout.item_dropdown,
                         friends.map { it.contactName }
                     )
-                    binding.acUserScan.setAdapter(adapter)
                     listOfFriends = friends
+                    withContext(Dispatchers.Main) {
+                        binding.acUserScan.setAdapter(adapter)
+                    }
+
                 }
             }
 
@@ -465,7 +476,7 @@ class NewEventFragment () : Fragment() {
     }
 
     private fun eventsPendingDB(){
-        lifecycleScope.launch {
+        lifecycleScope.launch(Dispatchers.IO) {
             val events = eventRepository.getEventSyncDB()
             for (event in events) {
                 try {

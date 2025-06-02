@@ -24,7 +24,6 @@ class ContactRepository @Inject constructor(
         try {
             val contactsFromApi = contactApi.getContacts(userId)
             if (contactsFromApi.isSuccessful) {
-                contactDao.clearAllFriends()
                 val contactList = contactsFromApi.body() ?: emptyList()
                 val contacts = contactList.map { contact ->
                     contact.toEntity()
@@ -55,6 +54,37 @@ class ContactRepository @Inject constructor(
         } else {
             loadContactsFromApi(userId)
             return contactDao.getAllContacts()
+        }
+    }
+
+    suspend fun contactsGuestsFromApi(userId: String, eventId: String) : List<ContactEntity> {
+            val contactsFromApi = contactApi.getGuestsContacts(userId, eventId)
+            if (contactsFromApi.isSuccessful) {
+                val contactList = contactsFromApi.body() ?: emptyList()
+                val contacts = contactList.map { contact ->
+                    contact.toEntity()
+                }
+                return contacts
+            }else{
+                return emptyList()
+            }
+    }
+
+    suspend fun friendsGuestsFromApi(userId: String, eventId: String) : List<ContactEntity> {
+        val friendsFromApi = contactApi.getGuestsFriends(userId, eventId)
+        if (friendsFromApi.isSuccessful) {
+            val contactList = friendsFromApi.body() ?: emptyList()
+            val contacts = contactList
+                .filter { friend -> friend.contactStatus == "A"}
+                .map { contact ->
+                    contact.toEntity()
+                }
+
+            //contactDao.insertContact(contacts)
+            Log.d(Constants.GIL_TAG, "API Response: $contacts")
+            return contacts
+        }else{
+            return emptyList()
         }
     }
 

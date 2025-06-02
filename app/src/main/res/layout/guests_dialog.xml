@@ -25,7 +25,7 @@
             >
 
             <ImageView
-                android:id="@+id/btnCloseContact"
+                android:id="@+id/btnCloseGuest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/cancel"
@@ -41,12 +41,39 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
-                android:text="@string/add_contact"
+                android:text="@string/add_guest"
                 android:textSize="20sp"
                 android:gravity="center"
                 android:textStyle="bold"
                 android:textColor="@color/secondary"
                 />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomTextInputLayout"
+                android:id="@+id/lbInviteName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/glLogMiddle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/lbLogPass"
+                android:hint="@string/invitation_name_label"
+                app:startIconDrawable="@drawable/ic_invitation_qr"
+                app:endIconMode="clear_text"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etInviteName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textCursorDrawable="@drawable/white_cursor"
+                    android:textColor="@color/white"
+                    android:maxLength="20"
+                    android:maxLines="1"
+                    android:inputType="textCapWords"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/CustomTextInputLayout"
@@ -71,6 +98,7 @@
                     android:maxLength="20"
                     android:maxLines="1"
                     android:inputType="textCapSentences"
+                    android:enabled="false"
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -98,6 +126,7 @@
                     android:maxLength="50"
                     android:maxLines="1"
                     android:inputType="textEmailAddress"
+                    android:enabled="false"
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -127,7 +156,7 @@
 
                 <Button
                     style="@style/CustomButtonAccept"
-                    android:id="@+id/btDiaContSave"
+                    android:id="@+id/btnSendInvitation"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
@@ -136,7 +165,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/lbLogPass"
                     app:layout_constraintBottom_toTopOf="@+id/tvRegister"
                     android:layout_marginVertical="15dp"
-                    android:text="@string/save"
+                    android:text="@string/send_invitation"
                     android:layout_marginStart="5dp"
                     />
 

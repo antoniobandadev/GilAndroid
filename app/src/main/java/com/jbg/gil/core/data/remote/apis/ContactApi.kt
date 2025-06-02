@@ -19,10 +19,26 @@ interface ContactApi {
         userId: String
     ) : Response<List<ContactDto>>
 
+    @GET("contacts/guestContacts")
+    suspend fun getGuestsContacts(
+        @Query("userId")
+        userId: String,
+        @Query("eventId")
+        eventId: String
+    ) : Response<List<ContactDto>>
+
     @GET("contacts/friends")
     suspend fun getFriendsToContacts(
         @Query("userId")
         userId: String
+    ) : Response<List<ContactDto>>
+
+    @GET("contacts/guestFriends")
+    suspend fun getGuestsFriends(
+        @Query("userId")
+        userId: String,
+        @Query("eventId")
+        eventId: String
     ) : Response<List<ContactDto>>
 
     @POST("contacts/newContacts")

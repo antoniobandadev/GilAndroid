@@ -121,19 +121,19 @@
                 android:layout_height="50dp"
                 android:background="@color/grey_load"
                 />
-
-                <TextView
-                    android:id="@+id/tvAddGuests"
+                <View
+                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="15dp"
-                    android:textSize="14sp"
-                    android:text="@string/my_guests"
-                    android:textStyle="bold"
-                    android:textColor="@color/secondary"
-                    android:background="@color/primaryDark"
-                    android:gravity="center"
+                    android:layout_height="50dp"
+                    android:background="@color/grey_load"
                     />
+                <View
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@color/grey_load"
+                    />
+
 
             </LinearLayout>
 

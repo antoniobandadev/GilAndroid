@@ -19,6 +19,7 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.jbg.gil.R
 import com.jbg.gil.core.data.local.db.entities.ContactEntity
@@ -62,6 +63,8 @@ class EventsDetailFragment : Fragment() {
     lateinit var contactRepository : ContactRepository
 
     private val args: EventsDetailFragmentArgs by navArgs()
+
+    private lateinit var eventId: String
 
     private var  eventType : String = ""
 
@@ -123,13 +126,14 @@ class EventsDetailFragment : Fragment() {
         Utils.setupHideKeyboardOnTouch(binding.root, requireActivity())
         focusAndTextListener()
         backAction()
-
+        goMyGuests()
 
         imageSelected = binding.ivEvent
         textAdd = binding.tvAddImage
         textDelete = binding.tvDeleteImage
 
-        val eventId = args.eventId
+        eventId = args.eventId
+
         Log.d(Constants.GIL_TAG, "Event: $eventId")
         loadInfoEvent(eventId)
 
@@ -265,7 +269,7 @@ class EventsDetailFragment : Fragment() {
 
                 binding.apply {
                     btSaveEvent.setText(R.string.update)
-                    tvTitleEvents.text = getString(R.string.edit_event)
+                    //tvTitleEvents.text = getString(R.string.edit_event)
                     etEventName.setText(event.eventName)
                     etEventDesc.setText(event.eventDesc)
                     loadEventTypes(event.eventType)
@@ -534,6 +538,21 @@ class EventsDetailFragment : Fragment() {
             binding.imgBtBack.setColorFilter(ContextCompat.getColor(requireContext(), R.color.accent))
             findNavController().navigate(EventsDetailFragmentDirections.actionEventsDetailFragmentToEventsFragment())
         }
+    }
+
+    private fun goMyGuests() {
+        binding.tvAddGuests.setOnClickListener { addGuests ->
+            addGuests.applyClickAnimation()
+            binding.tvAddGuests.setTextColor(ContextCompat.getColor(requireContext(), R.color.accent))
+            findNavController().navigate(EventsDetailFragmentDirections.actionEventsDetailFragmentToGuestsFragment(eventId, binding.etEventName.text.toString()))
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val bottomNavView = requireActivity().findViewById<BottomNavigationView>(R.id.botHomMenu)
+        bottomNavView.menu.findItem(R.id.eventsFragment).isChecked = true
+        //Log.d(Constants.GIL_TAG, bottomNavView.selectedItemId.toString())
     }
 
 

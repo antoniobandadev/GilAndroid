@@ -64,11 +64,36 @@
         android:name="com.jbg.gil.features.events.ui.fragments.EventsDetailFragment"
         android:label="fragment_events_detail"
         tools:layout="@layout/fragment_events_detail" >
+
+        <action
+            android:id="@+id/action_eventsDetailFragment_to_eventsFragment"
+            app:destination="@id/eventsFragment" />
         <argument
             android:name="eventId"
             app:argType="string" />
         <action
-            android:id="@+id/action_eventsDetailFragment_to_eventsFragment"
-            app:destination="@id/eventsFragment" />
+            android:id="@+id/action_eventsDetailFragment_to_guestsFragment"
+            app:destination="@id/guestsFragment" />
+        <argument
+            android:name="eventName"
+            app:argType="string"
+            android:defaultValue="@null"
+            app:nullable="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/guestsFragment"
+        android:name="com.jbg.gil.features.events.ui.GuestsFragment"
+        android:label="fragment_guests"
+        tools:layout="@layout/fragment_guests" >
+        <action
+            android:id="@+id/action_guestsFragment_to_eventsDetailFragment"
+            app:destination="@id/eventsDetailFragment" />
+        <argument
+            android:name="eventId"
+            app:argType="string" />
+        <argument
+            android:name="eventName"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 </navigation>

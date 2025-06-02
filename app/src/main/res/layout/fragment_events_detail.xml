@@ -37,22 +37,24 @@
             android:text="@string/back"
             />
 
+        <TextView
+            android:id="@+id/tvAddGuests"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="15dp"
+            android:textSize="14sp"
+            android:text="@string/my_guests"
+            android:textStyle="bold"
+            android:textColor="@color/greyDark_load"
+            android:background="@color/primaryDark"
+            android:gravity="end"
+            />
+
     </LinearLayout>
 
 
-    <TextView
-        android:id="@+id/tvTitleEvents"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@color/secondary"
-        android:background="@color/primaryDark"
-        android:gravity="center"
-        android:text="@string/edit_event" />
+
 
     <ScrollView
         android:id="@+id/mainView"
@@ -370,20 +372,6 @@
                     style="@style/ShrinkTextInput"
                     tools:ignore="LabelFor" />
             </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                android:id="@+id/tvAddGuests"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="15dp"
-                android:textSize="14sp"
-                android:text="@string/my_guests"
-                android:textStyle="bold"
-                android:textColor="@color/greyDark_load"
-                android:background="@color/primaryDark"
-                android:gravity="center"
-                />
-
 
             <LinearLayout
                 android:layout_width="match_parent"

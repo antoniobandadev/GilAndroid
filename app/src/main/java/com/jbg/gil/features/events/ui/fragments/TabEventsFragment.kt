@@ -148,7 +148,7 @@ class TabEventsFragment : Fragment() {
                     Log.d(Constants.GIL_TAG, "Image: ${event.eventId} - ${event.eventImg}" )
 
                     if(event.eventImg == "null"){
-
+                        Log.d(Constants.GIL_TAG, "No Image event: $event.eventId")
                     }else{
                         if (!event.eventImg.lowercase().startsWith("https")) {
                              changeImage = Utils.createPartFromString("1")

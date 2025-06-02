@@ -62,14 +62,16 @@ class ContactDialog (
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
        super.onCreateDialog(savedInstanceState)
        _binding = ContactDialogBinding.inflate(requireActivity().layoutInflater)
+        val builder = AlertDialog.Builder(requireActivity())
+        builder.setView(binding.root)
+
         focusAndTextListener()
 
         networkStatusViewModel.getNetworkStatus().observe(this) { status ->
             Log.d(Constants.GIL_TAG, "$status")
         }
 
-        val builder = AlertDialog.Builder(requireActivity())
-        builder.setView(binding.root)
+
 
         val dialog = builder.create()
         dialog.window?.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
