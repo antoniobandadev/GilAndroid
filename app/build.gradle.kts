@@ -99,6 +99,9 @@ dependencies {
     //Glide
     implementation("com.github.bumptech.glide:glide:4.13.2")
 
+    //Rounded Image
+    implementation("com.makeramen:roundedimageview:2.3.0")
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

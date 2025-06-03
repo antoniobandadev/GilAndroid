@@ -16,6 +16,9 @@ data class UserDto (
     @SerializedName("userPassword")
     var password: String? = null,
 
+    @SerializedName("userProfile")
+    var userProfile: String? = null,
+
     @SerializedName("userDeviceId")
     var deviceId : String? = null,
 

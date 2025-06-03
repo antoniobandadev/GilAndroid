@@ -21,6 +21,9 @@ class UserPreferences @Inject constructor(
     fun saveUserId(userId: String) {
         prefs.edit { putString("userId", userId) }
     }
+    fun saveUserProfile(userProfile: String) {
+        prefs.edit { putString("userProfile", userProfile) }
+    }
     fun saveIsLogged(isLogged: Boolean) {
         prefs.edit { putBoolean("isLogged", isLogged) }
     }
@@ -38,6 +41,10 @@ class UserPreferences @Inject constructor(
 
     fun getUserId(): String? {
         return prefs.getString("userId", null)
+    }
+
+    fun getUserProfile(): String? {
+        return prefs.getString("userProfile", null)
     }
 
     fun getIsLogged(): Boolean {

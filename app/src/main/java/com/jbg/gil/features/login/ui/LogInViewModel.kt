@@ -69,7 +69,7 @@ class LogInViewModel @Inject constructor(
                         Log.d(Constants.GIL_TAG, "Respuesta: ${login.body()}")
                         val userLog = login.body()
                         loginSuccess.value = true
-                        saveLogged(userLog?.email.toString(), userLog?.userId.toString(), userLog?.name.toString())
+                        saveLogged(userLog?.email.toString(), userLog?.userId.toString(), userLog?.name.toString(), userLog?.userProfile.toString())
 
                     }else if(login.code() == 401){
                         invalidCredentials.value = true
@@ -95,10 +95,11 @@ class LogInViewModel @Inject constructor(
         }
     }
 
-    private fun saveLogged(userEmail:String, userId : String, userName: String ) {
+    private fun saveLogged(userEmail:String, userId : String, userName: String , userProfile: String ) {
         userPreferences.saveUserId(userId)
         userPreferences.saveUserName(userName)
         userPreferences.saveUserEmail(userEmail)
+        userPreferences.saveUserProfile(userProfile)
         userPreferences.saveIsLogged(true)
         Log.d(Constants.GIL_TAG, "Loggeado: $userId")
     }
