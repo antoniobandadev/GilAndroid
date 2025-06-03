@@ -164,13 +164,15 @@
     <string name="friend_request_cancelled_success">The friend request was successfully cancelled.</string>
     <string name="delete_friend">Delete friend</string>
     <string name="confirm_delete_friend">Are you sure you want to delete this friend?</string>
-    <string name="delete_friend_success">>The friend was successfully deleted.</string>
+    <string name="delete_friend_success">The friend was successfully deleted.</string>
 
 
     <!--- Settings -->
     <string name="logOut">Log Out</string>
     <string name="save">Save</string>
     <string name="image_updated_success">The image was successfully updated.</string>
+    <string name="edit_name">Edit name</string>
+    <string name="edit_name_success">The name was successfully updated.</string>
 
     <!--- Pendientes
     <string name="changes_saved">Changes have been saved successfully.</string>

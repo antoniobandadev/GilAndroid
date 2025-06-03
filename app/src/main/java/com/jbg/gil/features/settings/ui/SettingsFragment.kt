@@ -142,6 +142,23 @@ class SettingsFragment : Fragment() {
 
         }
 
+        binding.ivEditName.setOnClickListener{ btn ->
+            btn.applyClickAnimation()
+            Utils.showConfirmEditAlertDialog(
+                requireContext(),
+                getString(R.string.edit_name),
+                binding.etName.text.toString(),
+                getString(R.string.update),
+                getString(R.string.cancel),
+                onConfirm = {  newName ->
+                    DialogUtils.showLoadingDialog(requireContext())
+                    lifecycleScope.launch {
+                        updateName(newName)
+                    }
+                }
+            )
+        }
+
 
 
         binding.btLogOut.setOnClickListener {
@@ -157,7 +174,37 @@ class SettingsFragment : Fragment() {
 
     }
 
+    private fun updateName(newName : String){
+        if (Utils.isConnectedNow(requireContext())){
+            lifecycleScope.launch(Dispatchers.IO) {
 
+                val updateName = userRepository.updateName(
+                    userId = userPreferences.getUserId().toString(),
+                    userName = newName
+                )
+
+                if (updateName.isSuccessful){
+                    val user  = updateName.body()
+                    val useName = user?.name
+                    userPreferences.saveUserName(useName.toString())
+
+                    withContext(Dispatchers.Main){
+                        binding.etName.setText(useName)
+                    }
+
+                    DialogUtils.dismissLoadingDialog()
+                    getActivityRootView()?.showSnackBar(getString(R.string.edit_name_success))
+                }else{
+                    DialogUtils.dismissLoadingDialog()
+                    getActivityRootView()?.showSnackBarError(getString(R.string.server_error))
+                }
+
+            }
+        }else{
+            DialogUtils.dismissLoadingDialog()
+            getActivityRootView()?.showSnackBarError(getString(R.string.no_internet_connection))
+        }
+    }
 
 
     override fun onDestroy() {

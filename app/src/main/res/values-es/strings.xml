@@ -166,12 +166,14 @@
 
 
 
+    <string name="my_guests">Mis invitados</string>
+    <string name="save">Guardar</string>
     <!--- Settings -->
     <string name="friends">Amigos</string>
     <string name="logOut">Cerrar sesión</string>
-    <string name="my_guests">Mis invitados</string>
-    <string name="save">Guardar</string>
     <string name="image_updated_success">Imagen guardada exitosamente.</string>
+    <string name="edit_name">Editar nombre</string>
+    <string name="edit_name_success">Nombre actualizado exitosamente.</string>
 
 
     <!--- Pendientes

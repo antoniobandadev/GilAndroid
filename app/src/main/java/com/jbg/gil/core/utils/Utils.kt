@@ -25,6 +25,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.jbg.gil.R
 import com.jbg.gil.databinding.AlertDialogNegativeBinding
+import com.jbg.gil.databinding.EditNameDialogBinding
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -277,6 +278,54 @@ object Utils {
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         dialog.show()
     }
+    //---------------------------------------------------------------------------------------------
+
+    fun showConfirmEditAlertDialog(
+        context: Context,
+        title: String,
+        name: String,
+        confirmText: String = "",
+        cancelText: String = "",
+        confirmColor: Int = ContextCompat.getColor(context, R.color.green),
+        cancelColor: Int = ContextCompat.getColor(context, R.color.greyDark_load),
+        onConfirm: (name: String) -> Unit
+    ) {
+        val binding = EditNameDialogBinding.inflate(android.view.LayoutInflater.from(context))
+
+        binding.etEditName.setText(name)
+        binding.adTitle.text = title
+        binding.btnConfirm.text = confirmText
+        binding.btnCancel.text = cancelText
+        binding.btnConfirm.backgroundTintList = ColorStateList.valueOf(confirmColor)
+        binding.btnCancel.backgroundTintList = ColorStateList.valueOf(cancelColor)
+
+        val dialog = AlertDialog.Builder(context)
+            .setView(binding.root)
+            .setCancelable(false)
+            .create()
+
+        binding.btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        binding.btnConfirm.setOnClickListener {
+            val newName = binding.etEditName.text.toString()
+
+            if (newName.isBlank()){
+                binding.lbEditName.error = ContextCompat.getString(context ,R.string.required_field)
+            }else{
+                onConfirm(newName)
+                dialog.dismiss()
+            }
+
+        }
+
+        setupFocusAndTextListener(binding.etEditName, binding.lbEditName)
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.show()
+    }
+
 
     //----------------------------------------------------------------------------------------------
 

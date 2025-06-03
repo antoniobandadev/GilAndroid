@@ -31,4 +31,12 @@ class UserRepository @Inject constructor (private val userApi: UserApi) {
         userId
     )
 
+    suspend fun updateName(
+        userId: String,
+        userName: String
+    ): Response<UserDto> = userApi.updateName(
+        userId,
+        userName
+    )
+
 }

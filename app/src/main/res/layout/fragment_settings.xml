@@ -44,7 +44,7 @@
             android:id="@+id/ivEditPhoto"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/ic_edit_photo"
+            android:src="@drawable/ic_add_img"
             app:layout_constraintBottom_toBottomOf="@+id/ivProfile"
             app:layout_constraintEnd_toEndOf="@+id/ivProfile"
 
@@ -62,6 +62,7 @@
             app:startIconDrawable="@drawable/ic_user"
             app:endIconMode="clear_text"
             android:layout_marginTop="20dp"
+            android:layout_marginEnd="70dp"
             >
 
             <com.google.android.material.textfield.TextInputEditText
@@ -77,6 +78,18 @@
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageView
+            android:id="@+id/ivEditName"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_edit"
+            app:layout_constraintTop_toTopOf="@+id/lbName"
+            app:layout_constraintBottom_toBottomOf="@+id/lbName"
+            app:layout_constraintStart_toEndOf="@+id/lbName"
+            android:layout_marginHorizontal="5dp"
+
+            />
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/CustomTextInputLayout"
