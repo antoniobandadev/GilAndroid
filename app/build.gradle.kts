@@ -77,6 +77,9 @@ dependencies {
     //DataStore persistent simpleData
     implementation ("androidx.datastore:datastore-preferences:1.0.0")
 
+    // Encrypt sharedPreferences
+    implementation ("androidx.security:security-crypto:1.1.0-alpha06")
+
     //Room
     implementation ("androidx.room:room-runtime:2.5.0")
     implementation ("androidx.room:room-ktx:2.5.0")
