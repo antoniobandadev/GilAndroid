@@ -69,4 +69,10 @@ interface EventApi {
         userId: String
     ): Response<List<EventDto>>
 
+    @GET("events/myScanEvents")
+    suspend fun getAllEventsScan(
+        @Query("userId")
+        userId: String
+    ): Response<List<EventDto>>
+
 }
