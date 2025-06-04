@@ -31,28 +31,30 @@ class ScannerFragment : Fragment() {
     ){isGranted ->
         if (isGranted){
             //Con permiso
-            Log.d(Constants.GIL_TAG, "listo para scanear")
+            Log.d(Constants.GIL_TAG, "Ready to scan")
             actionPermissionGranted()
 
         }else{
             //Sin permiso
             //Revisamos si nego permanentemente el permiso
-            if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)){
-                //Explicamos para que se necesita el permiso
+            if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
                 AlertDialog.Builder(requireContext())
-                    .setTitle("Permiso")
-                    .setMessage("Se necesita el permiso solamente para leer codigo QR.")
-                    .setPositiveButton("Ok"){_,_ ->
-                        //Volvemos a pedir el permiso
+                    .setTitle(getString(R.string.permission_title))
+                    .setMessage(getString(R.string.permission_message))
+                    .setPositiveButton(getString(R.string.ok)) { _, _ ->
                         updateOrRequestPermissions()
                     }
-                    .setNegativeButton("cancel"){dialog,_ ->
+                    .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
                         dialog.dismiss()
                         requireActivity().finish()
                     }
-            }else{
-                //Se nego permanete mente
-                Toast.makeText(requireContext(), "Se denego el permiso permanente", Toast.LENGTH_SHORT).show()
+                    .show()
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.permission_denied_permanently),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
@@ -84,7 +86,7 @@ class ScannerFragment : Fragment() {
             permissionsLauncher.launch(Manifest.permission.CAMERA)
         }else{
             //tengo permiso
-            Log.d(Constants.GIL_TAG, "listo para scanear2")
+            Log.d(Constants.GIL_TAG, "Ready to scan")
             actionPermissionGranted()
         }
 
@@ -111,33 +113,15 @@ class ScannerFragment : Fragment() {
         binding.cbvScanner.decodeContinuous { result ->
             Toast.makeText(
                 requireContext(),
-                "Resultado: ${result.text}",
+                "Result: ${result.text}",
                 Toast.LENGTH_SHORT
             ).show()
 
-            Log.d("APPLOGS", "Resultado: ${result.text}")
+            Log.d(Constants.GIL_TAG, "Result: ${result.text}")
 
             findNavController().navigate(R.id.action_scannerFragment_to_scanFragment)
             binding.cbvScanner.pause()
 
-            /*try{
-                URL(result.text)
-
-                val intent = Intent(Intent.ACTION_VIEW)
-                intent.data = result.text.toUri()
-                startActivity(intent)
-
-            }catch(e: MalformedURLException){
-                android.app.AlertDialog.Builder(requireContext())
-                    .setTitle("Error")
-                    .setMessage("El código no es válido para la aplicación")
-                    .setNeutralButton("Aceptar") { dialog, _ ->
-                        dialog.dismiss()
-                    }
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .create()
-                    .show()
-            }*/
         }
     }
 

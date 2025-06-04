@@ -163,9 +163,6 @@
     <string name="confirm_delete_friend">¿Estás seguro de que quieres eliminar a este amigo?</string>
     <string name="delete_friend_success">Amigo eliminado exitosamente.</string>
 
-
-
-
     <string name="my_guests">Mis invitados</string>
     <string name="save">Guardar</string>
     <!--- Settings -->
@@ -174,6 +171,12 @@
     <string name="image_updated_success">Imagen guardada exitosamente.</string>
     <string name="edit_name">Editar nombre</string>
     <string name="edit_name_success">Nombre actualizado exitosamente.</string>
+
+    <!--- Scan -->
+
+    <string name="permission_title">Permiso</string>
+    <string name="permission_message">Se necesita el permiso solamente para leer código QR.</string>
+    <string name="permission_denied_permanently">Se denegó el permiso permanentemente</string>
 
 
     <!--- Pendientes
