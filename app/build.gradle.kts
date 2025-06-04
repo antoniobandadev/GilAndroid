@@ -105,6 +105,10 @@ dependencies {
     //Rounded Image
     implementation("com.makeramen:roundedimageview:2.3.0")
 
+    //Scanner QR
+    implementation(libs.zxing.android.embedded)
+    implementation(libs.core)
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

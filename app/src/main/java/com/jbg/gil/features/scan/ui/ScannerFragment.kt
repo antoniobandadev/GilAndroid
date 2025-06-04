@@ -12,6 +12,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.jbg.gil.R
 import com.jbg.gil.core.utils.Constants
 import com.jbg.gil.databinding.FragmentScannerBinding
 
@@ -30,7 +32,7 @@ class ScannerFragment : Fragment() {
         if (isGranted){
             //Con permiso
             Log.d(Constants.GIL_TAG, "listo para scanear")
-            //actionPermissionGranted()
+            actionPermissionGranted()
 
         }else{
             //Sin permiso
@@ -83,16 +85,60 @@ class ScannerFragment : Fragment() {
         }else{
             //tengo permiso
             Log.d(Constants.GIL_TAG, "listo para scanear2")
-            //actionPermissionGranted()
+            actionPermissionGranted()
         }
 
     }
 
 
+    override fun onResume() {
+        super.onResume()
+        binding.cbvScanner.resume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.cbvScanner.pause()
+    }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    private fun actionPermissionGranted(){
+        //Iniciamos el scanner
+        binding.cbvScanner.decodeContinuous { result ->
+            Toast.makeText(
+                requireContext(),
+                "Resultado: ${result.text}",
+                Toast.LENGTH_SHORT
+            ).show()
+
+            Log.d("APPLOGS", "Resultado: ${result.text}")
+
+            findNavController().navigate(R.id.action_scannerFragment_to_scanFragment)
+            binding.cbvScanner.pause()
+
+            /*try{
+                URL(result.text)
+
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = result.text.toUri()
+                startActivity(intent)
+
+            }catch(e: MalformedURLException){
+                android.app.AlertDialog.Builder(requireContext())
+                    .setTitle("Error")
+                    .setMessage("El código no es válido para la aplicación")
+                    .setNeutralButton("Aceptar") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .create()
+                    .show()
+            }*/
+        }
     }
 
 
