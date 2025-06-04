@@ -36,7 +36,11 @@
         android:id="@+id/scanFragment"
         android:name="com.jbg.gil.features.scan.ui.ScanFragment"
         android:label="fragment_scan"
-        tools:layout="@layout/fragment_scan" />
+        tools:layout="@layout/fragment_scan" >
+        <action
+            android:id="@+id/action_scanFragment_to_scannerFragment"
+            app:destination="@id/scannerFragment" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.jbg.gil.features.settings.ui.SettingsFragment"
@@ -111,5 +115,14 @@
         <action
             android:id="@+id/action_invitationDetailFragment_to_eventsFragment"
             app:destination="@id/eventsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/scannerFragment"
+        android:name="com.jbg.gil.features.scan.ui.ScannerFragment"
+        android:label="fragment_scanner"
+        tools:layout="@layout/fragment_scanner" >
+        <action
+            android:id="@+id/action_scannerFragment_to_scanFragment"
+            app:destination="@id/scanFragment" />
     </fragment>
 </navigation>
