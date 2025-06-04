@@ -79,7 +79,7 @@ class NewEventFragment () : Fragment() {
 
     private var eventImage : MultipartBody.Part? = null
 
-    private lateinit var listOfFriends : List<ContactEntity>
+    private var listOfFriends : List<ContactEntity> = emptyList()
 
     private lateinit var userIdScan : String
 

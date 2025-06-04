@@ -1,13 +1,20 @@
 package com.jbg.gil.features.scan.ui
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jbg.gil.R
 import com.jbg.gil.core.data.model.EntityDtoMapper.toEntity
@@ -40,7 +47,6 @@ class ScanFragment : Fragment() {
 
     private val networkViewModel: NetworkStatusViewModel by viewModels()
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,9 +59,13 @@ class ScanFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         eventAdapter = EventAdapter(emptyList()) {event ->
             Log.d(Constants.GIL_TAG, event.eventName)
             Log.d(Constants.GIL_TAG, event.eventId)
+            findNavController().navigate(R.id.action_scanFragment_to_scannerFragment)
+           /* val action = ScanFragmentDirections.actionScanFragmentToScannerFragment()
+            findNavController().navigate(action)*/
            /* val action = EventsFragmentDirections.actionEventsFragmentToInvitationDetailFragment(eventId = event.eventId)
             findNavController().navigate(action)*/
         }
