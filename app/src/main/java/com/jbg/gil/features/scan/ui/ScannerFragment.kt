@@ -1,20 +1,25 @@
 package com.jbg.gil.features.scan.ui
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jbg.gil.R
 import com.jbg.gil.core.utils.Constants
+import com.jbg.gil.core.utils.Utils
+import com.jbg.gil.core.utils.Utils.applyClickAnimation
 import com.jbg.gil.databinding.FragmentScannerBinding
 
 class ScannerFragment : Fragment() {
@@ -38,23 +43,35 @@ class ScannerFragment : Fragment() {
             //Sin permiso
             //Revisamos si nego permanentemente el permiso
             if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-                AlertDialog.Builder(requireContext())
-                    .setTitle(getString(R.string.permission_title))
-                    .setMessage(getString(R.string.permission_message))
-                    .setPositiveButton(getString(R.string.ok)) { _, _ ->
+
+                Utils.showOkAlertDialogPositiveA(
+                    requireContext(),
+                    getString(R.string.permission_title),
+                    getString(R.string.permission_message),
+                    getString(R.string.ok),
+                    onConfirm = {
                         updateOrRequestPermissions()
                     }
-                    .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
-                        dialog.dismiss()
-                        requireActivity().finish()
-                    }
-                    .show()
+
+                )
+
+
             } else {
-                Toast.makeText(
+                Utils.showConfirmAlertDialog(
                     requireContext(),
-                    getString(R.string.permission_denied_permanently),
-                    Toast.LENGTH_SHORT
-                ).show()
+                    getString(R.string.permission_title),
+                    getString(R.string.permission_message),
+                    getString(R.string.open_settings),
+                    getString(R.string.close),
+                    onConfirm = {
+                        openedSettings = true
+                        val intent = Intent( Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                            data = Uri.fromParts("package", requireContext().packageName, null)
+                        }
+                        requireActivity().startActivity(intent)
+                    }
+                )
+
             }
         }
 
@@ -71,6 +88,7 @@ class ScannerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         updateOrRequestPermissions()
+        backAction()
 
     }
 
@@ -92,10 +110,22 @@ class ScannerFragment : Fragment() {
 
     }
 
+    override fun onStart() {
+        super.onStart()
+        val bottomNavView = requireActivity().findViewById<BottomNavigationView>(R.id.botHomMenu)
+        bottomNavView.menu.findItem(R.id.scanFragment).isChecked = true
+        //Log.d(Constants.GIL_TAG, bottomNavView.selectedItemId.toString())
+    }
+
 
     override fun onResume() {
         super.onResume()
         binding.cbvScanner.resume()
+        if (openedSettings) {
+            updateOrRequestPermissions()
+            openedSettings = false
+        }
+        Log.d(Constants.GIL_TAG, "RESUME")
     }
 
     override fun onPause() {
@@ -124,6 +154,26 @@ class ScannerFragment : Fragment() {
 
         }
     }
+
+    private fun backAction() {
+        binding.imgBtBack.setOnClickListener { btnBack ->
+            btnBack.applyClickAnimation()
+            binding.tvBack.setTextColor(ContextCompat.getColor(requireContext(), R.color.accent))
+            binding.imgBtBack.setColorFilter(ContextCompat.getColor(requireContext(), R.color.accent))
+            findNavController().navigateUp()
+        }
+        binding.tvBack.setOnClickListener { btnBack ->
+            btnBack.applyClickAnimation()
+            binding.tvBack.setTextColor(ContextCompat.getColor(requireContext(), R.color.accent))
+            binding.imgBtBack.setColorFilter(ContextCompat.getColor(requireContext(), R.color.accent))
+            findNavController().navigateUp()
+        }
+    }
+
+    companion object {
+        var openedSettings = false
+    }
+
 
 
 }

@@ -19,6 +19,7 @@
     <string name="_continue">Continuar</string>
     <string name="change">Cambiar</string>
     <string name="send">Enviar</string>
+    <string name="open_settings">Config.</string>
 
     <!--- LogIn-->
     <string name="user">Usuario</string>

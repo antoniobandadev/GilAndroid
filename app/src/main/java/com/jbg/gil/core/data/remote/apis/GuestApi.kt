@@ -5,6 +5,8 @@ import com.jbg.gil.core.data.remote.dtos.EventGuestDto
 import com.jbg.gil.core.data.remote.dtos.GuestDto
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
@@ -30,4 +32,10 @@ interface GuestApi {
         userId:String
     ): Response<List<EventGuestDto>>
 
+    @FormUrlEncoded
+    @POST("users/checkMyGuest")
+    suspend fun checkGuest(
+        @Field("guestId")
+        guestId:String
+    ): Response<GuestDto>
 }

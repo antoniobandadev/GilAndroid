@@ -25,6 +25,7 @@
     <string name="edit_image">Edit image</string>
     <string name="edit_event">Edit event</string>
     <string name="send">Send</string>
+    <string name="open_settings">Settings</string>
 
 
     <!--- LogIn-->

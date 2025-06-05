@@ -1,14 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".features.scan.ui.ScannerFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".features.scan.ui.ScannerFragment"
+    android:orientation="vertical"
+    android:background="@color/primary"
+    >
 
+    <LinearLayout
+        android:id="@+id/backButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
+
+        <ImageView
+            android:id="@+id/imgBtBack"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_arrow_back"
+            android:contentDescription="@string/back"
+            android:clickable="true"
+            android:focusable="true"
+            app:tint="@color/secondary"
+            />
+
+        <TextView
+            android:id="@+id/tvBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="14sp"
+            android:textColor="@color/secondary"
+            android:gravity="center"
+            android:text="@string/back"
+            />
+
+
+    </LinearLayout>
     <com.journeyapps.barcodescanner.CompoundBarcodeView
         android:id="@+id/cbvScanner"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
 
-</RelativeLayout>
+
+
+
+</LinearLayout>

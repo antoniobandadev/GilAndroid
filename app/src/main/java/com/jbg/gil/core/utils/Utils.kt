@@ -356,6 +356,37 @@ object Utils {
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         dialog.show()
     }
+    //----------------------------------------------------------------------------------------------
+
+    fun showOkAlertDialogPositiveA(
+        context: Context,
+        title: String,
+        message: String,
+        confirmText: String = "",
+        confirmColor: Int = ContextCompat.getColor(context, R.color.greyDark_load),
+        onConfirm: () -> Unit
+    ) {
+        val binding = AlertDialogNegativeBinding.inflate(android.view.LayoutInflater.from(context))
+        binding.adTitle.setTextColor(ContextCompat.getColor(context, R.color.accent))
+        binding.adTitle.text = title
+        binding.adMessage.text = message
+        binding.btnConfirm.text = confirmText
+        binding.btnCancel.visibility = View.GONE
+        binding.btnConfirm.backgroundTintList = ColorStateList.valueOf(confirmColor)
+
+        val dialog = AlertDialog.Builder(context)
+            .setView(binding.root)
+            .setCancelable(false)
+            .create()
+
+        binding.btnConfirm.setOnClickListener {
+            onConfirm()
+            dialog.dismiss()
+        }
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.show()
+    }
 
     //---------------------------------------------------------------------------------------------
 
