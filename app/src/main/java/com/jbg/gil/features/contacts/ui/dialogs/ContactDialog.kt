@@ -244,10 +244,7 @@ class ContactDialog (
                     val myNewContact = apiContactApi.newContact(contact)
 
                     if (myNewContact.code() == 200){
-                        val resultBd = async {
-                            contactRepository.insertContact(contact.toEntity())
-                        }
-                        resultBd.await()
+                        contactRepository.insertContact(contact.toEntity())
 
                         DialogUtils.dismissLoadingDialog()
                         dialog?.dismiss()
