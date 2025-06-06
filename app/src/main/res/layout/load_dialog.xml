@@ -11,18 +11,32 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:progressTint="@color/red"
-            android:visibility="visible"
-            android:layout_marginTop="15dp"
-            />
+            android:layout_marginTop="15dp">
+
+            <ImageView
+                android:id="@+id/ivLoad"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:contentDescription="@string/loading"
+                android:scaleType="centerCrop"
+                android:visibility="gone"
+                />
+
+            <ProgressBar
+                android:id="@+id/pbLoad"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:progressTint="@color/red"
+                android:visibility="visible" />
+        </FrameLayout>
 
         <TextView
-            android:id="@+id/loadingText"
+            android:id="@+id/tvLoad"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"

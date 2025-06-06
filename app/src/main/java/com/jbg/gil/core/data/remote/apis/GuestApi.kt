@@ -33,7 +33,7 @@ interface GuestApi {
     ): Response<List<EventGuestDto>>
 
     @FormUrlEncoded
-    @POST("users/checkMyGuest")
+    @POST("guests/checkMyGuest")
     suspend fun checkGuest(
         @Field("guestId")
         guestId:String

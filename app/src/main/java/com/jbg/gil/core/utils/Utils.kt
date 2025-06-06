@@ -17,8 +17,11 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.webkit.WebView
 import android.widget.EditText
+import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getString
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
@@ -513,9 +516,13 @@ object Utils {
     //---------------------------------------------------------------------------------------------
 }
 
+@SuppressLint("StaticFieldLeak")
 object DialogUtils {
 
     private var loadingDialog: Dialog? = null
+    private var loadingTextView: TextView? = null
+    private var loadingImageView: ImageView? = null
+    private var loadingProgress: ProgressBar? = null
 
     fun showLoadingDialog(context: Context) {
         if (loadingDialog?.isShowing == true) return // Evita mostrarlo varias veces
@@ -526,7 +533,34 @@ object DialogUtils {
             setCancelable(false)
             window?.setBackgroundDrawableResource(android.R.color.transparent)
             show()
+
+            loadingTextView = findViewById(R.id.tvLoad)
+            loadingImageView = findViewById(R.id.ivLoad)
+            loadingProgress = findViewById(R.id.pbLoad)
         }
+    }
+
+    fun updateLoadingDialogCorrect(context: Context){
+        loadingProgress?.visibility = View.GONE
+        loadingImageView?.visibility = View.VISIBLE
+        loadingImageView?.setImageResource(R.drawable.ic_check_circle)
+        loadingTextView?.text = context.getString(R.string.valid_code_scan)
+    }
+
+    fun updateLoadingDialogInvalid(context: Context){
+        loadingProgress?.visibility = View.GONE
+        loadingImageView?.visibility = View.VISIBLE
+        loadingImageView?.setImageResource(R.drawable.ic_cancel)
+        loadingImageView?.setColorFilter(context.getColor(R.color.accent))
+        loadingTextView?.text = context.getString(R.string.invalid_code_scan)
+    }
+
+    fun updateLoadingDialogScanned(context: Context){
+        loadingProgress?.visibility = View.GONE
+        loadingImageView?.visibility = View.VISIBLE
+        loadingImageView?.setImageResource(R.drawable.ic_cancel)
+        loadingImageView?.setColorFilter(context.getColor(R.color.accent))
+        loadingTextView?.text = context.getString(R.string.code_scan_before)
     }
 
     fun isLoadingDialogVisible(): Boolean {

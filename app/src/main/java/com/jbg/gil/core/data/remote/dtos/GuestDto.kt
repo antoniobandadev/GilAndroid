@@ -41,6 +41,9 @@ data class GuestDto (
     val userSendId: String? = null,
 
     @SerializedName("userLanguage")
-    val userLanguage: String? = null
+    val userLanguage: String? = null,
+
+    @SerializedName("guestsResponse")
+    val guestsResponse: String? = null
 
 )

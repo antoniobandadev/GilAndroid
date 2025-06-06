@@ -1,6 +1,7 @@
 package com.jbg.gil.features.scan.ui
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -14,19 +15,33 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import kotlinx.coroutines.delay
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jbg.gil.R
+import com.jbg.gil.core.repositories.GuestRepository
 import com.jbg.gil.core.utils.Constants
+import com.jbg.gil.core.utils.DialogUtils
 import com.jbg.gil.core.utils.Utils
 import com.jbg.gil.core.utils.Utils.applyClickAnimation
+import com.jbg.gil.core.utils.Utils.getActivityRootView
+import com.jbg.gil.core.utils.Utils.showSnackBarError
 import com.jbg.gil.databinding.FragmentScannerBinding
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class ScannerFragment : Fragment() {
 
 
     private var _binding: FragmentScannerBinding?=null
     private val binding get() = _binding!!
+
+    @Inject
+    lateinit var guestRepository: GuestRepository
+
 
     //Permisos de la camara 24 - 53, 70 -87
     private var cameraPermissionGranted = false
@@ -141,16 +156,71 @@ class ScannerFragment : Fragment() {
     private fun actionPermissionGranted(){
         //Iniciamos el scanner
         binding.cbvScanner.decodeContinuous { result ->
-            Toast.makeText(
+            /*Toast.makeText(
                 requireContext(),
                 "Result: ${result.text}",
                 Toast.LENGTH_SHORT
-            ).show()
+            ).show()*/
+            binding.cbvScanner.pause()
+            DialogUtils.showLoadingDialog(requireContext())
 
+            if(Utils.isConnectedNow(requireContext())) {
+                try {
+                    lifecycleScope.launch {
+                        val scanVal = guestRepository.checkGuest(result.text)
+
+                        if (scanVal.isSuccessful) {
+                            val scan = scanVal.body()
+                            if (scan?.guestsResponse.toString() == "2") {
+                                DialogUtils.updateLoadingDialogCorrect(requireContext())
+                                delay(3_000)
+                                DialogUtils.dismissLoadingDialog()
+                                binding.cbvScanner.pause()
+                            } else if (scan?.guestsResponse.toString() == "1") {
+                                DialogUtils.updateLoadingDialogScanned(requireContext())
+                                delay(3_000)
+                                DialogUtils.dismissLoadingDialog()
+                                binding.cbvScanner.pause()
+
+                            } else if (scan?.guestsResponse.toString() == "0") {
+                                DialogUtils.updateLoadingDialogInvalid(requireContext())
+                                delay(3_000)
+                                DialogUtils.dismissLoadingDialog()
+                                binding.cbvScanner.pause()
+                                Log.d(Constants.GIL_TAG, "Validando")
+                            }
+                        } else {
+                            DialogUtils.dismissLoadingDialog()
+                            getActivityRootView()?.showSnackBarError(getString(R.string.server_error))
+                        }
+
+
+                        view?.post {
+                            if (isAdded && view != null) {
+                                findNavController().navigate(R.id.action_scannerFragment_to_scanFragment)
+                                Log.d(Constants.GIL_TAG, "Salir")
+                            }
+                        }
+                       // findNavController().navigate(R.id.action_scannerFragment_to_scanFragment)
+                    }
+
+
+
+                } catch (e: Exception) {
+                    DialogUtils.dismissLoadingDialog()
+                    getActivityRootView()?.showSnackBarError(getString(R.string.server_error))
+                }
+            }else{
+                DialogUtils.dismissLoadingDialog()
+                getActivityRootView()?.showSnackBarError(getString(R.string.no_internet_connection))
+            }
+
+
+
+           // findNavController().navigateUp()
             Log.d(Constants.GIL_TAG, "Result: ${result.text}")
 
-            findNavController().navigate(R.id.action_scannerFragment_to_scanFragment)
-            binding.cbvScanner.pause()
+
 
         }
     }

@@ -178,6 +178,10 @@
     <string name="permission_title">Permiso</string>
     <string name="permission_message">Se necesita el permiso solamente para leer código QR.</string>
     <string name="permission_denied_permanently">Se denegó el permiso permanentemente</string>
+    <string name="valid_scan">Validando&#8230;</string>
+    <string name="valid_code_scan">Código valido</string>
+    <string name="invalid_code_scan">Código invalido</string>
+    <string name="code_scan_before">El código ya fue escaneado anteriormente</string>
 
 
     <!--- Pendientes
