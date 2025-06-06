@@ -107,8 +107,8 @@ class ContactGuestDialog (
                         val insertGuest = guestRepository.insertGuest(guest)
 
                         if (insertGuest.isSuccessful) {
-                            DialogUtils.dismissLoadingDialog()
                             dialog.dismiss()
+                            DialogUtils.dismissLoadingDialog()
                             getActivityRootView()?.showSnackBar(getString(R.string.send_invitation_success))
                             updateUI()
                         } else {

@@ -74,58 +74,65 @@ class TabEventsFragment : Fragment() {
         }
 
         networkViewModel.getNetworkStatus().observe(viewLifecycleOwner) { isConnected ->
-            if (isConnected){
-                showLoad()
-                lifecycleScope.launch {
-                    eventsPendingDeleteDB()
-                    eventsPendingDB()
-
-                   // eventRepository.deleteAllEventsDB()
-                    val eventsApi = eventRepository.getAllEventsApi(userPreferences.getUserId().toString())
-                    if (eventsApi.isSuccessful){
-                        val eventList = eventsApi.body() ?: emptyList()
-                        val events = eventList.map { event->
-                            event.toEntity()
-                        }
-                        Log.d(Constants.GIL_TAG, "GET" )
-
-                        eventRepository.deleteAllEventsDB()
-                        Log.d(Constants.GIL_TAG, "Delete" )
-
-                        eventRepository.insertEventsDB(events)
-                        Log.d(Constants.GIL_TAG, "Insert" )
-
-                        eventAdapter.updateEvents(events)
-                        Log.d(Constants.GIL_TAG, "Adapter" )
-
-                        showData()
-                    }else{
-                        if(eventsApi.code() == 404){
-                            getActivityRootView()?.showSnackBar(getString(R.string.no_pending_events))
-                            binding.tvNoEvents.text = getString(R.string.no_events_found)
-                            binding.tvNoEvents.visibility = View.VISIBLE
-                            showData()
-                        }else{
-                            getActivityRootView()?.showSnackBarError(getString(R.string.server_error))
-                            showData()
-                        }
-                    }
-
-                   // eventAdapter.updateEvents(events)
-                }
-
-            }else{
-                lifecycleScope.launch {
-                    showLoad()
-                    val events = eventRepository.getAllEventsDB()
-                    eventAdapter.updateEvents(events)
-                    showData()
-                    Log.d(Constants.GIL_TAG, "Desde DB")
-                }
-            }
+            loadMyEvents()
         }
 
     }
+
+
+    private fun loadMyEvents(){
+        if (Utils.isConnectedNow(requireContext())){
+            showLoad()
+            lifecycleScope.launch {
+                eventsPendingDeleteDB()
+                eventsPendingDB()
+
+                // eventRepository.deleteAllEventsDB()
+                val eventsApi = eventRepository.getAllEventsApi(userPreferences.getUserId().toString())
+                if (eventsApi.isSuccessful){
+                    val eventList = eventsApi.body() ?: emptyList()
+                    val events = eventList.map { event->
+                        event.toEntity()
+                    }
+                    Log.d(Constants.GIL_TAG, "GET" )
+
+                    eventRepository.deleteAllEventsDB()
+                    Log.d(Constants.GIL_TAG, "Delete" )
+
+                    eventRepository.insertEventsDB(events)
+                    Log.d(Constants.GIL_TAG, "Insert" )
+
+                    eventAdapter.updateEvents(events)
+                    Log.d(Constants.GIL_TAG, "Adapter" )
+
+                    showData()
+                }else{
+                    if(eventsApi.code() == 404){
+                        getActivityRootView()?.showSnackBar(getString(R.string.no_pending_events))
+                        binding.tvNoEvents.text = getString(R.string.no_events_found)
+                        binding.tvNoEvents.visibility = View.VISIBLE
+                        showData()
+                    }else{
+                        getActivityRootView()?.showSnackBarError(getString(R.string.server_error))
+                        showData()
+                    }
+                }
+
+                // eventAdapter.updateEvents(events)
+            }
+
+        }else{
+            lifecycleScope.launch {
+                showLoad()
+                val events = eventRepository.getAllEventsDB()
+                eventAdapter.updateEvents(events)
+                showData()
+                Log.d(Constants.GIL_TAG, "Desde DB")
+            }
+        }
+    }
+
+
 
      private suspend fun eventsPendingDB(){
             val events = eventRepository.getEventSyncDB()

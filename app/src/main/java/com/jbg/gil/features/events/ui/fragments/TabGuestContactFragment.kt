@@ -149,6 +149,12 @@ class TabGuestContactFragment : Fragment() {
         bottomNavView.menu.findItem(R.id.eventsFragment).isChecked = true
         //Log.d(Constants.GIL_TAG, bottomNavView.selectedItemId.toString())
     }
+    override fun onResume() {
+        super.onResume()
+        updateUI()
+        searchContact()
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()

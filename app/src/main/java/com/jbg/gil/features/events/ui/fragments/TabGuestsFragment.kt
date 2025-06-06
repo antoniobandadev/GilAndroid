@@ -141,6 +141,12 @@ class TabGuestsFragment : Fragment() {
         //Log.d(Constants.GIL_TAG, bottomNavView.selectedItemId.toString())
     }
 
+    override fun onResume() {
+        super.onResume()
+        updateUI()
+        searchGuests()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null

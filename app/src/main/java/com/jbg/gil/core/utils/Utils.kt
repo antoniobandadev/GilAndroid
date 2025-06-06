@@ -544,6 +544,7 @@ object DialogUtils {
         loadingProgress?.visibility = View.GONE
         loadingImageView?.visibility = View.VISIBLE
         loadingImageView?.setImageResource(R.drawable.ic_check_circle)
+        loadingImageView?.setColorFilter(context.getColor(R.color.green))
         loadingTextView?.text = context.getString(R.string.valid_code_scan)
     }
 
@@ -551,7 +552,7 @@ object DialogUtils {
         loadingProgress?.visibility = View.GONE
         loadingImageView?.visibility = View.VISIBLE
         loadingImageView?.setImageResource(R.drawable.ic_cancel)
-        loadingImageView?.setColorFilter(context.getColor(R.color.accent))
+        loadingImageView?.setColorFilter(context.getColor(R.color.red))
         loadingTextView?.text = context.getString(R.string.invalid_code_scan)
     }
 
@@ -559,7 +560,7 @@ object DialogUtils {
         loadingProgress?.visibility = View.GONE
         loadingImageView?.visibility = View.VISIBLE
         loadingImageView?.setImageResource(R.drawable.ic_cancel)
-        loadingImageView?.setColorFilter(context.getColor(R.color.accent))
+        loadingImageView?.setColorFilter(context.getColor(R.color.red))
         loadingTextView?.text = context.getString(R.string.code_scan_before)
     }
 

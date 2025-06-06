@@ -81,7 +81,7 @@ class NewEventFragment () : Fragment() {
 
     private var listOfFriends : List<ContactEntity> = emptyList()
 
-    private lateinit var userIdScan : String
+    private var userIdScan : String = ""
 
     private lateinit var imageSelected : ImageView
     private lateinit var textAdd : TextView
@@ -125,8 +125,12 @@ class NewEventFragment () : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         Utils.setupHideKeyboardOnTouch(binding.root, requireActivity())
         focusAndTextListener()
-        loadEventTypes()
-        loadFriends()
+        loadEventTypes(binding.acEventType.text.toString())
+
+       /* lifecycleScope.launch(Dispatchers.IO) {
+            loadFriends()
+        }*/
+
         val fin = System.currentTimeMillis()
         Log.d(Constants.GIL_TAG, "Tiempo total: ${fin - inicio} ms")
 
@@ -173,9 +177,9 @@ class NewEventFragment () : Fragment() {
 
         binding.acUserScan.setOnItemClickListener { parent, _, position, _ ->
             val selectedName = parent.getItemAtPosition(position) as String
-            val selectedCountry = listOfFriends.find { it.contactName == selectedName }
-            selectedCountry?.let {
-                userIdScan = selectedCountry.contactId
+            val selectedFriends = listOfFriends.find { it.contactName == selectedName }
+            selectedFriends?.let {
+                userIdScan = selectedFriends.contactId
                 Log.d(Constants.GIL_TAG, "Selecciono: ${userIdScan}")
             }
         }
@@ -238,9 +242,12 @@ class NewEventFragment () : Fragment() {
                                 if (eventInsert.isSuccessful) {
                                     DialogUtils.dismissLoadingDialog()
                                     root.showSnackBar(getString(R.string.event_save_success))
-                                    clearAll()
-                                    requireActivity().findViewById<BottomNavigationView>(R.id.botHomMenu)
-                                        .selectedItemId = R.id.eventsFragment
+                                    withContext(Dispatchers.Main){
+                                        clearAll()
+                                        requireActivity().findViewById<BottomNavigationView>(R.id.botHomMenu)
+                                            .selectedItemId = R.id.eventsFragment
+                                    }
+
                                 } else {
                                     DialogUtils.dismissLoadingDialog()
                                     root.showSnackBarError(getString(R.string.server_error))
@@ -287,9 +294,12 @@ class NewEventFragment () : Fragment() {
                             }
                             result.await()
                             getActivityRootView()?.showSnackBar(getString(R.string.event_save_success))
-                            clearAll()
-                            requireActivity().findViewById<BottomNavigationView>(R.id.botHomMenu)
-                                .selectedItemId = R.id.eventsFragment
+                            withContext(Dispatchers.Main){
+                                 clearAll()
+                                requireActivity().findViewById<BottomNavigationView>(R.id.botHomMenu)
+                                    .selectedItemId = R.id.eventsFragment
+                            }
+
                             DialogUtils.dismissLoadingDialog()
                         }
 
@@ -304,6 +314,7 @@ class NewEventFragment () : Fragment() {
 
 
     }
+
 
     private fun validateInputs() : Boolean{
         binding.apply {
@@ -351,14 +362,14 @@ class NewEventFragment () : Fragment() {
                 lbEventCity.error = getString(R.string.required_field)
                 return false
             }
-            val selectedCountry = listOfFriends.find { it.contactName == acUserScan.text.toString() }
-            if (selectedCountry == null){
-                Log.d(Constants.GIL_TAG, selectedCountry.toString())
+            val selectedFriends = listOfFriends.find { it.contactName == acUserScan.text.toString() }
+            if (selectedFriends == null){
+                Log.d(Constants.GIL_TAG, selectedFriends.toString())
                 acUserScan.text.clear()
                 lbUserScan.error = getString(R.string.required_field)
                 return false
-               /* val selectedCountry = listOfFriends.find { it.contactName == acUserScan.toString() }
-                selectedCountry?.let {
+               /* val selectedFriends = listOfFriends.find { it.contactName == acUserScan.toString() }
+                selectedFriends?.let {
                     Log.d(Constants.GIL_TAG, "Selecciono: ${selectedName}")
                 }*/
             }
@@ -367,7 +378,7 @@ class NewEventFragment () : Fragment() {
         return true
     }
 
-    private fun loadEventTypes(){
+    private fun loadEventTypes(typeSelected : String){
         val typesEvents = Utils.getEventTypes(requireContext())
 
         binding.acEventType.setDropDownBackgroundResource(android.R.color.transparent)
@@ -375,11 +386,17 @@ class NewEventFragment () : Fragment() {
 
         val adapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, typesEvents)
         binding.acEventType.setAdapter(adapter)
+
+        if (typesEvents.contains(typeSelected)) {
+            binding.acEventType.setText(typeSelected, false)
+            eventType = typeSelected
+        }
+
     }
 
-    private fun loadFriends(){
-        lifecycleScope.launch(Dispatchers.IO){
+    private suspend fun loadFriends(){
             if (Utils.isConnectedNow(requireContext())) {
+                Log.d(Constants.GIL_TAG, "Load friends")
 
                 val updateFriends = contactRepository.getFriendsToContacts(userPreferences.getUserId().toString())
                 if (updateFriends.isSuccessful){
@@ -391,6 +408,7 @@ class NewEventFragment () : Fragment() {
 
                     contactRepository.insertContactList(contacts)
                     listOfFriends = contacts
+                    Log.d(Constants.GIL_TAG, "List of friends")
                 }
 
 
@@ -425,7 +443,7 @@ class NewEventFragment () : Fragment() {
                 }
             }
 
-        }
+
     }
 
     /*private fun showCalendar(){
@@ -605,9 +623,27 @@ class NewEventFragment () : Fragment() {
         }
     }
 
+    private fun loadFriendScan(){
+        val selectedName = binding.acUserScan.text.toString()
+        Log.d(Constants.GIL_TAG, "Selecciono: ${selectedName}")
+        Log.d(Constants.GIL_TAG, "listoffriends: ${listOfFriends}")
+        val selectedFriends = listOfFriends.find { it.contactName == selectedName }
+        selectedFriends?.let {
+            userIdScan = selectedFriends.contactId
+            Log.d(Constants.GIL_TAG, "Selecciono: ${userIdScan}")
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        loadEventTypes(binding.acEventType.text.toString())
+        lifecycleScope.launch(Dispatchers.IO) {
+            loadFriends()
+            loadFriendScan()
+        }
 
 
-
+    }
 
 
     override fun onDestroy() {
