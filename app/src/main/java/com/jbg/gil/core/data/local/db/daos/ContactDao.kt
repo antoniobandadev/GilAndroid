@@ -40,4 +40,7 @@ interface ContactDao {
     @Query("DELETE FROM ${Constants.DATABASE_CONTACTS_TABLE} WHERE contactType = 'F'")
     suspend fun clearAllFriends()
 
+    @Query("DELETE FROM ${Constants.DATABASE_CONTACTS_TABLE}")
+    suspend fun clearAllContactsAndFriends()
+
 }

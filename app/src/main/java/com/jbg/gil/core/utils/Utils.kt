@@ -524,7 +524,7 @@ object DialogUtils {
     private var loadingImageView: ImageView? = null
     private var loadingProgress: ProgressBar? = null
 
-    fun showLoadingDialog(context: Context) {
+    /*fun showLoadingDialog(context: Context) {
         if (loadingDialog?.isShowing == true) return // Evita mostrarlo varias veces
 
         loadingDialog = Dialog(context).apply {
@@ -533,6 +533,29 @@ object DialogUtils {
             setCancelable(false)
             window?.setBackgroundDrawableResource(android.R.color.transparent)
             show()
+
+            loadingTextView = findViewById(R.id.tvLoad)
+            loadingImageView = findViewById(R.id.ivLoad)
+            loadingProgress = findViewById(R.id.pbLoad)
+        }
+    }*/
+
+    fun showLoadingDialog(context: Context) {
+        if (context !is Activity || context.isFinishing || context.isDestroyed) return
+
+        if (loadingDialog?.isShowing == true) return
+
+        loadingDialog = Dialog(context).apply {
+            setContentView(R.layout.load_dialog)
+            setCanceledOnTouchOutside(false)
+            setCancelable(false)
+            window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+            try {
+                show()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
 
             loadingTextView = findViewById(R.id.tvLoad)
             loadingImageView = findViewById(R.id.ivLoad)
@@ -568,12 +591,28 @@ object DialogUtils {
         return loadingDialog?.isShowing == true
     }
 
-    fun dismissLoadingDialog() {
+    /*fun dismissLoadingDialog() {
         loadingDialog?.let {
             if (it.isShowing) {
                 it.dismiss()
             }
             loadingDialog = null
+        }
+    }*/
+
+    fun dismissLoadingDialog() {
+        loadingDialog?.let {
+            try {
+                if (it.isShowing) {
+                    it.dismiss()
+                }
+            } catch (e: IllegalArgumentException) {
+                e.printStackTrace() // o usa Log.e(...) si prefieres
+            } catch (e: Exception) {
+                e.printStackTrace()
+            } finally {
+                loadingDialog = null
+            }
         }
     }
 }

@@ -15,7 +15,7 @@ data class BasicResponse(
 
 data class AddFriendDto(
     var userId: String,
-    var friendEmail: String
+    var contactEmail: String
 )
 
 data class RespFriendDto(

@@ -40,9 +40,11 @@ class ContactRepository @Inject constructor(
                 Log.d(Constants.GIL_TAG, "Error 404")
             } else if (contactsFromApi.code() == 500) {
                 Log.d(Constants.GIL_TAG, "Error 500")
+            }else{
+                Log.d(Constants.GIL_TAG, "Error ${contactsFromApi.code()}")
             }
         } catch (e: Exception) {
-            Log.d("Error:", e.toString())
+            Log.d(Constants.GIL_TAG, e.toString())
         }
     }
 
@@ -52,6 +54,7 @@ class ContactRepository @Inject constructor(
             Log.d(Constants.GIL_TAG, "Contacts Local")
             return local
         } else {
+            deleteAllContactsAndFriends()
             loadContactsFromApi(userId)
             return contactDao.getAllContacts()
         }
@@ -113,6 +116,8 @@ class ContactRepository @Inject constructor(
     suspend fun getFriendsToContacts(userId: String) = contactApi.getFriendsToContacts(userId)
 
     suspend fun deleteFriendsToContacts() = contactDao.clearAllFriends()
+
+    suspend fun deleteAllContactsAndFriends() = contactDao.clearAllContactsAndFriends()
 
 
 

@@ -46,11 +46,11 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
             android:textSize="20sp"
             android:gravity="center"
             android:textStyle="bold"
-            android:textColor="@color/accent"
+            android:textColor="@color/secondary"
             />
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/CustomTextInputLayout"
+            style="@style/CustomTextInputLayout.NoMargin"
             android:id="@+id/lbFriendName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -59,8 +59,10 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/lbLogPass"
             android:hint="@string/name"
-            app:startIconDrawable="@drawable/ic_person"
+            app:startIconDrawable="@drawable/ic_user"
             app:endIconMode="clear_text"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginBottom="10dp"
             android:visibility="gone"
             >
 
@@ -87,7 +89,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/lbLogPass"
             android:hint="@string/email"
-            app:startIconDrawable="@drawable/ic_mail"
+            app:startIconDrawable="@drawable/ic_email"
             app:endIconMode="clear_text"
             android:enabled="true"
             android:layout_marginHorizontal="10dp"

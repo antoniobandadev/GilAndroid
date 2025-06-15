@@ -101,7 +101,6 @@ class FriendDialog (
         //Add
         binding.btDiaFriendAdd.setOnClickListener {
             if(validateInputs()) {
-                DialogUtils.showLoadingDialog(requireContext())
                 addFriend()
             }
         }
@@ -155,31 +154,42 @@ class FriendDialog (
         Log.d(Constants.GIL_TAG, "Connected: $isConnected")
         friend = AddFriendDto(
             userId = userPreferences.getUserId().toString(),
-            friendEmail = binding.etFriendEmail.text.toString()
+            contactEmail = binding.etFriendEmail.text.toString()
         )
         Log.d(Constants.GIL_TAG, "Add")
 
         if (isConnected == true) {
             try {
+
                 lifecycleScope.launch {
+                    DialogUtils.showLoadingDialog(requireContext())
                     val myNewFriend = apiContactApi.addFriend(friend)
 
                     if (myNewFriend.code() == 200) {
                         val body = myNewFriend.body()
 
-                        if (body?.response == "pending"){
-                            DialogUtils.dismissLoadingDialog()
-                            binding.lbFriendEmail.setErrorTextColor(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.yellow)))
-                            binding.lbFriendEmail.error = getString(R.string.sol_friend_pending)
-                        }else{
-                            DialogUtils.dismissLoadingDialog()
-                            dialog?.dismiss()
-                            getActivityRootView()?.showSnackBar(getString(R.string.sol_friend_send))
-                        }
+                        DialogUtils.dismissLoadingDialog()
+                        dialog?.dismiss()
+                        getActivityRootView()?.showSnackBar(getString(R.string.sol_friend_send))
+
+
+                    }else if (myNewFriend.code() == 401){
+                        DialogUtils.dismissLoadingDialog()
+                        binding.lbFriendEmail.setErrorTextColor(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.yellow)))
+                        binding.lbFriendEmail.error = getString(R.string.sol_friend_pending)
+
+                    }else if (myNewFriend.code() == 402){
+                        DialogUtils.dismissLoadingDialog()
+                        binding.lbFriendEmail.setErrorTextColor(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.yellow)))
+                        binding.lbFriendEmail.error = getString(R.string.sol_friend_pending)
 
                     }else if (myNewFriend.code() == 404){
-                        DialogUtils.dismissLoadingDialog()
-                        binding.lbFriendEmail.error = getString(R.string.sol_no_friend_found)
+
+                           //
+                            binding.lbFriendEmail.error = getString(R.string.sol_no_friend_found)
+                            DialogUtils.dismissLoadingDialog()
+
+
                     }else{
                         getActivityRootView()?.showSnackBarError(getString(R.string.server_error))
                         DialogUtils.dismissLoadingDialog()
