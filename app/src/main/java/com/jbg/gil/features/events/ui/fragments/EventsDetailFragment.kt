@@ -613,9 +613,23 @@ class EventsDetailFragment : Fragment() {
 
     private fun goMyGuests() {
         binding.tvAddGuests.setOnClickListener { addGuests ->
-            addGuests.applyClickAnimation()
-            binding.tvAddGuests.setTextColor(ContextCompat.getColor(requireContext(), R.color.accent))
-            findNavController().navigate(EventsDetailFragmentDirections.actionEventsDetailFragmentToGuestsFragment(eventId, binding.etEventName.text.toString()))
+            if (Utils.isConnectedNow(requireContext())) {
+                addGuests.applyClickAnimation()
+                binding.tvAddGuests.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.accent
+                    )
+                )
+                findNavController().navigate(
+                    EventsDetailFragmentDirections.actionEventsDetailFragmentToGuestsFragment(
+                        eventId,
+                        binding.etEventName.text.toString()
+                    )
+                )
+            }else{
+                getActivityRootView()?.showSnackBarError(getString(R.string.no_internet_connection))
+            }
         }
     }
 
