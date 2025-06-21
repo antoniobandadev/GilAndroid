@@ -95,7 +95,7 @@
     <string name="event_category_academic">Académico / Educativo</string>
     <string name="event_category_other">Otro</string>Required field
     <string name="required_field">Campo obligatorio *</string>
-    <string name="access_controller">Control de acceso</string>
+    <string name="access_controller">Persona autorizada para escanear QR</string>
     <string name="invalid_date">La fecha de inicio no puede ser menor al día de hoy, Verifique por favor.</string>
     <string name="invalid_date_bigger">La fecha de inicio no puede ser mayor a la fecha de fin, Verifique por favor.</string>
     <string name="event_save_success">Evento guardado exitosamente.</string>
@@ -105,9 +105,9 @@
     <string name="edit_event">Editar evento</string>
     <string name="event_update_success">Evento actualizado exitosamente.</string>
 
-    <string name="cancel_event">Cancelar evento.</string>
-    <string name="confirm_cancel_event">¿Estas seguro que deseas cancelar este evento?</string>
-    <string name="event_cancel_success">Evento cancelado exitosamente.</string>
+    <string name="cancel_event">Eliminar evento.</string>
+    <string name="confirm_cancel_event">¿Estas seguro que deseas eliminar este evento?</string>
+    <string name="event_cancel_success">Evento eliminado exitosamente.</string>
 
     <string name="no_pending_events">No tienes eventos pendientes.</string>
     <string name="no_events">Sin eventos.</string>

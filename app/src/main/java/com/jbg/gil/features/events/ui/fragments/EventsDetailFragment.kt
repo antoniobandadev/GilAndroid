@@ -412,10 +412,16 @@ class EventsDetailFragment : Fragment() {
         val adapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, typesEvents)
         binding.acEventType.setAdapter(adapter)
 
-        if (typesEvents.contains(typeSelected)) {
+        val match = typesEvents.firstOrNull { it.startsWith(typeSelected.substring(0, 2), ignoreCase = true) }
+        if (match != null) {
+            binding.acEventType.setText(match, false)
+            eventType = match
+        }
+
+        /*if (typesEvents.contains(typeSelected)) {
             binding.acEventType.setText(typeSelected, false)
             eventType = typeSelected
-        }
+        }*/
 
     }
 

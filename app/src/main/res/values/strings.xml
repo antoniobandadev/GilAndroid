@@ -100,15 +100,15 @@
     <string name="event_category_corporate">Corporate / Professional</string>
     <string name="event_category_academic">Academic / Educational</string>
     <string name="event_category_other">Other</string>
-    <string name="access_controller">Access controller</string>
+    <string name="access_controller">Authorized person to scan QR</string>
     <string name="invalid_date">The start date cannot be earlier than today. Please verify.</string>
     <string name="invalid_date_bigger">The start date cannot be bigger than end date. Please verify.</string>
     <string name="event_save_success">The event was successfully saved.</string>
     <string name="event_update_success">The event was successfully updated.</string>
 
-    <string name="cancel_event">Cancel event.</string>
-    <string name="confirm_cancel_event">Are you sure you want to cancel this event?</string>
-    <string name="event_cancel_success">The event was canceled successfully.</string>
+    <string name="cancel_event">Delete event.</string>
+    <string name="confirm_cancel_event">Are you sure you want to delete this event?</string>
+    <string name="event_cancel_success">The event was deleted successfully.</string>
 
     <string name="invitations">Invitations</string>
     <string name="no_guests_found">No guests found.</string>

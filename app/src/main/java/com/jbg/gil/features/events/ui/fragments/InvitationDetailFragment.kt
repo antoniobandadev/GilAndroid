@@ -20,12 +20,15 @@ import com.jbg.gil.core.datastore.UserPreferences
 import com.jbg.gil.core.network.NetworkStatusViewModel
 import com.jbg.gil.core.repositories.GuestRepository
 import com.jbg.gil.core.utils.Constants
+import com.jbg.gil.core.utils.Utils
 import com.jbg.gil.core.utils.Utils.applyClickAnimation
+import com.jbg.gil.core.utils.Utils.convertDate
 import com.jbg.gil.core.utils.Utils.getActivityRootView
 import com.jbg.gil.core.utils.Utils.showSnackBarError
 import com.jbg.gil.databinding.FragmentInvitationDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -37,6 +40,14 @@ class InvitationDetailFragment : Fragment() {
     private val args: InvitationDetailFragmentArgs by navArgs()
 
     private lateinit var eventId: String
+
+    private val locale = Locale.getDefault().language
+    private val strDateFormat = when (locale) {
+        "es" -> "dd/MM/yyyy HH:mm"
+        "en" -> "MM/dd/yyyy HH:mm"
+        else -> "MM/dd/yyyy HH:mm"
+    }
+    private val strDateFormatBD = "yyyy-MM-dd HH:mm"
 
     @Inject
     lateinit var guestRepository: GuestRepository
@@ -69,7 +80,7 @@ class InvitationDetailFragment : Fragment() {
                     val guestDet = guestRepository.getEventGuestDet(eventId, userPreferences.getUserId().toString())
 
                     if (guestDet.isSuccessful){
-
+                         val typesEvents = Utils.getEventTypes(requireContext())
                          val guestList = guestDet.body()?: emptyList()
                          val guest = guestList[0]
 
@@ -86,9 +97,19 @@ class InvitationDetailFragment : Fragment() {
                                         tvTitleInvName.text = guest.guestInvName
                                         tvTitleEvent.text = guest.eventName
                                         tvDescInvitation.text = guest.eventDesc
-                                        tvTypeInvitation.text = guest.eventType
-                                        tvDateStInvitation.text = guest.eventDateStart
-                                        tvDateEndInvitation.text = guest.eventDateEnd
+
+                                        val matchType = typesEvents.firstOrNull { it.startsWith(guest.eventType.toString().substring(0, 2), ignoreCase = true) }
+                                        if (matchType != null) {
+                                            tvTypeInvitation.text = matchType
+                                        }else{
+                                            tvTypeInvitation.text = guest.eventType
+                                        }
+
+                                        val etEventDateStart = convertDate(guest.eventDateStart.toString(), strDateFormatBD, strDateFormat )
+                                        val etEventDateEnd = convertDate(guest.eventDateEnd.toString(), strDateFormatBD, strDateFormat)
+
+                                        tvDateStInvitation.text =  etEventDateStart
+                                        tvDateEndInvitation.text = etEventDateEnd
                                         tvStreetInvitation.text = guest.eventStreet
                                         tvCityInvitation.text = guest.eventCity
                                     }
