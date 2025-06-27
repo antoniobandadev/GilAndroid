@@ -169,6 +169,7 @@
     <!--- Settings -->
     <string name="friends">Amigos</string>
     <string name="logOut">Cerrar sesión</string>
+    <string name="logout_message">¿Estás seguro de que deseas cerrar sesión?</string>
     <string name="image_updated_success">Imagen guardada exitosamente.</string>
     <string name="edit_name">Editar nombre</string>
     <string name="edit_name_success">Nombre actualizado exitosamente.</string>

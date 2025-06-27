@@ -170,6 +170,7 @@
 
     <!--- Settings -->
     <string name="logOut">Log Out</string>
+    <string name="logout_message">Are you sure you want to log out?</string>
     <string name="save">Save</string>
     <string name="image_updated_success">The image was successfully updated.</string>
     <string name="edit_name">Edit name</string>

@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
@@ -162,13 +163,23 @@ class SettingsFragment : Fragment() {
 
 
         binding.btLogOut.setOnClickListener {
-            lifecycleScope.launch(Dispatchers.IO) {
-                userPreferences.clearAll()
-                requireContext().deleteDatabase(Constants.DATABASE_NAME)
-                val intent = Intent(requireContext(), LogInActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
-            }
+            Utils.showConfirmAlertDialog(
+                context = requireContext(),
+                title = getString(R.string.logOut),
+                message = getString(R.string.logout_message),
+                confirmText = getString(R.string.yes),
+                cancelText = getString(R.string.no),
+                cancelColor = ContextCompat.getColor(requireContext(), R.color.red),
+                onConfirm = {
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        userPreferences.clearAll()
+                        requireContext().deleteDatabase(Constants.DATABASE_NAME)
+                        val intent = Intent(requireContext(), LogInActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
+                    }
+                }
+            )
         }
 
 
