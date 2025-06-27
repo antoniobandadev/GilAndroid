@@ -31,6 +31,6 @@ class GuestRepository  @Inject constructor (private val guestApi: GuestApi){
 
     suspend fun getEventGuestDet(eventId: String, userId: String) = guestApi.myGuestInvite(eventId, userId)
 
-    suspend fun checkGuest(guestId: String) = guestApi.checkGuest(guestId)
+    suspend fun checkGuest(guestId: String, eventId: String) = guestApi.checkGuest(guestId, eventId)
 
 }

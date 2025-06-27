@@ -40,6 +40,10 @@
         <action
             android:id="@+id/action_scanFragment_to_scannerFragment"
             app:destination="@id/scannerFragment" />
+        <argument
+            android:name="eventId"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -124,5 +128,9 @@
         <action
             android:id="@+id/action_scannerFragment_to_scanFragment"
             app:destination="@id/scanFragment" />
+        <argument
+            android:name="eventId"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 </navigation>

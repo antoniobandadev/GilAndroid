@@ -57,7 +57,9 @@ class ScanFragment : Fragment() {
         eventAdapter = EventAdapter(emptyList()) {event ->
             Log.d(Constants.GIL_TAG, event.eventName)
             Log.d(Constants.GIL_TAG, event.eventId)
-            findNavController().navigate(R.id.action_scanFragment_to_scannerFragment)
+            //findNavController().navigate(R.id.action_scanFragment_to_scannerFragment)
+            val action = ScanFragmentDirections.actionScanFragmentToScannerFragment(eventId = event.eventId)
+            findNavController().navigate(action)
            /* val action = ScanFragmentDirections.actionScanFragmentToScannerFragment()
             findNavController().navigate(action)*/
            /* val action = EventsFragmentDirections.actionEventsFragmentToInvitationDetailFragment(eventId = event.eventId)

@@ -36,6 +36,8 @@ interface GuestApi {
     @POST("guests/checkMyGuest")
     suspend fun checkGuest(
         @Field("guestId")
-        guestId:String
+        guestId:String,
+        @Field("eventId")
+        eventId: String
     ): Response<GuestDto>
 }

@@ -9,6 +9,9 @@ import android.content.res.ColorStateList
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
+import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.provider.Settings
 import android.util.Patterns
 import android.view.HapticFeedbackConstants
@@ -39,6 +42,7 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import java.util.regex.Pattern
+
 
 
 object Utils {
@@ -510,6 +514,26 @@ object Utils {
         return value.toIntOrNull() != null
     }
 
+    //----------------------------------------------------------------------------------------------
+    fun vibrate(context: Context, duration: Long = 100) {
+        val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
+
+        vibrator?.let {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                it.vibrate(
+                    VibrationEffect.createOneShot(
+                        duration,
+                        VibrationEffect.DEFAULT_AMPLITUDE
+                    )
+                )
+            } else {
+                @Suppress("DEPRECATION")
+                it.vibrate(duration)
+            }
+        }
+    }
+
+
 
 
     //---------------------------------------------------------------------------------------------
@@ -540,7 +564,7 @@ object DialogUtils {
     }*/
 
     fun showLoadingDialog(context: Context) {
-        if (context !is Activity || context.isFinishing || context.isDestroyed) return
+        //if (context !is Activity || context.isFinishing || context.isDestroyed) return
 
         if (loadingDialog?.isShowing == true) return
 
@@ -590,28 +614,28 @@ object DialogUtils {
         return loadingDialog?.isShowing == true
     }
 
-    /*fun dismissLoadingDialog() {
+    fun dismissLoadingDialog() {
         loadingDialog?.let {
             if (it.isShowing) {
                 it.dismiss()
             }
             loadingDialog = null
         }
-    }*/
+    }
 
-    fun dismissLoadingDialog() {
+    /*fun dismissLoadingDialog() {
         loadingDialog?.let {
             try {
                 if (it.isShowing) {
                     it.dismiss()
                 }
             } catch (e: IllegalArgumentException) {
-                e.printStackTrace() // o usa Log.e(...) si prefieres
+                e.printStackTrace()
             } catch (e: Exception) {
                 e.printStackTrace()
             } finally {
                 loadingDialog = null
             }
         }
-    }
+    }*/
 }

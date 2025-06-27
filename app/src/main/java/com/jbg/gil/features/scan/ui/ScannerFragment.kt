@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import kotlinx.coroutines.delay
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jbg.gil.R
@@ -28,6 +29,7 @@ import com.jbg.gil.core.utils.Utils.applyClickAnimation
 import com.jbg.gil.core.utils.Utils.getActivityRootView
 import com.jbg.gil.core.utils.Utils.showSnackBarError
 import com.jbg.gil.databinding.FragmentScannerBinding
+import com.jbg.gil.features.events.ui.fragments.EventsDetailFragmentArgs
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -42,6 +44,8 @@ class ScannerFragment : Fragment() {
     @Inject
     lateinit var guestRepository: GuestRepository
 
+    private lateinit var eventId: String
+    private val args: EventsDetailFragmentArgs by navArgs()
 
     //Permisos de la camara 24 - 53, 70 -87
     private var cameraPermissionGranted = false
@@ -104,7 +108,7 @@ class ScannerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         updateOrRequestPermissions()
         backAction()
-
+        eventId = args.eventId
     }
 
     private fun updateOrRequestPermissions(){
@@ -161,13 +165,15 @@ class ScannerFragment : Fragment() {
                 "Result: ${result.text}",
                 Toast.LENGTH_SHORT
             ).show()*/
+
             binding.cbvScanner.pause()
             DialogUtils.showLoadingDialog(requireContext())
 
             if(Utils.isConnectedNow(requireContext())) {
+                Utils.vibrate(requireContext())
                 try {
                     lifecycleScope.launch {
-                        val scanVal = guestRepository.checkGuest(result.text)
+                        val scanVal = guestRepository.checkGuest(result.text, eventId)
 
                         if (scanVal.isSuccessful) {
                             val scan = scanVal.body()
